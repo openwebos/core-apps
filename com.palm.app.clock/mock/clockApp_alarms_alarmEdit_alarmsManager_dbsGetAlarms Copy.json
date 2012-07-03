@@ -1,0 +1,54 @@
+{
+    "returnValue": true,
+    "results": [
+        {
+            "_id": "++HaJqwAxfVC4Yif",
+            "_kind": "com.palm.clock.alarm:1",
+            "_rev": 41274,
+            "alarmSoundFile": "\/media\/internal\/ringtones\/Flurry.mp3",
+            "alarmSoundTitle": "Flurry",
+            "enabled": true,
+            "hideSnoozeTime": false,
+            "hour": 14,
+            "minute": 30,
+            "niceTime": "2:30 PM",
+            "occurs": "weekdays",
+            "snoozed": false,
+            "timezoneOffset": -6,
+            "title": "Test Alarm"
+        },
+        {
+            "_id": "++HaJrBpPj8T2Dj5",
+            "_kind": "com.palm.clock.alarm:1",
+            "_rev": 41277,
+            "alarmSoundFile": "\/media\/internal\/ringtones\/Flurry.mp3",
+            "alarmSoundTitle": "Flurry",
+            "enabled": true,
+            "hideSnoozeTime": false,
+            "hour": 14,
+            "minute": 30,
+            "niceTime": "2:30 PM",
+            "occurs": "weekdays",
+            "snoozed": false,
+            "timezoneOffset": -6,
+            "title": "Test Alarm"
+        },
+        {
+            "_id": "++HaJtLmhwp1yZAS",
+            "_kind": "com.palm.clock.alarm:1",
+            "_rev": 41285,
+            "alarmSoundFile": "\/media\/internal\/ringtones\/Flurry.mp3",
+            "alarmSoundTitle": "Flurry",
+            "enabled": true,
+            "hideSnoozeTime": false,
+            "hour": 8,
+            "minute": 0,
+            "niceTime": "8:00 AM",
+            "occurs": "weekdays",
+            "snoozed": false,
+            "timezoneOffset": -6,
+            "title": "Work Alarm"
+        }
+    ],
+    "count": 3
+}
