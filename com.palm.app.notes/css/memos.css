@@ -1,0 +1,76 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+#app-container:before {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  content: '';
+  background: url(../images/title-bar/memos-header.png) repeat-x, url(../images/wall_background_tile_top.png) 56px left repeat-x, url(../images/wall_background_tile_bottom.png) bottom left repeat-x;
+  background-color: #fff8e7;
+}
+
+@media only screen and (min-width: 320px) {
+  #app-container:before {
+    height: 995px; /*1024 - 55(title) + 26(status)*/
+  }
+
+  .memo-list {
+    height: 943px; /*1024 - 55(title) - 26(status)*/
+    margin: 0 15px;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  #app-container:before {
+    height: 739px; /*768 - 55(title) + 26(status) */
+  }
+
+  .memo-list {
+    height: 687px; /*768 - 55(title) - 26(status) */
+    margin: 0 20px;
+  }
+}
+
+.title-bar {
+  color: white;
+  height: 55px;
+  background: url(../images/title-bar/memos-header.png) repeat-x;
+}
+
+.title-bar .enyo-header-inner {
+  padding-top: 8px;
+}
+
+.title-bar-shadow {
+  width: 100%;
+  height: 7px;
+  background: url(../images/title-bar/shadow.png) repeat-x;
+  position: absolute;
+  top: 55px;
+  z-index: 10;
+}
+
+.dialog-subtitle {
+  padding: 12px;
+  font-size: 14px;
+}
+
+.redline {
+  border: 1px solid red;
+}

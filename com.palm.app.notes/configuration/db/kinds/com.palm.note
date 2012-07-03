@@ -1,0 +1,50 @@
+{
+	"id":"com.palm.note:1",
+	"owner":"com.palm.app.notes",
+	"schema":{
+    	"type":"object",
+	    "properties":{
+	        "createdTimestamp":{
+	            "type":"integer",
+	            "optional":true,
+	            "description":"Timestamp (ms) at creation"
+	        },
+	        "font":{
+	            "type":"integer",
+	            "optional":true,
+	            "description":"Font id"
+	        },
+	        "modifiedTimestamp":{
+	            "type":"integer",
+	            "optional":true,
+	            "description":"Timestamp (ms) at last modification"
+	        },
+	        "position":{
+	            "type":"string",
+	            "optional":true,
+	            "description":"Position string"
+	        },
+	        "text":{
+	            "type":"string",
+	            "optional":true,
+	            "description":"Memo text body"
+	        },
+	        "title":{
+	            "type":"string",
+	            "optional":true,
+	            "description":"Memo title (subset of body)"
+	        },
+	        "color":{
+	            "type":"string",
+	            "optional":true,
+	            "description":"Memo color"
+	        }
+	    }
+	},
+	"indexes":
+	[
+		{"name": "position", "props": [{"name": "position", "default":"a"}] },
+		{"name": "nameSearch", "props": [{"name": "text", "collate":"primary", "tokenize":"all"}] }
+	],
+	"sync": true
+}

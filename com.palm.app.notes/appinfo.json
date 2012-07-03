@@ -1,0 +1,26 @@
+{
+  "timestamp": "2011-06-02.10:48:51",
+  "title": "Memos",
+  "splashicon": "icon-256x256.png",
+  "icon": "icon.png",
+  "id": "com.palm.app.notes",
+  "version": "3.0.2500",
+  "type": "web",
+  "removable": false,
+  "uiRevision": 2,
+  "main": "index.html",
+  "vendor": "HP",
+  "universalSearch": {
+    "action": {
+      "displayName": "New Memo",
+      "url": "com.palm.app.notes",
+      "launchParam": "text"
+    }
+  },
+  "keywords": [
+    "Notes",
+    "Stickies",
+    "Notepad"
+  ],
+  "splashBackground": "images/splash-background.png"
+}

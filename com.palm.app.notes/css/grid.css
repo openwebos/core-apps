@@ -1,0 +1,140 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+/* Title Bar for GridView */
+.memo-count {
+  text-transform: capitalize;
+  white-space: nowrap;
+  line-height: 24px;
+  margin-top: 2px;
+  text-align: center;
+}
+
+#appView_grid_search_search_input {
+  width: 153px;
+}
+
+.search-input {
+  min-width: 250px;
+}
+
+.search-input .enyo-input-input {
+  min-width: 200px;
+}
+
+/* GridView */
+.memo-list {
+  position: relative;
+}
+
+.grid-scroller .enyo-scroller-scrollee {
+  padding: 15px;
+}
+
+.new-memo {
+  width: 224px;
+  height: 232px;
+  padding-top: 14px;
+  padding-left: 22px;
+  background: url(../images/grid/new-memo-base.png) no-repeat;
+}
+
+.new-memo .swatch {
+  width: 200px;
+  height: 200px;
+}
+
+.memo-list.blue .new-memo .swatch {
+  background-image: url(../images/grid/new-memo-blue.png);
+}
+
+.memo-list.green .new-memo .swatch {
+  background-image: url(../images/grid/new-memo-green.png);
+}
+
+.memo-list.pink .new-memo .swatch {
+  background-image: url(../images/grid/new-memo-pink.png);
+}
+
+.memo-list.yellow .new-memo .swatch {
+  background-image: url(../images/grid/new-memo-yellow.png);
+}
+
+.memo-list.salmon .new-memo .swatch {
+  background-image: url(../images/grid/new-memo-salmon.png);
+}
+
+.memo-preview {
+  -webkit-box-sizing: border-box;
+  width: 246px;
+  height: 246px;
+  font-size: 18px;
+  padding: 35px;
+  line-height: 25px;
+  word-break: break-word;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  /* TODO: animations -webkit-transition: all 0.3s ease-in-out;*/
+}
+
+.memo-preview.zoom {
+  /* TODO: animations -webkit-transform: scale(3) translate(0px, 100px);*/
+}
+
+.memo-preview-content {
+  width: 176px;
+  height: 176px;
+  overflow: hidden;
+}
+
+.memo-preview-content {
+  /* TODO: animations -webkit-transition: opacity 0.1s ease-in-out;*/
+}
+
+.memo-preview.zoom .memo-preview-content {
+  /* TODO: animations opacity: 0;*/
+}
+
+.memo-preview.blue {
+  background-image: url(../images/grid/memo-blue.png);
+}
+
+.memo-preview.green {
+  background-image: url(../images/grid/memo-green.png);
+}
+
+.memo-preview.pink {
+  background-image: url(../images/grid/memo-pink.png);
+}
+
+.memo-preview.yellow {
+  background-image: url(../images/grid/memo-yellow.png);
+}
+
+.memo-preview.salmon {
+  background-image: url(../images/grid/memo-salmon.png);
+}
+
+.string-highlight {
+	background-color: transparent;
+	border: none;
+	border-width: 0;
+	-webkit-border-image: none;
+	margin: 0;
+	background: url(../images/grid/underline.png) center bottom repeat-x;
+}
