@@ -1,0 +1,119 @@
+﻿/* @@@LICENSE
+*
+*      Copyright (c) 2011-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+.calc-key, .calc-operator-key, .calc-command-key {
+	text-align: center;
+	font-weight: bold;
+	text-shadow: 0 0 5px rgba(0, 0, 0, .4);
+	color: white;
+	border-width: 15px;
+	margin: 5px 2px 0px 2px;
+	padding: 0 0 2px 0;
+}
+
+.calc-key.enyo-button-down, .calc-operator-key.enyo-button-down, .calc-command-key.enyo-button-down {
+	padding: 2px 0 0 0;
+}
+
+.calc-operator-key.enyo-button-active, .calc-command-key.enyo-button-active {
+	color: LightSteelBlue; 
+}
+	
+.calc-key {
+	color: black;
+	text-align: center;
+	vertical-align: center;
+	font-family: "Prelude Medium";
+	-webkit-border-image: url(../images/key.png) 15 15 15 15 stretch stretch;
+}
+
+.calc-key.enyo-button-down {
+	-webkit-border-image: url(../images/key-down.png) 15 15 15 15 stretch stretch;
+}
+
+.calc-operator-key {
+	text-align: center;
+	vertical-align: center;
+	font-family: "Prelude Medium";
+	-webkit-border-image: url(../images/key-operator.png) 15 15 15 15 stretch stretch;
+}
+
+.calc-operator-key.enyo-button-down {
+	-webkit-border-image: url(../images/key-operator-down.png) 15 15 15 15 stretch stretch;
+}
+
+.calc-command-key {
+	-webkit-border-image: url(../images/key-command.png) 15 15 15 15 stretch stretch;
+}
+
+.calc-command-key.enyo-button-down {
+	-webkit-border-image: url(../images/key-command-down.png) 15 15 15 15 stretch stretch;
+}
+
+.calc-desktop { 
+    background-color: black;
+}
+
+.calc-small-body, .calc-tiny-body { /* the background (e.g., between buttons) */
+	border-width: 40px;
+	-webkit-border-image: url(../images/calc-bg.png) 40 40 40 40   ;
+}
+
+.calc-body { /* the background (e.g., between buttons) */
+	   border-width: 24px;
+	   -webkit-border-image: url(../images/backdrop.png) 24 24 24 24 repeat repeat;
+}
+
+.calc-small-body { /* the background (e.g., between buttons) */
+	width: 500px; 
+	height: 690px;
+}
+
+.calc-small-body, .calc-tiny-body { /* the background (e.g., between buttons) */
+	width: 500px; 
+	height: 690px;
+}
+
+
+.calc-aux { /* the smaller auxiliary display */
+}
+
+.calc-display { /* just the readout */ 
+	vertical-align: middle;
+
+	color: white;
+	text-align: right;
+	font-family: "Prelude Medium";
+	text-shadow: 0 0 8px rgba(255, 255, 255, .8);
+	border-width: 0 20px 0 20px;
+	-webkit-border-image: url(../images/lcd-readout.png) 0 25 0 25 stretch stretch;
+}
+
+.calc-backspace-key {
+	height: 60px;
+	background-position: 0 0;
+	background: url(../images/backspace.png) top center no-repeat;
+	margin-right: -22px;
+}
+
+.calc-backspace-key.enyo-button-down {
+	height: 60px;
+	background-position: 16px -59px;
+	-webkit-border-image: url(../images/backspace.png) top center no-repeat;
+	margin-right: -22px;
+}
