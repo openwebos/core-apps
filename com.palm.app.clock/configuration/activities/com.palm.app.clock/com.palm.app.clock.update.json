@@ -1,0 +1,20 @@
+{
+	"activity": {
+		"type": {
+			"persist" : false,
+			"foreground" : true
+		}, 
+		"name": "clock.update",
+		"description": "Launches clock to update alarm activities at boot",
+		"requirements":{"bootup":true},
+		"callback":{
+			"method": "palm://com.palm.applicationManager/launch",
+			"params": {
+				"id": "com.palm.app.clock",
+				"params": { "action": "update"}
+			}
+		}
+	},
+	"start": true,
+	"replace": true
+}

@@ -1,0 +1,13 @@
+{
+   "returnValue": true,
+   "results": [
+      {
+         "_kind":"com.palm.clock.prefs:1",
+         "RingerSwitchOff": "play",
+         "AscendingVolume": false,
+         "SnoozeDuration": 10,
+         "ClockTheme": "digital"	
+      }
+   ],
+   "count": 1
+}

@@ -1,0 +1,52 @@
+<!doctype html>
+<!-- LICENSE@@@
+
+	     Copyright (c) 2011-2012 Hewlett-Packard Development Company, L.P.
+
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+
+@@@LICENSE -->
+<html>
+<head>
+    <title>ClockAppLauncher</title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="width=device-width initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<script src="/usr/palm/frameworks/enyo/0.10/framework/enyo.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        // enyo does not release its resources when it is run on desktop browsers, which recalls
+        // the old window instances from the previous session on page refresh/reload.  The following
+        // piece of code clears out enyo's left-over windows before each page reload running Safari on
+        // desktop making sure that no left-over windows are recalled on page reload.
+        if (!window.PalmSystem) {
+             var windows = enyo.windows.getWindows(), w;
+             for (w in windows) if (windows.hasOwnProperty(w)) {
+                 enyo.windows.manager.removeWindow(windows[w]);
+             }
+         };
+     </script>
+</head>
+<body>
+
+<script type="text/javascript">
+(function () {
+	var clockApp = enyo.application.launcher = new ClockApp();
+		enyo.applicationRelaunchHandler = function (params) {      // attach relaunch handler
+		clockApp.applicationRelaunchHandler(params);
+		return true;
+	};
+	clockApp.startup();
+})();
+</script>
+
+</body>
+</html>
