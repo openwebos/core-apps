@@ -1,0 +1,22 @@
+{
+	"id":"com.palm.clock.alarm:1",
+	"owner":"com.palm.app.clock",
+	"indexes":
+	[
+		{
+			"name": "getAlarmByKey",
+			"props":
+			[
+				{"name": "key"}
+			]
+		},
+		{
+			"name": "getAlarmByEnabled",
+			"props":
+			[
+				{"name": "enabled"}
+			]
+		}		
+	],
+	"sync": true
+}
