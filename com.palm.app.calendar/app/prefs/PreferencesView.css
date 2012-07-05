@@ -1,0 +1,83 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+.prefs .prefs-header {
+	font-size				: 20px;
+	text-align			 	: center;
+}
+
+.prefs .enyo-header-inner {
+	margin					: 0px;
+	padding					: 0px;
+	text-align				: center;
+}
+
+.prefsIcon {
+	margin-right			: 5px;
+}
+
+.calendar-color-image {
+	width: 30px;
+	height: 30px;
+	padding-right: 15px;
+}
+
+.prefs .legend	{
+	background-image		: url(../../images/glossy-top-highlight.png);
+	background-repeat		: repeat-x;
+	height					: 26px;
+	width					: 26px;
+	padding					: 0;
+	-webkit-border-radius	: 4px;
+	margin-top: 4px;
+}
+
+.prefs .color-space {
+	margin-left: 8px;
+}
+
+.prefs .icon-image {
+	width: 32px;
+	height: 32px;
+}
+
+.accounts-header img {
+    display:block;
+    margin-right: 10px;
+}
+.accounts-header-shadow,
+.accounts-footer-shadow {
+    position: absolute;
+    z-index: 100;
+    height: 6px;
+    width: 100%;
+    pointer-events: none;
+}
+.accounts-header-shadow {
+    top: 54px;
+    background:transparent url('../../images/light_chrome_drop_shadow_header.png') bottom repeat-x;
+}
+.accounts-footer-shadow {
+    bottom: 0;
+    height: 57px;
+    background:transparent url('../../images/light_chrome_drop_shadow_footer.png') top repeat-x;
+}
+#appView_prefsView_defaultCalendar_menuCheckItem_caption {
+	padding: 8px 0px;
+	width: 60%;
+}

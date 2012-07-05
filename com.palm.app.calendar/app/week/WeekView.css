@@ -1,0 +1,174 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+/**
+ * WeekView's Styling.
+ *
+ * TODO: Make All-day header bar static/fixed so hours scroll under it.
+ */
+
+/* Week View header Month Date , year Styling */
+
+.calendar .week-view .week-header .date	{
+	color					: #333;
+	font-size				: 40px;
+	font-weight				: 100;
+	margin 					: 0;
+	overflow 				: hidden;
+	padding					: 0px 0px 7px;
+	white-space				: pre;
+}
+.calendar .week-view .week-header .date-month {
+	font-weight				: bold;
+	text-align				: right;
+}
+.calendar .week-view .week-header .date-year {
+/*	font-family: PreludeWGL-Light;*/
+}
+
+/* Week View Header Days Styling */
+.calendar .week-view .days-header {
+	border					: none;
+	color	         		: #7b7b7b;
+	font-size				: 15px;
+	padding-left			: 68px;
+	text-transform			: uppercase;
+}
+.calendar .week-view .days-header .day {
+	border					: none;
+/*	border-right			: 1px solid #eaeaea !important;*/
+/*	text-align				: center;*/
+	padding					: 0px 0px 8px;
+	margin-left				: -2px;
+}
+
+/* Week View Header Hours Styling */
+.calendar .week-view .week-hours{
+	border 					: 1px solid #dbdbdb;
+	overflow 				: hidden;
+}
+.calendar .week-view .week-hours .allday-header {
+	font-size				: 16px;
+	text-align				: left;
+	padding-left			: 10px;
+	min-height				: 35px;
+	background				: url(images/allday-header-border.png) repeat-x bottom;
+	border-right			: none;
+	border-left				: none;
+	z-index					: -100;
+}
+.calendar .week-view .week-hours .allday-header .label{
+	color 					: #666666;
+	font-size				: 14px;
+	line-height				: 36px;
+	margin-right			: 10px;
+}
+.calendar .week-view .week-hours .days {
+	background				: transparent;
+	left					: 65px !important;
+	height					: 1479px;
+}
+.calendar .week-view .week-hours .hours {
+	margin-top				: 29px!important;
+}
+.calendar .week-view .week-hours .hour {
+	background				: url(../day/images/day-hour-markers.png) no-repeat;
+}
+
+.calendar .week-view .day	{
+	border-color 			: #dbdbdb;
+	border-style			: solid;
+	border-width			: 0 1px 0 0;
+	overflow 				: hidden;
+}
+.calendar .week-view .day:first-child	{
+	border-left				: 3px double #eaeaea;
+}
+.calendar .week-view .day:last-child	{
+	border-width			: 0;
+}
+.calendar .week-view .day .header	{
+	display 				: none;
+}
+.calendar .week-view .day .header .today	{
+	display 				: none;
+}
+
+.calendar .week-view .today	{
+	/*background-color		: #f2f2f2;*/
+	position: relative;
+	/*z-index: -2;*/
+}
+
+.calendar .week-view .todayDate	{
+	color					: #333;
+}
+
+.calendar .week-view .day .allday-header {
+	background				: none;
+}
+.calendar .week-view .day .allday-header .label {
+	display 				: none;
+}
+.calendar .week-view .day .hour	{
+	background				: none;
+	padding					: 0;
+}
+.calendar .week-view .day .hour .label {
+	display 				: none;
+}
+.calendar .week-view .day .hour .events	{
+	background 				: none;
+	border 					: none;
+	padding					: 0;
+}
+.calendar .hourLabels		{
+	height					: 1410px!important;
+}
+.events-header {
+	width					: 67px;
+	margin-left				: -12px;
+	text-align				: center;
+}
+.calendar .week-view .event-item .label{
+	margin-left				: 20px;
+}
+
+.calendar .week-view .empty-day-label{
+	margin-left				: 20px;
+}
+
+.calendar .week-view .date-label{
+	margin-left				: 10px;
+	font-size				: 26px;
+}
+
+.calendar .week-view .event-list{
+	margin-left				: 10px;
+}
+
+.calendar .week-view .event-item .legend {
+	background-image		: url(../../images/glossy-top-highlight.png);
+	background-repeat		: repeat-x;
+	height					: 26px;
+	width					: 26px;
+	padding					: 0;
+	-webkit-border-radius	: 4px;
+	margin-top				: 4px;
+	margin-left				: 15px;
+}

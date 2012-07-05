@@ -1,0 +1,163 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+.calendar 					{
+	background				: #fff url(header/images/calendar-list-background.png) repeat-x;
+}
+
+.calendar .debug 			{ /* Used to quickly identify UI components when debugging on device/emulator */
+	border					: 4px solid #f00 !important;
+}
+
+.enyo-modaldialog-customWidth { /* Added the width to override the modal dialog width only for details view and custom Repeat View*/
+	width: 400px;
+}
+
+.calendar .ellipsis			{
+	overflow				: hidden;
+	text-overflow			: ellipsis;
+	white-space				: nowrap;
+}
+
+.calendar .fade-in	{ opacity: 1; }
+.calendar .fade-out	{ opacity: 0; }
+
+.calendar .fade-in,
+.calendar .fade-out	{ -webkit-transition: 4s opacity 2s;}	/* CSS3 Fade transition attempt */
+
+/* Calendar View (Day, Week, and Month Carousels) */
+.calendar .view				{
+	border					: none;
+	margin					: 0px 14px;
+	overflow				: hidden;
+}
+
+/* Calendar Footer (Day, Week, Month Switcher) */
+.calendar .view-controls	{
+	padding					: 0px 11px;
+	height					: 45px;
+}
+
+.calendar .Rbutton .enyo-radiobutton {
+	font-size				: 16px;
+	min-width				: 90px;
+	height 					: 34px;
+}
+
+.calendar .Rbutton .enyo-button-depressed .enyo-button-icon { /* To fix the depressed state Icon Issue
+																TODO: remove once Fixed by Enyo */
+	background-position 	: 0 -32px;
+}
+
+/* Calendar Footer (Page effect) */
+.footerPageEffect			{
+  	 height					: 6px;
+	 -webkit-border-image 	: url(../images/pages.jpg) 0 4 0 4 repeat;
+	 margin					: -3px 0;
+}
+
+/* Calendar calendar.JumpToView */
+.calendar-jump-to .jump-to-header		{
+	font-size: 18px;
+	text-align: center;
+}
+
+.calendar-jump-to .enyo-picker-label {
+	text-transform: capitalize;
+}
+
+/* Calendar Events themes CSS */
+.edit .theme-blue.legend,
+.prefs .theme-blue.legend,
+.calendar .theme-blue.legend,
+.calendar .theme-blue:after, .theme-blue.held:after		{ background-color: #61a3e5;	border-color: #0d71d7;	}
+.calendar .theme-blue.held		{ background-color: #f4f9ff;	border-color: #0d71d7;	}
+.calendar-detail-view .theme-blue,
+.calendar-repeat-view .theme-blue,
+.calendar .theme-blue			{ background-color: #dbeaf9;	border-color: #0d71d7;	}
+.calendar .theme-blue:before	{ border-color: #0d71d7;	}
+
+.edit .theme-green.legend,
+.prefs .theme-green.legend,
+.calendar .theme-green.legend,
+.calendar .theme-green:after, .theme-green.held:after 	{ background-color: #8ece59;	border-color: #52b400;	}
+.calendar .theme-green.held		{ background-color: #f0ffe4;	border-color: #52b400;	}
+.calendar-detail-view .theme-green,
+.calendar-repeat-view .theme-green,
+.calendar .theme-green			{ background-color: #e5f3d9;	border-color: #52b400;	}
+.calendar .theme-green:before	{ border-color: #52b400;	}
+
+.edit .theme-orange.legend,
+.prefs .theme-orange.legend,
+.calendar .theme-orange.legend,
+.calendar .theme-orange:after, .theme-orange.held:after	{ background-color: #ffa359;	border-color: #ff7200;	}
+.calendar .theme-orange.held	{ background-color: #faf0e8;	border-color: #ff7200;	}
+.calendar-detail-view .theme-orange,
+.calendar-repeat-view .theme-orange,
+.calendar .theme-orange			{ background-color: #ffead9;	border-color: #ff7200;	}
+.calendar .theme-orange:before	{ border-color: #ff7200;	}
+
+.edit .theme-pink.legend,
+.prefs .theme-pink.legend,
+.calendar .theme-pink.legend,
+.calendar .theme-pink:after, .theme-pink.held:after	{ background-color: #ff59c2;	border-color: #ff00a2;	}
+.calendar .theme-pink.held		{ background-color: #fce9f5;	border-color: #ff00a2;	}
+.calendar-detail-view .theme-pink,
+.calendar-repeat-view .theme-pink,
+.calendar .theme-pink			{ background-color: #ffd9f1;	border-color: #ff00a2;	}
+.calendar .theme-pink:before	{ border-color: #ff00a2;	}
+
+.edit .theme-purple.legend,
+.prefs .theme-purple.legend,
+.calendar .theme-purple.legend,
+.calendar .theme-purple:after, .theme-purple.held:after	{ background-color: #be59db;	border-color: #9a00c7;	}
+.calendar .theme-purple.held	{ background-color: #f6eef9;	border-color: #9a00c7;	}
+.calendar-detail-view .theme-purple,
+.calendar-repeat-view .theme-purple,
+.calendar .theme-purple			{ background-color: #f0d9f7;	border-color: #9a00c7;	}
+.calendar .theme-purple:before	{ border-color: #9a00c7;	}
+
+.edit .theme-red.legend,
+.prefs .theme-red.legend,
+.calendar .theme-red.legend,
+.calendar .theme-red:after, .theme-red.held:after		{ background-color: #ff5959;	border-color: #ff0000;	}
+.calendar .theme-red.held		{ background-color: #fff3f3;	border-color: #ff0000;	}
+.calendar-detail-view .theme-red,
+.calendar-repeat-view .theme-red,
+.calendar .theme-red			{ background-color: #ffd9d9;	border-color: #ff0000;	}
+.calendar .theme-red:before		{ border-color: #ff0000;	}
+
+.edit .theme-teal.legend,
+.prefs .theme-teal.legend,
+.calendar .theme-teal.legend,
+.calendar .theme-teal:after, .theme-teal.held:after		{ background-color: #59c5dc;	border-color: #00a6c9;	}
+.calendar .theme-teal.held		{ background-color: #eff8fa;	border-color: #00a6c9;	}
+.calendar-detail-view .theme-teal,
+.calendar-repeat-view .theme-teal,
+.calendar .theme-teal			{ background-color: #d9f2f7;	border-color: #00a6c9;	}
+.calendar .theme-teal:before	{ border-color: #00a6c9;	}
+
+.edit .theme-yellow.legend,
+.prefs .theme-yellow.legend,
+.calendar .theme-yellow.legend,
+.calendar .theme-yellow:after, .theme-yellow.held:after	{ background-color: #f8e359;	border-color: #f4d400;	}
+.calendar .theme-yellow.held	{ background-color: #fbf9ed;	border-color: #f4d400;	}
+.calendar-detail-view .theme-yellow,
+.calendar-repeat-view .theme-yellow,
+.calendar .theme-yellow			{ background-color: #fdf9d9;	border-color: #f4d400;	}
+.calendar .theme-yellow:before	{ border-color: #f4d400;	}

@@ -1,0 +1,27 @@
+{
+	"id":"com.palm.calendar:1",
+	"owner":"com.palm.app.calendar",
+	"sync":true,
+	"indexes":
+	[
+		{"name": "accountId", "props": [{"name": "accountId"}] },
+		{"name": "revset1", "props": [{"name": "calendarRevset", "default": 0}], "incDel": true }
+		
+	],
+	"revSets": 
+	[
+		{	"name": "calendarRevset"
+		,	"props": 
+			[	{"name": "_del"}
+			,	{"name": "name"}
+			,	{"name": "accountId"}
+			,	{"name": "isReadOnly"}
+			,	{"name": "excludeFromAll"}
+			,	{"name": "color"}
+			,	{"name": "syncSource"}
+			,	{"name": "UID"}
+			,	{"name": "visible"}
+			]
+		}
+	]
+}
