@@ -1,0 +1,239 @@
+{
+    "returnValue": true,
+    "count"      : 10,
+    "results"    : [
+        {
+            "addresses"   : [
+                {
+                    "type" : "type_work",
+                    "value": "SBB01:BR68 - EDS - IMIGRANTES"
+                }
+            ],
+            "companyName" : "Hewlett-Packard Brasil Ltda",
+            "displayName" : "Anuar Zeidan (HP)",
+            "emails"      : [
+                {
+                    "type" : "type_work",
+                    "value": "anuar.zeidan@hp.com"
+                }
+            ],
+            "familyName"  : "Zeidan",
+            "givenName"   : "Anuar",
+            "phoneNumbers": [
+                {
+                    "type" : "type_work",
+                    "value": "+55 11 4399 9409"
+                }
+            ]
+        },
+        {
+            "addresses"   : [
+                {
+                    "type" : "type_work",
+                    "value": "MYD06:"
+                }
+            ],
+            "companyName" : "Mercury Interactive (Israel) Limited",
+            "displayName" : "Ehud Zeidman (HP)",
+            "emails"      : [
+                {
+                    "type" : "type_work",
+                    "value": "ehud.zeidman@hp.com"
+                }
+            ],
+            "familyName"  : "Zeidman",
+            "givenName"   : "Ehud",
+            "phoneNumbers": [
+                {
+                    "type" : "type_work",
+                    "value": "+972 3 5399269"
+                }
+            ]
+        },
+        {
+            "companyName" : "Safeguard Services LLC",
+            "displayName" : "Evelyn Zeidman (SGS)",
+            "emails"      : [
+                {
+                    "type" : "type_work",
+                    "value": "evelyn.zeidman@hp.com"
+                }
+            ],
+            "familyName"  : "Zeidman",
+            "givenName"   : "Evelyn",
+            "phoneNumbers": [
+                {
+                    "type" : "type_work",
+                    "value": "+1 530 893 5861"
+                }
+            ]
+        },
+        {
+            "companyName" : "HP Enterprise Services, LLC",
+            "displayName" : "Jeffery Zeider (HP)",
+            "emails"      : [
+                {
+                    "type" : "type_work",
+                    "value": "jeffery.zeider@hp.com"
+                }
+            ],
+            "familyName"  : "Zeider",
+            "givenName"   : "Jeffery",
+            "phoneNumbers": [
+                {
+                    "type" : "type_mobile",
+                    "value": "+1 678 231 1032"
+                },
+                {
+                    "type" : "type_work",
+                    "value": "+1 770 942 9048"
+                }
+            ]
+        },
+        {
+            "addresses"   : [
+                {
+                    "type" : "type_work",
+                    "value": "RCB02:"
+                }
+            ],
+            "companyName" : "HP Enterprise Services, LLC",
+            "displayName" : "Mark Zeidler (HP)",
+            "emails"      : [
+                {
+                    "type" : "type_work",
+                    "value": "mark.zeidler@hp.com"
+                }
+            ],
+            "familyName"  : "Zeidler",
+            "givenName"   : "Mark",
+            "phoneNumbers": [
+                {
+                    "type" : "type_work",
+                    "value": "+1 916 636 1976"
+                }
+            ]
+        },
+        {
+            "addresses"   : [
+                {
+                    "type" : "type_work",
+                    "value": "RAT01:N73"
+                }
+            ],
+            "companyName" : "Hewlett-Packard GmbH",
+            "displayName" : "Michael Zeidler (HP)",
+            "emails"      : [
+                {
+                    "type" : "type_work",
+                    "value": "michael.zeidler@hp.com"
+                }
+            ],
+            "familyName"  : "Zeidler",
+            "givenName"   : "Michael",
+            "phoneNumbers": [
+                {
+                    "type" : "type_mobile",
+                    "value": "+49 160 90417408"
+                },
+                {
+                    "type" : "type_work",
+                    "value": "+49 160 90417408"
+                }
+            ]
+        },
+        {
+            "addresses"   : [
+                {
+                    "type" : "type_work",
+                    "value": "NWI01:"
+                }
+            ],
+            "companyName" : "HP Australia Pty Limited",
+            "displayName" : "Michel Zeidan (HP)",
+            "emails"      : [
+                {
+                    "type" : "type_work",
+                    "value": "michel.zeidan@hp.com"
+                }
+            ],
+            "familyName"  : "Zeidan",
+            "givenName"   : "Michel",
+            "phoneNumbers": [
+                {
+                    "type" : "type_mobile",
+                    "value": "+61 417 341 610"
+                },
+                {
+                    "type" : "type_work",
+                    "value": "+61 417341610"
+                }
+            ]
+        },
+        {
+            "companyName" : "Hewlett-Packard Co",
+            "displayName" : "Randall W Zeid (L&D Delivery___xtra_long_text_needs_clipping)",
+            "emails"      : [
+                {
+                    "type" : "type_work",
+                    "value": "randy_zeid@hp.com"
+                }
+            ],
+            "familyName"  : "Zeid",
+            "givenName"   : "Randall W",
+            "phoneNumbers": [
+                {
+                    "type" : "type_work",
+                    "value": "+1 281 5140118"
+                }
+            ]
+        },
+        {
+            "addresses"   : [
+                {
+                    "type" : "type_work",
+                    "value": "SNO01:"
+                }
+            ],
+            "companyName" : "HP Australia Pty Limited",
+            "displayName" : "Sameer Zeidat (HP)",
+            "emails"      : [
+                {
+                    "type" : "type_work",
+                    "value": "sameer.zeidat@hp.com"
+                }
+            ],
+            "familyName"  : "Zeidat",
+            "givenName"   : "Sameer",
+            "phoneNumbers": [
+                {
+                    "type" : "type_mobile",
+                    "value": "+61418600362"
+                },
+                {
+                    "type" : "type_work",
+                    "value": "+61 2 90225760"
+                }
+            ]
+        },
+        {
+            "addresses"  : [
+                {
+                    "type" : "type_work",
+                    "value": "AFZ02:"
+                }
+            ],
+            "companyName": "Hewlett Packard Costa Ric",
+            "displayName": "Zeidy Zuniga (HP)",
+            "emails"     : [
+                {
+                    "type" : "type_work",
+                    "value": "zeidy.zuniga-mora@hp.com"
+                }
+            ],
+            "familyName" : "Zuniga",
+            "givenName"  : "Zeidy"
+        }
+    ],
+    "total"      : 10
+}
