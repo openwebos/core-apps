@@ -1,0 +1,20 @@
+{
+    "activity"    : {
+        "type"        : {
+            "persist"   : true,
+            "foreground": true
+        },
+        "name"        : "calendar.startreminders",
+        "description" : "Triggers the reminder service initialization process",
+        "requirements": {
+            "bootup": true
+        },
+        "callback"    : {
+            "method": "palm://com.palm.service.calendar.reminders/onInit",
+            "params": {}
+        }
+    },
+    "start"       : true,
+    "replace"     : true,
+    "firstUseSafe": true
+}

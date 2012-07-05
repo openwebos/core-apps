@@ -1,0 +1,166 @@
+{
+    "templates": [
+        {
+            "_kind"              : "com.palm.account:1",
+            "_id"                : "++HOqNEvFSBhz5Du",
+            "_rev"               : 429,
+            "_sync"              : true,
+            "beingDeleted"       : false,
+            "capabilityProviders": [
+                {
+                    "_id"         : "1ae",
+                    "capability"  : "CONTACTS",
+                    "id"          : "com.palm.palmprofile.contacts",
+                    "dbkinds"     : {
+                        "contact": "com.palm.contact.palmprofile:1"
+                    },
+                    "refetchPhoto": "palm://com.palm.service.contacts/refetchPhoto"
+                },
+                {
+                    "_id"       : "1af",
+                    "capability": "CALENDAR",
+                    "id"        : "com.palm.palmprofile.calendar"
+                },
+                {
+                    "_id"       : "1b0",
+                    "capability": "TASKS",
+                    "id"        : "com.palm.palmprofile.tasks"
+                },
+                {
+                    "_id"       : "1b1",
+                    "capability": "MEMOS",
+                    "id"        : "com.palm.palmprofile.memos"
+                },
+                {
+                    "_id"              : "1b2",
+                    "capability"       : "MESSAGING",
+                    "id"               : "com.palm.palmprofile.sms",
+                    "capabilitySubtype": "SMS",
+                    "icon"             : {
+                        "loc_32x32": "/usr/palm/public/accounts/com.palm.palmprofile/images/sms-32x32.png",
+                        "loc_48x48": "/usr/palm/public/accounts/com.palm.palmprofile/images/sms-48x48.png",
+                        "splitter" : "/usr/palm/public/accounts/com.palm.palmprofile/images/sms-32x32.png"
+                    },
+                    "loc_name"         : "SMS Account",
+                    "loc_shortName"    : "Text"
+                },
+                {
+                    "_id"          : "1b3",
+                    "capability"   : "VOICE",
+                    "id"           : "com.palm.palmprofile.voice",
+                    "alwaysOn"     : true,
+                    "icon"         : {
+                        "loc_32x32": "/usr/palm/public/accounts/com.palm.palmprofile/images/mypalm-32x32.png",
+                        "loc_48x48": "/usr/palm/public/accounts/com.palm.palmprofile/images/mypalm-48x48.png"
+                    },
+                    "loc_name"     : "Carrier",
+                    "loc_shortName": "Carrier"
+                }
+            ],
+            "templateId"         : "com.palm.palmprofile",
+            "username"           : "Dr. Skipped Firstuse",
+            "icon"               : {
+                "loc_32x32": "/usr/palm/public/accounts/com.palm.palmprofile/images/mypalm-32x32.png",
+                "loc_48x48": "/usr/palm/public/accounts/com.palm.palmprofile/images/mypalm-48x48.png"
+            },
+            "loc_name"           : "HP webOS Account"
+        },
+        {
+            "_kind"              : "com.palm.account:1",
+            "_id"                : "++HP3Q1iUndiEBeC",
+            "_rev"               : 546,
+            "_sync"              : true,
+            "alias"              : "Yahoo!",
+            "beingDeleted"       : false,
+            "capabilityProviders": [
+                {
+                    "_id"           : "223",
+                    "capability"    : "CONTACTS",
+                    "id"            : "com.palm.yahoo.contacts",
+                    "dbkinds"       : {
+                        "contact": "com.palm.contact.yahoo:1"
+                    },
+                    "implementation": "palm://com.palm.service.contacts.yahoo/",
+                    "onCreate"      : "palm://com.palm.service.contacts.yahoo/onCreate",
+                    "onDelete"      : "palm://com.palm.service.contacts.yahoo/onDelete",
+                    "onEnabled"     : "palm://com.palm.service.contacts.yahoo/onEnabled",
+                    "readOnlyData"  : true,
+                    "sync"          : "palm://com.palm.service.contacts.yahoo/sync",
+                    "validator"     : "palm://com.palm.service.contacts.yahoo/checkCredentials"
+                },
+                {
+                    "_id"                 : "224",
+                    "capability"          : "MESSAGING",
+                    "id"                  : "com.palm.yahoo.im",
+                    "capabilitySubtype"   : "IM",
+                    "dbkinds"             : {
+                        "imcommand": "com.palm.imcommand.yahoo:1",
+                        "immessage": "com.palm.immessage.yahoo:1"
+                    },
+                    "icon"                : {
+                        "loc_32x32": "/usr/palm/public/accounts/com.palm.yahoo/images/yim-32x32.png",
+                        "loc_48x48": "/usr/palm/public/accounts/com.palm.yahoo/images/yim-48x48.png",
+                        "splitter" : "/usr/palm/public/accounts/com.palm.yahoo/images/yim-32x32.png"
+                    },
+                    "implementation"      : "palm://com.palm.imyahoo/",
+                    "invites"             : {
+                        "supportsCustomMessage": true
+                    },
+                    "loc_shortName"       : "Yahoo!",
+                    "onCredentialsChanged": "palm://com.palm.imyahoo/onCredentialsChanged",
+                    "onEnabled"           : "palm://com.palm.imyahoo/onEnabled",
+                    "serviceName"         : "type_yahoo"
+                },
+                {
+                    "_id"                 : "225",
+                    "capability"          : "MAIL",
+                    "id"                  : "com.palm.yahoo.mail",
+                    "config"              : {
+                        "encryption": "ssl",
+                        "port"      : 993,
+                        "server"    : "palm.imap.mail.yahoo.com",
+                        "smtpConfig": {
+                            "encryption" : "ssl",
+                            "port"       : 465,
+                            "server"     : "palm.smtp.mail.yahoo.com",
+                            "useSmtpAuth": true
+                        }
+                    },
+                    "dbkinds"             : {
+                        "email": "com.palm.imap.email:1"
+                    },
+                    "implementation"      : "palm://com.palm.imap/",
+                    "onCreate"            : "palm://com.palm.imap/accountCreated",
+                    "onCredentialsChanged": "palm://com.palm.imap/credentialsChanged",
+                    "onDelete"            : "palm://com.palm.imap/accountDeleted",
+                    "onEnabled"           : "palm://com.palm.imap/accountEnabled",
+                    "subKind"             : "com.palm.imap.email:1"
+                },
+                {
+                    "_id"           : "226",
+                    "capability"    : "CALENDAR",
+                    "id"            : "com.palm.yahoo.calendar",
+                    "dbkinds"       : {
+                        "calendar"     : "com.palm.calendar.yahoo:1",
+                        "calendarevent": "com.palm.calendarevent.yahoo:1"
+                    },
+                    "implementation": "palm://com.palm.service.calendar.yahoo/",
+                    "onCreate"      : "palm://com.palm.service.calendar.yahoo/onCreate",
+                    "onDelete"      : "palm://com.palm.service.calendar.yahoo/onDelete",
+                    "onEnabled"     : "palm://com.palm.service.calendar.yahoo/onEnabled",
+                    "subKind"       : "com.palm.calendarevent.yahoo:1",
+                    "sync"          : "palm://com.palm.service.calendar.yahoo/sync"
+                }
+            ],
+            "templateId"         : "com.palm.yahoo",
+            "username"           : "dummyaccount@yahoo.com",
+            "icon"               : {
+                "loc_32x32": "/usr/palm/public/accounts/com.palm.yahoo/images/yahoo-32x32.png",
+                "loc_48x48": "/usr/palm/public/accounts/com.palm.yahoo/images/yahoo-48x48.png"
+            },
+            "loc_name"           : "Yahoo!",
+            "loc_usernameLabel"  : "email address",
+            "validator"          : "palm://com.palm.yahoo/validate"
+        }
+    ]
+}

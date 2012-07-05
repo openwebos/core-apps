@@ -1,0 +1,20 @@
+{    "returnValue": true,
+    "results"     : [
+        {
+            "_kind"                     : null,
+            "alarmSoundOn"              : 1,
+            "autoDefaultCalendarID"     : 0,
+            "defaultAllDayEventReminder": "-P1D",
+            "defaultCalendarID"         : 0,
+            "defaultEventDuration"      : 60,
+            "defaultEventReminder"      : "-PT15M",
+            "defaultLaunchView"         : "DayView",
+            "endTimeOfDay"              : -111599994,
+            "isFirstUse"                : true,
+            "nextLaunchView"            : "DayView",
+            "startOfWeek"               : 1,
+            "startTimeOfDay"            : -226799992,
+            "userChangedStartOfWeek"    : false
+        }
+    ]
+}

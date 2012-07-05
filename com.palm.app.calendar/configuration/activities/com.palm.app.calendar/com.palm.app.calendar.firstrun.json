@@ -1,0 +1,25 @@
+{
+    "activity"    : {
+        "type"        : {
+            "persist"   : true,
+            "foreground": true
+        },
+        "name"        : "calendar.firstrun",
+        "description" : "sets calendar icon to have the current date",
+        "requirements": {
+            "bootup": true
+        },
+        "callback"    : {
+            "method": "palm://com.palm.applicationManager/launch",
+            "params": {
+                "id"    : "com.palm.app.calendar",
+                "params": {
+                    "dayChange": true
+                }
+            }
+        }
+    },
+    "start"       : true,
+    "replace"     : true,
+    "firstUseSafe": true
+}

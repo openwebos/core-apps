@@ -1,0 +1,6 @@
+{
+	"id":"com.palm.calendarprefs:1",
+	"owner":"com.palm.app.calendar",
+	"sync":true,
+	"indexes":[]
+}

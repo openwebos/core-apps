@@ -1,0 +1,60 @@
+[	{	"type"		: "db.kind"
+	,	"object"	: "com.palm.calendarprefs:1"
+	,	"caller"	: "com.palm.app.calendar"
+	,	"operations":
+		{	"create": "allow"
+		,	"read"	: "allow"
+		,	"update": "allow"
+		,	"delete": "allow"
+		}
+	}
+
+,	{	"type"		: "db.kind"
+	,	"object"	: "com.palm.calendarprefs:1"
+	,	"caller"	: "com.palm.service.calendar.*"
+	,	"operations":
+		{	"read"	: "allow"
+		,	"update": "allow"
+		,	"extend": "allow"
+		}
+	}
+
+,	{	"type"		: "db.kind"
+	,	"object"	: "com.palm.calendarprefs:1"
+	,	"caller"	: "com.palm.eas"
+	,	"operations":
+		{	"read"	: "allow"
+		,	"update": "allow"
+		,	"extend": "allow"
+		}
+	}
+
+,	{	"type"		: "db.kind"
+	,	"object"	: "com.palm.calendarprefs:1"
+	,	"caller"	: "com.palm.dataimport"
+	,	"operations":
+		{	"read"	: "allow"
+		,	"extend": "allow"
+		}
+	}
+
+,	{	"type"		: "db.kind"
+	,	"object"	: "com.palm.calendarprefs:1"
+	,	"caller"	: "com.palm.app.agendaview"
+	,	"operations":
+		{	"read"	: "allow"
+		,	"extend": "allow"
+		}
+	}
+
+,	{	"type"		: "db.kind"
+	,	"object"	: "com.palm.calendarprefs:1"
+	,	"caller"	: "com.palm.app.enyo-calendar"
+	,	"operations":
+		{	"create": "allow"
+		,	"read"	: "allow"
+		,	"update": "allow"
+		,	"delete": "allow"
+		}
+	}	
+]

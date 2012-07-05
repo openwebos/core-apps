@@ -1,0 +1,230 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+.calendar .edit {
+	font-size				: 18px;
+}
+
+.calendar .edit .edit-header {
+	font-size				: 20px;
+	text-align			 	: center;
+}
+
+.calendar .edit .enyo-header-inner {
+	margin					: 0px;
+	padding					: 0px;
+	text-align				: center;
+}
+
+.editIcon {
+	margin-right			: 5px;
+}
+
+.calendar .edit .top-container {
+	background				: #F1F1F1;
+	height				 	: 100%;
+}
+
+.calendar .edit .content-container {
+	margin-left				: 15%;
+	margin-right			: 15%;
+	margin-top				: 30px;
+	margin-bottom			: 10px;
+
+}
+
+.calendar .edit .edit-view-label {
+	font-size				: 18px;
+	color					: #333333;
+	margin-left				: 8px;
+}
+
+.subject-input, .location-input {
+	height: 58px;
+}
+
+.location-input  {
+	margin: -8px;
+}
+
+.calendar .edit .note {
+	font-size				: 16px;
+	min-height				: 150px;
+	padding					: 5px;
+	overflow				: hidden;
+	text-overflow			: ellipsis;
+}
+
+.calendar .edit .toolbar {
+	/*margin-bottom			: 10px;*/
+}
+
+/* Common CSS customization in Edit View for Framework elements*/
+.calendar .edit .group {
+	/* For all grouped sections*/
+}
+
+.calendar .edit .input {
+	/* For all Single line inputs CSS customization in Edit View*/
+}
+
+/* Event Description CSS*/
+
+.subject-input .enyo-input-focus {
+	-webkit-border-image: none;
+}
+
+.location-input .enyo-input-focus {
+	-webkit-border-image: none;
+}
+
+.event-name, .event-location  {
+	height: 55px;
+}
+
+.event-name-input {
+    	overflow	: hidden;
+	white-space		: nowrap;
+}
+
+.repeat-alert-space {
+	margin-right: 12px;
+}
+
+.horizontal-space {
+	margin-bottom: 12px;
+}
+
+.alert-list {
+	width: 210px;
+}
+/*** List Selector customization ***/
+
+.calendar .edit  .list-selector {
+    text-transform          : none;
+    margin                  : 5px 2px;
+    padding                 : 0px;
+}
+
+.calendar .edit   .enyo-menucheckitem-caption {
+    padding : 0px 0px 0px 8px;
+    width	: 180px;
+    text-align	: left;
+    /* TODO: Later add ellispis class to right component*/
+    	overflow				: hidden;
+	text-overflow				: ellipsis;
+	white-space				: nowrap;
+}
+
+.calendar .edit   .enyo-listselector-arrow {
+    margin-right : 5px;
+}
+
+.calendar .edit  .list-selector-cal {
+	padding                 : 0px;
+	margin			: 0px 14px;
+}
+
+.spacer {
+	margin-left: 14px;
+}
+
+.edit .legend	{
+	background-image		: url(../../images/glossy-top-highlight.png);
+	background-repeat		: repeat-x;
+	height					: 26px;
+	width					: 26px;
+	padding					: 0;
+	-webkit-border-radius	: 4px;
+}
+
+.edit .color-space {
+	margin-left: 8px;
+}
+
+/* Yet not used need to clean up*/
+.attendees-view-count {
+	font-size				: 16px;
+	text-indent				: 10px;
+}
+
+.attendees-view-subject		{ font-size	: 15px; }
+
+.attendees-view-count,
+.attendees-view-subject		{ color: gray; }
+
+.contact-image				{
+	height					: 50px;
+	width					: 50px;
+	margin-left				: 1px;
+	margin-right			: 10px;
+	margin-top				: 1px;
+	-webkit-border-radius	: 7px;
+}
+
+.contact-image-border		{
+	/*background				: url(./images/list-view-avatar-frame.png) left top no-repeat;*/
+	height					: 52px;
+	width					: 52px;
+	position				: absolute;
+}
+
+.edit-view-icon				{
+	height					: 32px;
+	width					: 32px;
+	background-repeat		: no-repeat;
+	margin-left				: 4px; /* 8px padding provided by .enyo-item */
+	margin-right			: 12px;
+}
+
+.enyo-page-header .edit-view-icon {
+	margin-left				: 0;
+	margin-right			: 4px;
+}
+
+.calendar .edit .note-input-focus {
+    -webkit-border-image: url(./images/input-focus.png) 14 14 14 14 repeat repeat;
+}
+
+.btn-del-edit {
+	margin-bottom: 40px;
+	max-width: 525px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.btn-cancel, .btn-done {
+	min-width: 244px;
+}
+
+.btn-done{
+	margin-left: 12px;
+}
+
+.enyo-held > .edit-view-icon	{ background-position: left bottom; }
+
+.edit-view-icon-time			{ background-image: url(edit/images/timedate-icon.png);		}
+.edit-view-icon-location		{ background-image: url(edit/images/room-icon.png);			}
+.edit-view-icon-repeat			{ background-image: url(edit/images/repeat-icon.png);			}
+.edit-view-icon-reminder		{ -webkit-border: url(edit/images/reminder-icon.png) 0 32 0 32;		}
+.edit-view-icon-attendees		{ background-image: url(edit/images/participants-icon.png);	}
+
+/* Calendar calendar.JumpToView */
+/*.calendar-delete-confirm, .calendar-repeat-change-confirm	{
+	width					: 375px;
+}*/

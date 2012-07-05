@@ -1,0 +1,45 @@
+{
+    "id"             : "com.palm.app.calendar",
+    "title"          : "Calendar",
+    "version"        : "3.0.12000",
+    "vendor"         : "HP, Inc.",
+    "noWindow"       : true,
+    "uiRevision"     : 2,
+    "main"           : "index.html",
+    "icon"           : "images/icon.png",
+    "splashicon"     : "images/icon-256x256.png",
+    "type"           : "web",
+    "removable"      : false,
+    "keywords"       : ["Anniversaries", "Appointments", "Birthdays", "Datebook", "Events", "Meetings", "Reminders"],
+    "universalSearch": {
+        "action"  : {
+            "displayName": "New Event",
+            "launchParam": "quickLaunchText",
+            "url"        : "com.palm.app.calendar"
+        },
+        "dbsearch": {
+            "displayName"       : "Calendar Events",
+            "url"               : "com.palm.app.calendar",
+            "launchParam"       : "showEventDetail",
+            "launchParamDbField": "_id",
+            "displayFields"     : ["subject", {
+                "name": "dtstart",
+                "type": "timestamp"
+            }],
+            "dbQuery"           : {
+                "from"   : "com.palm.calendarevent:1",
+                "where"  : [
+                    {
+                        "prop"   : "searchText",
+                        "op"     : "?",
+                        "val"    : "",
+                        "collate": "primary"
+                    }
+                ],
+                "orderBy": "subject",
+                "desc"   : false,
+                "limit"  : 20
+            }
+        }
+    }
+}

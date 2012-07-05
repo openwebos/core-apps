@@ -1,0 +1,45 @@
+{
+	"id":"com.palm.calendarevent:1",
+	"owner":"com.palm.app.calendar",
+	"sync":true,
+	"indexes":
+	[ 
+		{	"name":"calendarId", "props": [{"name": "calendarId"}, {"name": "_rev"}]},
+		{	"name":"hasAlarm", "props": [{"name": "alarm"}, {"name": "_rev"}]},
+		{	"name":"revNumber", "incDel": true, "props": [{"name": "_rev"}]},
+		{	"name":"parentId", "props": [{"name": "parentId"}]},
+		{	"name":"revset1", "props": [{"name": "eventDisplayRevset", "default": 0}]},
+		{	"name":"revset2", "props": [{"name": "eventDisplayRevset", "default": 0}], "incDel": true},
+		{	"name": "UI_Typedown_UniversalSearch", "props":[
+			{"name":"searchText", "type":"multi", "collate":"primary", "include":[
+				{"name":"subject",	"tokenize":"default"},
+				{"name":"location",	"tokenize":"default"},
+				{"name":"note",		"tokenize":"default"}
+			]}
+		]}, 
+	],
+	"revSets": 
+	[
+		{	"name": "eventDisplayRevset"
+		,	"props": 
+			[	{"name": "_kind"}
+			,	{"name": "_del"}
+			,	{"name": "tzId"}
+			,	{"name": "dtstart"}
+			,	{"name": "dtend"}
+			,	{"name": "rrule"}
+			,	{"name": "subject"}
+			,	{"name": "location"}
+			,	{"name": "note"}
+			,	{"name": "alarm"}
+			,	{"name": "exdates"}
+			,	{"name": "attendees"}
+			,	{"name": "parentDtstart"}
+			,	{"name": "allDay"}
+			,	{"name": "calendarId"}
+			,	{"name": "accountId"}
+			,	{"name": "parentId"}
+			]
+		}
+	]
+}

@@ -1,0 +1,16 @@
+{    "returnValue": true,
+    "results"     : [
+        {
+            "id"        : "++HVowZQy5WRusag",
+            "_kind"     : "com.palm.calendarevent:1",
+            "accountId" : "++HM6sJVRCK4_5D7",
+            "calendarId": "++HM6sN4VPZ3aGzr",
+            "dtend"     : 1292695200000,
+            "dtstart"   : 1292691600000,
+            "location"  : "",
+            "note"      : "",
+            "subject"   : "It's Alive!",
+            "tzId"      : "America/Los_Angeles"
+        }
+    ]
+}

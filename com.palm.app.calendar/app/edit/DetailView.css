@@ -1,0 +1,170 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+/* TODO: There's a lot of redundancy between DetailView.css and EditView.css that needs to be cleaned up.  The CSS should be minimized. */
+
+.calendar-detail-view {
+	/*font-family: 'Prelude Medium';*/
+	font-size: 18px;
+	height: 600px;
+}
+
+.calendar-detail-view .enyo-header-inner {
+	text-align: center;
+}
+
+.detail-view-header {
+	color: #333333;
+	font-weight: 200;
+	-webkit-border-image: none;
+	background-color: transparent;
+}
+.detail-view-group .enyo-scroller {
+	margin:-12px;
+}
+.detail-view-box {
+	-webkit-border-image: url(./images/bg_rowgroup.png) 10 10 repeat;
+	border-width: 10px;
+	margin-bottom: 10px;
+}
+
+/*
+
+.detail-view-box .enyo-item {
+	border-bottom-color:#bebebe;
+	background:#eee;
+}
+.detail-view-box .enyo-item.enyo-first {
+	border-top:0;
+}
+.detail-view-box .enyo-item.enyo-last {
+	background:none;
+}
+*/
+
+.detail-view-note,.detail-view-row,.detail-view-subject,.detail-view-location {
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+
+.detail-view-subject {
+	height: 65px;
+	padding: 8px;
+	border-top-left-radius: 8px 8px;
+	border-top-right-radius: 8px 8px;
+}
+
+.spaceButton {
+	margin-left: 20px;
+}
+
+/* Icons */
+.detail-view-icon {
+	height: 32px;
+	width: 32px;
+	margin: 5px 10px 5px -2px;
+}
+
+.detail-view-location {
+	width: 60%;
+}
+
+.detail-view-icon-location			{ background-image: url(./images/location-icon.png); }
+.detail-view-icon-time				{ background-image: url(./images/timedate-icon.png); }
+.detail-view-icon-repeat			{ background-image: url(./images/repeat-icon.png); }
+.detail-view-icon-reminder			{ background-image: url(./images/reminder-icon.png); }
+.detail-view-icon-attendees			{ background-image: url(./images/participants-icon.png); }
+
+.attendee-name {
+	width: 100%;
+}
+
+.subject-attendees-view {
+	font-size: 18px;
+}
+
+div:first-child > .contact-row {
+	border-top:none;
+}
+div:last-child > .contact-row {
+	border-bottom:none;
+}
+
+
+/*===========Yet not used need to review and detlete =========*/
+
+.edit-view-label					{
+	font-size						: 15px;
+	color							: #2D6C94;
+	margin-left						: 8px;
+}
+
+.edit-view-icon						{
+	height							: 32px;
+	width							: 32px;
+	background-repeat				: no-repeat;
+	margin-left						: 4px; /* 8px padding provided by .enyo-item */
+	margin-right					: 12px;
+}
+
+
+.enyo-held > .edit-view-icon		{ background-position: left bottom; }
+.edit-view-icon-location			{ background-image: url(./images/room-icon.png); }
+.edit-view-icon-time				{ background-image: url(./images/timedate-icon.png); }
+.edit-view-icon-repeat				{ background-image: url(./images/repeat-icon.png); }
+.edit-view-icon-reminder			{ background-image: url(./images/reminder-icon.png); }
+.edit-view-icon-attendees			{ background-image: url(./images/participants-icon.png); }
+.edit-view-attendees-name			{ font-weight: bold; }
+
+.attendees-view-count				{
+		font-size					: 16px;
+		text-indent					: 10px;
+		margin-left					: -10px;
+		margin-bottom					: 8px;
+}
+
+.attendees-view-subject				{ font-size	 : 15px; }
+
+.attendees-view-count,
+.attendees-view-subject				{ color: gray; }
+
+.contact-row						{
+	height							: 52px;
+	position						: relative;
+}
+
+.contact-image						{
+	height							: 50px;
+	width							: 50px;
+	left							: 9px;
+	top								: 10px;
+	margin							: 0;
+	-webkit-border-radius			: 7px;
+	position						: absolute;
+}
+
+.contact-info						{
+	margin-left						: 58px;
+}
+
+.contact-image-border				{
+	/*background						: url(./images/list-view-avatar-frame.png) left top no-repeat;*/
+	height							: 52px;
+	width							: 52px;
+	position						: absolute;
+}
