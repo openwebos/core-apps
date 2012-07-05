@@ -1,0 +1,13 @@
+source "http://rubygems.org"
+
+gem 'mongrel', '1.2.0.pre2'
+gem 'rack'
+gem 'rspec', '2.4.0'
+gem 'jasmine', '1.0.2.1'
+gem 'steak'
+gem 'capybara', :git => 'https://github.com/jnicklas/capybara.git'
+gem 'selenium-webdriver'
+gem 'fuubar'
+gem 'eris'
+gem "rake"
+

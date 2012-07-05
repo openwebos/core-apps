@@ -1,0 +1,219 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2011-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+/* alarm list */
+
+.enyo-virtual-scroller {
+	margin: 0 -12px;
+}
+
+/* end alarm list */
+
+.clockContainer {
+	background-color: #0c0c0c;
+	
+	width: 100%;
+}
+
+.analog {
+	margin: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+
+
+.clockbg {
+	background-image: url(../images/clockbg.png);
+	height: 514px;
+	width: 514px;
+}
+
+.clockHand {
+	position: absolute;
+	height: 514px;
+	width: 514px;
+}
+
+.clockHand.Hour {
+	background-image: url(../images/hours.png);	
+	z-index: 913;
+}
+
+.clockHand.Min {
+	background-image: url(../images/minutes.png);	
+	z-index: 912;
+}
+
+.clockHand.Sec {
+	background-image: url(../images/seconds.png);	
+	z-index: 911;
+	/*-webkit-transition: all .2s ease;*/
+}
+
+.clockLabel
+{
+	position: relative;
+	font-size: 44px;
+	color: #fff;
+	z-index: 902;
+	top: 230px;
+	left: 102px;
+	
+}
+
+.clockLabel .weekday
+{
+	width: 100px;
+	/*border: solid 1px blue;*/
+	text-align: center;
+}
+
+.clockLabel .day
+{
+	width: 100px;
+	/*border: solid 1px green;*/
+	text-align: center;
+ 
+}
+
+
+.alarms
+{
+	margin: 80px auto 0 auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;	
+}
+
+
+/*** Glass Clock Face ***/
+
+.glass.clockbg {
+	background-image: url(../images/glass-clockbg.png);
+	height: 514px;
+	width: 514px;
+}
+
+.glass .clockHand {
+	position: absolute;
+	height: 508px;
+	width: 508px;
+}
+
+.glass .clockHand.Hour {
+	background-image: url(../images/glass-hours.png);	
+	z-index: 913;
+}
+
+.glass .clockHand.Min {
+	background-image: url(../images/glass-minutes.png);	
+	z-index: 912;
+}
+
+.glass.clockHand.Sec {
+	background-image: url(../images/seconds.png);	
+	z-index: 911;
+	/*-webkit-transition: all .2s ease;*/
+}
+
+.glass .clockLabel,
+.glass .clockLabel .weekday,
+.glass .clockLabel .day {
+	display:none;
+}
+
+/**** DIGITAL ****/
+.digital  {
+	background: #000;
+}
+
+.digitalClock {
+	background: url(../images/clock-bg.png) 0 -165px no-repeat;
+	margin: 0 auto;
+	height: 100%;
+	
+} 
+
+.digital {
+	position:relative;
+	color: #fff
+}
+
+.digital .time .time-meridian {
+	position:absolute;
+	top:15px;
+	left: 10px;
+	font-size:1.30em;
+}
+
+.digital .time {
+	height: 235px;
+	text-align: center;
+	position:relative;
+	border-width: 9px;
+	-webkit-border-image: url(../images/Flipper_Landscape.png) 9;
+}
+
+.digital .date {
+	width: 53px;
+	text-align: center;
+	font-size:3em;
+	position:relative;
+	border-width: 7px;
+	-webkit-border-image: url(../images/Date_Flipper_Landscape.png) 7;
+}
+
+.digital .digit {
+	font-size:10em;
+	margin-top:-15px
+}
+
+.digitalClock .clock-separator {
+	width: 80px;
+	font-size:5em;
+	color: #fff;
+	text-align:center;
+}
+
+.digital-month {
+	text-transform: capitalize;
+}
+
+.digit-hour-overlay {
+	position: relative;
+	height: 235px;
+	top: -260px;
+	left: 0;
+	padding:0px;
+	margin-left: -10px;
+	margin-right: -10px;
+	margin-top: 20px;
+}
+
+.digit-date-overlay {
+	position: relative;
+	height: 100px;
+	width: 73px;
+	margin-left:-73px;
+}

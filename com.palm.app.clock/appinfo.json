@@ -1,0 +1,14 @@
+{
+	"id": "com.palm.app.clock",
+	"version": "3.0.2400",
+	"vendor": "HP",
+	"type": "web",
+	"main": "index.html",
+	"title": "Clock",
+	"icon": "icon.png",
+   "splashicon": "icon-256x256.png",
+	"noWindow": true,
+	"uiRevision": 2,
+	"debug": false,
+	"removable": false
+}
