@@ -1,0 +1,15 @@
+{
+    "returnValue": true,
+    "results": [
+        {
+            "_id": "++HPlviwkPg7BY9Q",
+            "_kind": "com.palm.account.syncstate:1",
+            "_rev": "35",
+            "accountId": "++HPlviwkPg7BY90",
+            "capabilityProvider": "com.palm.app.accounts",
+            "errorCode": "CREDENTIALS_NOT_FOUND",
+            "syncState": "ERROR"
+        }
+    ]
+}
+
