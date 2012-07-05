@@ -1,0 +1,38 @@
+{
+    "returnValue": true,
+    "results"    : [
+        {
+            "_id"               : "++HMfjUamRsmpzjh",
+            "_kind"             : "com.palm.calendarevent:1",
+            "_rev"              : 792,
+            "_sync"             : true,
+            "accountId"         : "++HM6sJVRCK4_5D7",
+            "alarm"             : [
+                {
+                    "_id"         : "319",
+                    "action"      : "display",
+                    "alarmTrigger": {
+                        "value"    : "-PT15M",
+                        "valueType": "DURATION"
+                    }
+                }
+            ],
+            "allDay"            : false,
+            "calendarId"        : "++HM6sN4VPZ3aGzr",
+            "dtend"             : 1292695200000,
+            "dtstart"           : 1292691600000,
+            "eventDisplayRevset": 792,
+            "location"          : "",
+            "note"              : "",
+            "rrule"             : {
+                "freq"    : "DAILY",
+                "interval": 1,
+                "rules"   : [
+                ],
+                "until"   : 1292781600000
+            },
+            "subject"           : "It's Alive!",
+            "tzId"              : "America/Los_Angeles"
+        }
+    ]
+}

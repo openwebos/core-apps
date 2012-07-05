@@ -1,0 +1,46 @@
+{
+    "returnValue": true,
+    "results"    : [
+        {
+            "_id"                : "++HTDU6BOVox5Y3i",
+            "_kind"              : "com.palm.account:1",
+            "_rev"               : 348,
+            "_sync"              : true,
+            "beingDeleted"       : false,
+            "capabilityProviders": [
+                {
+                    "_id"       : "15d",
+                    "capability": "CONTACTS",
+                    "id"        : "com.palm.palmprofile.contacts"
+                },
+                {
+                    "_id"       : "15e",
+                    "capability": "CALENDAR",
+                    "id"        : "com.palm.palmprofile.calendar"
+                },
+                {
+                    "_id"       : "15f",
+                    "capability": "TASKS",
+                    "id"        : "com.palm.palmprofile.tasks"
+                },
+                {
+                    "_id"       : "160",
+                    "capability": "MEMOS",
+                    "id"        : "com.palm.palmprofile.memos"
+                },
+                {
+                    "_id"       : "161",
+                    "capability": "MESSAGING",
+                    "id"        : "com.palm.palmprofile.sms"
+                },
+                {
+                    "_id"       : "162",
+                    "capability": "VOICE",
+                    "id"        : "com.palm.palmprofile.voice"
+                }
+            ],
+            "templateId"         : "com.palm.palmprofile",
+            "username"           : "Dr. Skipped Firstuse"
+        }
+    ]
+}

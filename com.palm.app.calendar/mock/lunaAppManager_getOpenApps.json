@@ -1,0 +1,33 @@
+{
+    "running"    : [
+        {
+            "id"       : "com.palm.systemui",
+            "processid": "1000"
+        },
+        {
+            "id"       : "com.palm.launcher",
+            "processid": "1001"
+        },
+        {
+            "id"       : "com.palm.app.calendar",
+            "processid": "1002"
+        },
+        {
+            "id"       : "com.palm.app.email",
+            "processid": "1003"
+        },
+        {
+            "id"       : "com.palm.app.phone",
+            "processid": "1004"
+        },
+        {
+            "id"       : "com.palm.app.phone",
+            "processid": "1005"
+        },
+        {
+            "id"       : "com.palm.app.calendar",
+            "processid": "1042"
+        }
+    ],
+    "returnValue": true
+}
