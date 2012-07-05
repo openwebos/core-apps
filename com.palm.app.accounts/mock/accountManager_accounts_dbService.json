@@ -1,0 +1,338 @@
+{
+    "returnValue": true,
+    "results": [
+        {
+            "capabilityProviders": [
+                {
+                    "capability": "CONTACTS",
+                    "db_kinds": {
+                        "contact": "com.palm.contact.sim:1"
+                    },
+                    "id": "com.palm.sim.contacts",
+                    "implementation": "palm:\/\/com.palm.service.contacts.sim\/",
+                    "onCreate": "palm:\/\/com.palm.service.contacts.sim\/onCreate",
+                    "onDelete": "palm:\/\/com.palm.service.contacts.sim\/onDelete",
+                    "onEnabled": "palm:\/\/com.palm.service.contacts.sim\/onEnabled",
+                    "readOnlyData": false,
+                    "sync": "palm:\/\/com.palm.service.contacts.sim\/sync"
+                }
+            ],
+            "disableRemove": true,
+            "icon": {
+                "loc_32x32": "\/usr\/palm\/public\/accounts\/com.palm.sim\/images\/sim-32x32.png",
+                "loc_48x48": "\/usr\/palm\/public\/accounts\/com.palm.sim\/images\/sim-32x32.png"
+            },
+            "loc_name": "SIM",
+            "username": "4885823459792",
+            "templateId": "com.palm.sim"
+        },
+       {
+            "_kind": "com.palm.account:1",
+            "_id": "++HUEXlwxiNk5Ijt",
+            "_rev": 359,
+            "_sync": true,
+            "beingDeleted": false,
+            "capabilityProviders": [
+                {
+                    "_id": "168",
+                    "capability": "CONTACTS",
+                    "id": "com.palm.palmprofile.contacts",
+                    "dbkinds": {
+                        "contact": "com.palm.contact.palmprofile:1"
+                    },
+                    "refetchPhoto": "palm:\/\/com.palm.service.contacts\/refetchPhoto"
+                },
+                {
+                    "_id": "169",
+                    "capability": "CALENDAR",
+                    "id": "com.palm.palmprofile.calendar"
+                },
+                {
+                    "_id": "16a",
+                    "capability": "TASKS",
+                    "id": "com.palm.palmprofile.tasks"
+                },
+                {
+                    "_id": "16b",
+                    "capability": "MEMOS",
+                    "id": "com.palm.palmprofile.memos"
+                },
+                {
+                    "_id": "16c",
+                    "capability": "MESSAGING",
+                    "id": "com.palm.palmprofile.sms",
+                    "capabilitySubtype": "SMS",
+                    "icon": {
+                        "loc_32x32": "\/usr\/palm\/public\/accounts\/com.palm.palmprofile\/images\/sms-32x32.png",
+                        "loc_48x48": "\/usr\/palm\/public\/accounts\/com.palm.palmprofile\/images\/sms-48x48.png",
+                        "splitter": "\/usr\/palm\/public\/accounts\/com.palm.palmprofile\/images\/sms-32x32.png"
+                    },
+                    "loc_name": "SMS Account",
+                    "loc_shortName": "Text"
+                },
+                {
+                    "_id": "16d",
+                    "capability": "VOICE",
+                    "id": "com.palm.palmprofile.voice",
+                    "alwaysOn": true,
+                    "icon": {
+                        "loc_32x32": "\/usr\/palm\/public\/accounts\/com.palm.palmprofile\/images\/mypalm-32x32.png",
+                        "loc_48x48": "\/usr\/palm\/public\/accounts\/com.palm.palmprofile\/images\/mypalm-48x48.png"
+                    },
+                    "loc_name": "Carrier",
+                    "loc_shortName": "Carrier"
+                }
+            ],
+            "templateId": "com.palm.palmprofile",
+            "username": "Dr. Skipped Firstuse",
+            "icon": {
+                "loc_32x32": "\/usr\/palm\/public\/accounts\/com.palm.palmprofile\/images\/mypalm-32x32.png",
+                "loc_48x48": "\/usr\/palm\/public\/accounts\/com.palm.palmprofile\/images\/mypalm-48x48.png"
+            },
+            "loc_name": "Palm Profile"
+        },
+        {
+            "_id": "++HPlvPGTDw1pjOw",
+            "_kind": "com.palm.account:1",
+            "_rev": 114193,
+            "_sync": true,
+            "alias": "AIM",
+            "beingDeleted": false,
+            "capabilityProviders": [
+                {
+                    "_id": "1be12",
+                    "capability": "MESSAGING",
+                    "id": "com.palm.aol.aim"
+                }
+            ],
+            "templateId": "com.palm.aol",
+            "username": "blowfishtest2@aol.com"
+        },
+        {
+            "_id": "++HPlugpfg0nLyfz",
+            "_kind": "com.palm.account:1",
+            "_rev": 113250,
+            "_sync": true,
+            "alias": "Palm",
+            "beingDeleted": false,
+            "capabilityProviders": [
+                {
+                    "_id": "1ba63",
+                    "capability": "MAIL",
+                    "id": "com.palm.eas.mail"
+                },
+                {
+                    "_id": "1ba64",
+                    "capability": "CONTACTS",
+                    "id": "com.palm.eas.contacts"
+                },
+                {
+                    "_id": "1ba65",
+                    "capability": "REMOTECONTACTS",
+                    "id": "com.palm.eas.remotecontacts"
+                },
+                {
+                    "_id": "1ba66",
+                    "capability": "CALENDAR",
+                    "id": "com.palm.eas.calendar"
+                },
+                {
+                    "_id": "1ba67",
+                    "capability": "TASKS",
+                    "id": "com.palm.eas.tasks"
+                }
+            ],
+            "templateId": "com.palm.eas",
+            "username": "myusername@palm.com"
+        },
+        {
+            "_id": "++HPIZiOdv07oOtD",
+            "_kind": "com.palm.account:1",
+            "_rev": 71055,
+            "_sync": true,
+            "alias": "Facebook",
+            "beingDeleted": false,
+            "capabilityProviders": [
+                {
+                    "_id": "11590",
+                    "capability": "CALENDAR",
+                    "id": "com.palm.facebook.calendar"
+                },
+                {
+                    "_id": "11591",
+                    "capability": "CONTACTS",
+                    "id": "com.palm.facebook.contacts"
+                },
+                {
+                    "_id": "11592",
+                    "capability": "PHOTO.UPLOAD",
+                    "id": "com.palm.facebook.photoupload"
+                },
+                {
+                    "_id": "11593",
+                    "capability": "VIDEO.UPLOAD",
+                    "id": "com.palm.facebook.videoupload"
+                }
+            ],
+            "templateId": "com.palm.facebook",
+            "username": "petere@gmail.com"
+        },
+        {
+            "_id": "++HOWhlSEMh08y+t",
+            "_kind": "com.palm.account:1",
+            "_rev": 571,
+            "_sync": true,
+            "alias": "Whizoo",
+            "beingDeleted": false,
+            "capabilityProviders": [
+                {
+                    "_id": "23c",
+                    "capability": "CONTACTS",
+                    "id": "com.palm.google.contacts"
+                },
+                {
+                    "_id": "23d",
+                    "capability": "MESSAGING",
+                    "id": "com.palm.google.talk"
+                },
+                {
+                    "_id": "23e",
+                    "capability": "CALENDAR",
+                    "id": "com.palm.google.calendar"
+                },
+                {
+                    "_id": "23f",
+                    "capability": "MAIL",
+                    "id": "com.palm.google.mail"
+                }
+            ],
+            "templateId": "com.palm.google",
+            "username": "palmqa@whizoo.com"
+        },
+        {
+            "_id": "++HOWqj5r8gtPsPc",
+            "_kind": "com.palm.account:1",
+            "_rev": 876,
+            "_sync": true,
+            "alias": "Fastmail",
+            "beingDeleted": false,
+            "capabilityProviders": [
+                {
+                    "_id": "36d",
+                    "capability": "MAIL",
+                    "id": "com.palm.imap.mail"
+                }
+            ],
+            "templateId": "com.palm.imap",
+            "username": "ppp06059@fastmail.fm"
+        },
+        {
+            "_id": "++HPluxXg7ZtJ58B",
+            "_kind": "com.palm.account:1",
+            "_rev": 114159,
+            "_sync": true,
+            "alias": "LinkedIn",
+            "beingDeleted": false,
+            "capabilityProviders": [
+                {
+                    "_id": "1bdf0",
+                    "capability": "CONTACTS",
+                    "id": "com.palm.linkedin.contacts"
+                }
+            ],
+            "templateId": "com.palm.linkedin",
+            "username": "petere@gmail.com"
+        },
+        {
+            "_id": "++HO6e02HTlqdiBw",
+            "_kind": "com.palm.account:1",
+            "_rev": 64535,
+            "_sync": true,
+            "alias": "Palm Profile",
+            "beingDeleted": false,
+            "capabilityProviders": [
+                {
+                    "_id": "13a",
+                    "capability": "CONTACTS",
+                    "id": "com.palm.palmprofile.contacts"
+                },
+                {
+                    "_id": "13b",
+                    "capability": "CALENDAR",
+                    "id": "com.palm.palmprofile.calendar"
+                },
+                {
+                    "_id": "13c",
+                    "capability": "TASKS",
+                    "id": "com.palm.palmprofile.tasks"
+                },
+                {
+                    "_id": "13d",
+                    "capability": "MEMOS",
+                    "id": "com.palm.palmprofile.memos"
+                },
+                {
+                    "_id": "13e",
+                    "capability": "MESSAGING",
+                    "id": "com.palm.palmprofile.sms"
+                },
+                {
+                    "_id": "13f",
+                    "capability": "VOICE",
+                    "id": "com.palm.palmprofile.voice"
+                }
+            ],
+            "templateId": "com.palm.palmprofile",
+            "username": "Dr. Skipped Firstuse"
+        },
+        {
+            "_id": "++HPlvEx2PgTAfGD",
+            "_kind": "com.palm.account:1",
+            "_rev": 114189,
+            "_sync": true,
+            "alias": "Photobucket",
+            "beingDeleted": false,
+            "capabilityProviders": [
+                {
+                    "_id": "1be0e",
+                    "capability": "PHOTO.UPLOAD",
+                    "id": "com.palm.photobucket.photoupload"
+                }
+            ],
+            "templateId": "com.palm.photobucket",
+            "username": "blowfishtest2"
+        },
+        {
+            "_id": "++HPlviwkPg7BY90",
+            "_kind": "com.palm.account:1",
+            "_rev": 114205,
+            "_sync": true,
+            "alias": "Yahoo!",
+            "beingDeleted": false,
+            "capabilityProviders": [
+                {
+                    "_id": "1be1e",
+                    "capability": "CONTACTS",
+                    "id": "com.palm.yahoo.contacts"
+                },
+                {
+                    "_id": "1be1f",
+                    "capability": "MESSAGING",
+                    "id": "com.palm.yahoo.im"
+                },
+                {
+                    "_id": "1be20",
+                    "capability": "MAIL",
+                    "id": "com.palm.yahoo.mail"
+                },
+                {
+                    "_id": "1be21",
+                    "capability": "CALENDAR",
+                    "id": "com.palm.yahoo.calendar"
+                }
+            ],
+            "templateId": "com.palm.yahoo",
+            "username": "blowfishtest2@yahoo.com"
+        }
+    ]
+}

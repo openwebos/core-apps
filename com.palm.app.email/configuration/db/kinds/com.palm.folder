@@ -1,0 +1,14 @@
+{"id":"com.palm.folder:1","owner":"com.palm.app.email",
+"indexes":[
+	{"name": "Dunno1", "props": [{"name":"displayName"}]}, 
+	{"name": "Dunno2", "props": [{"name":"accountId"}]},
+	{"name": "Dunno3", "props": [{"name": "accountId"}, {"name": "_rev"}]},
+	{"name": "Dunno4", "props": [{"name": "accountId"}, {"name": "displayName", "default":""}]},
+	{"name": "Dunno5", "props": [{"name":"_id"}]},
+	{"name": "FavoritesList", "props": [{"name": "favorite"}, {"name": "displayName"}]},
+	{"name": "FolderProcessor", "props": [{"name":"_rev"}], "incDel": true},
+	{"name": "AccountsScene", "props": [{"name":"accountId"}, {"name":"sortKey", "default":""}]},
+	
+	{"name": "FilteredAccountsScene", "props": [{"name":"accountId"}, {"name":"displayName", "tokenize":"default", "collate":"primary"}]}
+	
+]}

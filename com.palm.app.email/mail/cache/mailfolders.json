@@ -1,0 +1,65 @@
+[
+    {
+        "flags": 7,
+        "messages": 3706,
+        "recent": 0,
+        "unseen": 0,
+        "name": ""
+    },
+    {
+        "flags": 7,
+        "messages": 14,
+        "recent": 0,
+        "unseen": 0,
+        "name": "\/Drafts"
+    },
+    {
+        "flags": 7,
+        "messages": 10,
+        "recent": 0,
+        "unseen": 0,
+        "name": "\/Junk"
+    },
+    {
+        "flags": 7,
+        "messages": 50,
+        "recent": 0,
+        "unseen": 0,
+        "name": "\/Sent"
+    },
+    {
+        "flags": 7,
+        "messages": 0,
+        "recent": 0,
+        "unseen": 0,
+        "name": "\/Trash"
+    },
+    {
+        "flags": 7,
+        "messages": 116,
+        "recent": 0,
+        "unseen": 16,
+        "name": "\/checkins"
+    },
+    {
+        "flags": 7,
+        "messages": 0,
+        "recent": 0,
+        "unseen": 0,
+        "name": "\/es-discuss"
+    },
+    {
+        "flags": 7,
+        "messages": 561,
+        "recent": 0,
+        "unseen": 69,
+        "name": "\/trac"
+    },
+    {
+        "flags": 7,
+        "messages": 0,
+        "recent": 0,
+        "unseen": 0,
+        "name": "Deleted Messages"
+    }
+]

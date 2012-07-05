@@ -1,0 +1,189 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+/*@font-face {
+	font-family: Prelude-Light;
+	src: url(../images/PreludeWGL-Light.ttf);
+	font-weight: normal;
+	font-style: normal;
+}*/
+
+.folder-container {
+    border-top: 1px solid #dcdcdc;
+    border-bottom: 1px solid #afafaf;
+}
+
+.today-divider,
+.folder-header > .enyo-hflexbox {
+    /*background: url(../images/list-header-gradient.png) left top no-repeat;*/
+    background-color: #e5e5e5;
+    max-height: 36px;
+}
+
+.enyo-divider-caption {
+    /*color: #707070;*/
+    /*font-weight: normal;*/
+    /*font-size: 16px;*/
+    font-family: Prelude-Medium;
+    text-transform: uppercase;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+}
+
+/*.enyo-divider-icon {
+	margin-right: 0;
+}
+
+.enyo-divider-left-cap {
+	border-width: 0;
+}
+
+.enyo-divider-right-cap {
+	display: none;
+}*/
+
+.enyo-item.first {
+    border-top: none;
+}
+
+.enyo-item {
+    border-top-color: #ededed;
+    /*	border-bottom-color: #afafaf;*/
+}
+
+/*.mail-back {
+	background-color: #e8e8e8;
+}*/
+
+.today-divider {
+    border-top: 1px solid #dcdcdc;
+}
+
+/*.enyo-collapsible-arrow.enyo-button-down,
+.enyo-collapsible-arrow {
+	background: url(../images/divider-button.png) 0px -2px no-repeat;
+	height: 34px;
+	width: 34px;
+	margin-right: 12px;
+}
+
+.enyo-button-switched.enyo-collapsible-arrow.enyo-button-down,
+.enyo-button-switched.enyo-collapsible-arrow {
+	background: url(../images/divider-button.png) -30px -2px no-repeat;
+	height: 34px;
+	width: 34px;
+	margin-right: 12px;
+}
+*/
+.mail-body-subject {
+    padding: 5px 10px;
+    word-wrap: break-word
+}
+
+.enyo-banner-next,
+.enyo-banner-prev {
+    display: none; /* Remove to bring back prev/next arrows */
+
+    height: 32px;
+    width: 32px;
+    border: 4px solid transparent;
+    border-top-width: 9px;
+    border-bottom-width: 9px;
+}
+
+.enyo-banner-prev {
+    background: url(../images/arrow-left.png) left top no-repeat;
+}
+
+.enyo-banner-next {
+    background: url(../images/arrow-right.png) left top no-repeat;
+}
+
+.active-msg {
+    background: transparent url(../images/down-bg.png) left top no-repeat;
+    -webkit-background-size: 100% 100%;
+}
+
+.folder-list .enyo-item.enyo-held,
+.mail-list .enyo-item.enyo-held {
+    border-top-color: transparent;
+    background: transparent url(../images/highlight-bg.png) left top no-repeat;
+    -webkit-background-size: 100% 100%;
+}
+
+.folder-list .enyo-item.enyo-hflexbox.enyo-held,
+.mail-list .enyo-item.enyo-hflexbox.enyo-held {
+    border-top-color: transparent;
+    background: transparent url(../images/highlight-bg.png) left top no-repeat;
+    -webkit-background-size: 100% 100%;
+}
+
+.mail-command.enyo-footer {
+    overflow: visible;
+    /*background: url(../images/footer.png) left -10px repeat-x;*/
+    background-position: 0 -10px;
+    border-top: 1px solid #a3a5a7;
+    height: 50px;
+    padding-top: 0px;
+    margin-top: -10px;
+}
+
+.mail-command .enyo-button-down .enyo-button-icon {
+    /*background-position: 0 0;*/
+}
+
+.enyo-row {
+    border-bottom: 1px solid #b2b2b2;
+}
+
+.enyo-gemstone.enyo-menu-button-shape {
+    color: #606060;
+    -webkit-border-image: url(../images/button-menu.png) 0 25 50 25 no-repeat;
+}
+
+.enyo-gemstone.enyo-menu-button-shape.enyo-button-down {
+    -webkit-border-image: url(../images/button-menu.png) 50 25 0 25 no-repeat;
+}
+
+.enyo-gemstone.enyo-menu-button-shape.enyo-button-depressed {
+    -webkit-border-image: url(../images/button-menu.png) 50 25 0 25 no-repeat;
+}
+
+.enyo-gemstone.enyo-menu-button-shape.enyo-button-default {
+    -webkit-border-image: url(../images/button-menu.png) 0 25 50 25 no-repeat;
+}
+
+.enyo-gemstone.enyo-menu-button-shape.enyo-button-default.enyo-button-down {
+    -webkit-border-image: url(../images/button-menu.png) 50 25 0 25 no-repeat;
+}
+
+.enyo-gemstone.enyo-menu-button-shape > .enyo-button-icon {
+    margin-top: 8px;
+}
+
+/* hiDPI support */
+.enyo-tool-button.enyo-hi-res .enyo-button-icon {
+    -webkit-background-size: 100% auto;
+}
+
+@media (-webkit-min-device-pixel-ratio:1.5) {
+    .enyo-tool-button .enyo-button-icon {
+        -webkit-background-size: 100% auto;
+    }
+}

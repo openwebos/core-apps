@@ -1,0 +1,36 @@
+[
+    {
+        "templateId": "com.palm.imap",
+        "loc_name": "IMAP",
+        "icon": {
+            "loc_32x32": "images/imapmail32.png",
+            "loc_48x48": "images/imapmail48.png"
+        },
+        "hidden": true,
+        "validator": {
+            "customUI": {
+                "appId": "com.palm.app.email",
+                "name": "accounts/wizard.html"
+            },
+            "address": "palm://com.palm.imap/validateAccount"
+        },
+        "readPermissions": ["com.palm.app.email", "com.palm.imap", "com.palm.smtp"],
+        "writePermissions": ["com.palm.app.email"],
+        "capabilityProviders": [
+            {
+                "capability": "MAIL",
+                "id": "com.palm.imap.mail",
+                "icon": {
+                    "loc_32x32": "images/imapmail32.png",
+                    "loc_48x48": "images/imapmail48.png"
+                },
+                "implementation": "palm://com.palm.imap/",
+                "onCreate": "palm://com.palm.imap/accountCreated",
+                "onDelete": "palm://com.palm.imap/accountDeleted",
+                "onEnabled": "palm://com.palm.imap/accountEnabled",
+                "onCredentialsChanged": "palm://com.palm.imap/credentialsChanged",
+                "subKind": "com.palm.imap.email:1"
+            }
+        ]
+    }
+]

@@ -1,0 +1,31 @@
+{
+	"id":"com.palm.email:1",
+	"owner":"com.palm.app.email",
+	"indexes":[
+		{"name": "UI_EmailProcessor", "props": [{"name": "EmailProcessorRev"}], "incDel": true},
+		
+		{"name": "UI_UnreadCounts", "props":[{"name":"flags.visible", "default":true}, {"name":"folderId"},{"name":"flags.read"}]}, 
+		{"name": "UI_UnreadCounts_AllInboxes", "props":[{"name":"flags.visible", "default":true}, {"name":"withinInbox"},{"name":"flags.read"}]}, 
+		{"name": "UI_UnreadCounts_AllFlagged", "props":[{"name":"flags.visible", "default":true}, {"name":"flags.flagged"},{"name":"flags.read"}]}, 
+		
+		{"name": "UI_NewEmailNotifications", "props":[{"name":"flags.visible", "default":true}, {"name":"initialRev"}]}, 
+		
+		{"name": "SentEmails", "props":[{"name":"folderId"},{"name":"sendStatus.sent"}]},
+		{"name": "EditedDraft", "props":[{"name":"folderId"},{"name":"flags.editedDraft"}]},
+		
+		{"name": "UI_AllInboxes", "props":[{"name":"flags.visible", "default":true}, {"name":"withinInbox"}, {"name":"sortKeys.allInboxes", "collate":"primary"}]},
+		{"name": "UI_AllFlagged", "props":[{"name":"flags.visible", "default":true}, {"name":"flags.flagged"}, {"name":"sortKeys.allFlagged", "collate":"primary"}]},                
+		{"name": "UI_FolderContents", "props":[{"name":"flags.visible", "default":true}, {"name":"folderId"}, {"name":"sortKeys.list", "collate":"primary"}]}, 
+
+		{"name": "Sync_EAS_IMAP_POP_SMTP", "props":[{"name":"folderId"},{"name":"timestamp"}]}, 
+		
+		{"name": "UI_Typedown_UniversalSearch", "props":[{"name":"flags.visible", "default":true}, 
+					{"name":"searchText", "type":"multi", "collate":"primary", "include":[{"name":"subject","tokenize":"default"},{"name":"from.name","tokenize":"all"}]}]}, 
+		
+		{"name": "OutgoingEmails", "props": [{"name": "folderId"}, {"name": "_rev"}]}
+	],
+	"revSets": [
+		{"name": "EmailProcessorRev", "props": [{"name": "folderId"}, {"name": "parts"}, {"name": "flags.read"}]}
+	]
+}
+

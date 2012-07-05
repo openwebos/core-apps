@@ -1,0 +1,17 @@
+{
+	"id":"com.palm.mail.account:1",
+	"owner":"com.palm.app.email",
+	"sync":true,
+	"indexes":[
+		{"name": "smtpOutboxLookup", "props": [{"name": "accountId"}]},
+		{"name": "sortKeyLookup", "props": [{"name": "sortKey", "default": 999}]},
+		{"name": "smtpAccountChanges", "props": [{"name":"accountId"},{"name": "_revSmtp"}]}
+	],
+	"revSets": [
+		{"name":"_revSmtp", "props": [{"name":"smtpConfig.encryption"},
+						{"name":"smtpConfig.port"},
+						{"name":"smtpConfig.server"},
+						{"name":"smtpConfig.username"},
+						{"name":"username"}]}
+	]
+}

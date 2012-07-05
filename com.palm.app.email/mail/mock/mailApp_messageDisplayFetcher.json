@@ -1,0 +1,73 @@
+{
+    "returnValue": true,
+    "results": [
+        {
+            "_id": "++HHM+hQJ9J4CasR",
+            "_kind": "com.palm.imap.email:1",
+            "_rev": 171570,
+            "EmailProcessorRev": 171565,
+            "UpsyncRev": 171116,
+            "autoDownload": true,
+            "flags": {
+                "flagged": false,
+                "read": false,
+                "replied": false
+            },
+            "folderId": "++HFcNuUiAGz9mIS",
+            "from": {
+                "addr": "tester.tim@palm.com",
+                "name": "Tester Tim",
+                "type": "from"
+            },
+            "initialRev": 171565,
+            "lastSyncFlags": {
+                "flagged": false,
+                "read": false,
+                "replied": false
+            },
+            "messageId": "<E1P4zAJ-0001wy-7O@bulkmail2.freecycle.org>",
+            "parts": [
+                {
+                    "_id": "29c6d",
+                    "charset": "utf-8",
+                    "encodedSize": 575,
+                    "encoding": "quoted-printable",
+                    "estimatedSize": 575,
+                    "mimeType": "text\/plain",
+                    "path": "\/var\/file-cache\/email\/PO\/RI3ABIF.txt",
+                    "section": "1",
+                    "type": "body"
+                }
+            ],
+            "sortKeys": {
+                "allFlagged": 2147483647,
+                "allInboxes": 2147483647,
+                "list": 2147483647
+            },
+            "subject": "[MountainViewCAFreecycle] TAKEN: Solid wood 2-part tool bench ( Rengstorff and Middlefield)",
+            "summary": "This has now been taken. Thank you to everyone who has shown an interest. There were so many that I will not have a chance to e",
+            "timestamp": 2147483647,
+            "to": [
+                {
+                    "_id": "29c6e",
+                    "addr": "john.doe@gmail.com",
+                    "name": "john.doe",
+                    "type": "to"
+                },
+                {
+                    "_id": "29c70",
+                    "addr": "jj@palm.com",
+                    "name": "Jovial Jim",
+                    "type": "to"
+                },
+                {
+                    "_id": "29c6f",
+                    "addr": "tester.tim@palm.com",
+                    "name": "Tester Tim",
+                    "type": "cc"
+                }
+            ],
+            "uid": 5240,
+            "withinInbox": false
+        }
+    ]}
