@@ -1,0 +1,53 @@
+{
+    "id"             : "com.palm.app.email",
+    "version"        : "3.0.13801",
+    "vendor"         : "HP",
+    "type"           : "web",
+    "main"           : "index.html",
+    "title"          : "Email",
+    "icon"           : "icon.png",
+    "splashicon"     : "icon-256x256.png",
+    "noWindow"       : true,
+    "uiRevision"     : 2,
+    "mimeTypes"      : [
+        {
+            "mime"     : "message/rfc822",
+            "extension": "eml",
+            "stream"   : false
+        }
+    ],
+    "removable"      : false,
+    "universalSearch": {
+        "action"  : {
+            "displayName": "New Email",
+            "url"        : "com.palm.app.email",
+            "launchParam": "text"
+        },
+        "dbsearch": {
+            "displayName"       : "Email",
+            "url"               : "com.palm.app.email",
+            "launchParam"       : "emailId",
+            "launchParamDbField": "_id",
+            "displayFields"     : ["from.name", "subject"],
+            "dbQuery"           : {
+                "from"   : "com.palm.email:1",
+                "where"  : [
+                    {
+                        "prop": "flags.visible",
+                        "op"  : "=",
+                        "val" : true
+                    },
+                    {
+                        "prop"   : "searchText",
+                        "op"     : "?",
+                        "val"    : "",
+                        "collate": "primary"
+                    }
+                ],
+                "orderBy": "timestamp",
+                "desc"   : true,
+                "limit"  : 20
+            }
+        }
+    }
+}

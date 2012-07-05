@@ -1,0 +1,94 @@
+[
+    {
+        "type": "db.kind",
+        "object": "com.palm.mail.account:1",
+        "caller": "com.palm.*",
+        "operations": {
+            "read": "allow" 
+        } 
+    },
+    {
+        "type": "db.kind",
+        "object": "com.palm.mail.account:1",
+        "caller": "com.palm.mail.*",
+        "operations": {
+            "create": "allow",
+            "read": "allow",
+            "update": "allow",
+            "delete": "allow",
+            "extend": "allow"
+        } 
+    },
+    {
+        "type": "db.kind",
+        "object": "com.palm.mail.account:1",
+        "caller": "com.palm.pop",
+        "operations": {
+            "create": "allow",
+            "read": "allow",
+            "update": "allow",
+            "delete": "allow",
+            "extend": "allow"
+        } 
+    }, 
+    {
+        "type": "db.kind",
+        "object": "com.palm.mail.account:1",
+        "caller": "com.palm.imap",
+        "operations": {
+            "create": "allow",
+            "read": "allow",
+            "update": "allow",
+            "delete": "allow",
+            "extend": "allow"
+        } 
+    }, 
+    {
+        "type": "db.kind",
+        "object": "com.palm.mail.account:1",
+        "caller": "com.palm.eas",
+        "operations": {
+            "create": "allow",
+            "read": "allow",
+            "update": "allow",
+            "delete": "allow",
+            "extend": "allow"
+        } 
+    }, 
+    {
+        "type": "db.kind",
+        "object": "com.palm.mail.account:1",
+        "caller": "com.palm.smtp",
+        "operations": {
+            "create": "allow",
+            "read": "allow",
+            "update": "allow",
+            "delete": "allow",
+            "extend": "allow"
+        } 
+    },
+    {
+        "type": "db.kind",
+        "object": "com.palm.mail.account:1",
+        "caller": "com.palm.app.email",
+        "operations": {
+            "create": "allow",
+            "read": "allow",
+            "update": "allow",
+            "delete": "allow",
+            "extend": "allow"
+        } 
+    },
+    {
+        "type": "db.kind",
+        "object": "com.palm.mail.account:1",
+        "caller": "com.palm.app.tyrion",
+        "operations": {
+            "create": "allow",
+            "read": "allow",
+            "update": "allow",
+            "delete": "allow",
+            "extend": "allow"
+        } 
+    }
+]

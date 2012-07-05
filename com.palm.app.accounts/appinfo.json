@@ -1,0 +1,11 @@
+{
+	"id": "com.palm.app.accounts",
+	"version": "1.0.0",
+	"vendor": "HP",
+	"type": "web",
+	"main": "index.html",
+	"title": "Accounts",
+	"icon": "icon.png",
+	"splashicon": "icon-256x256.png",
+	"uiRevision": 2
+}

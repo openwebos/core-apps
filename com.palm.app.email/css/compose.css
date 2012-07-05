@@ -1,0 +1,357 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+html {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Prelude, Prelude Medium, Segoe UI, Arial, Helvetica, Sans-Serif;
+    font-size: 14pt;
+    cursor: pointer;
+    background-color: #e4e4e2;
+}
+
+img {
+    vertical-align: middle;
+}
+
+/* Compose */
+.body-header .enyo-button {
+    /*height:36px;*/
+}
+
+.compose-send-button {
+    /*height: 40px;*/
+    border: 1px solid red;
+    border-width: 0px 18px;
+}
+
+.compose-send-button {
+    -webkit-border-image: url(../images/compose-send-button.png) 0 18 80 18 repeat repeat;
+}
+
+.compose-send-button.enyo-button-down {
+    -webkit-border-image: url(../images/compose-send-button.png) 40 18 40 18 repeat repeat;
+}
+
+.contacts-button {
+    /*	width: 2px;
+     height: 40px;
+     border-width: 0px 18px;*/
+}
+
+.contacts-button {
+    -webkit-border-image: url(../images/address-book.png) 0 18 80 18 repeat repeat;
+}
+
+.contacts-button.enyo-button-down {
+    -webkit-border-image: url(../images/address-book.png) 40 18 40 18 repeat repeat;
+}
+
+.compose-to-text {
+    color: #1e5a90;
+    text-transform: capitalize;
+    font-size: 16px;
+    /*height: 40px;
+         min-width: 42px;
+         line-height: 37px;
+         text-align: right;*/
+    display: -webkit-box;
+    -webkit-box-align: center;
+}
+
+.compose-to-text.to-button {
+    color: #1e5a90;
+    /*border-width: 0px 6px;*/
+    /*line-height: 44px;
+         height: 44px;*/
+    min-width: 38px;
+    text-align: center;
+    /*-webkit-border-image: url(../images/square-button-sprite.png) 0 6 40 6;*/
+}
+
+.compose-to-text.to-button.enyo-button-down {
+    /*-webkit-border-image: url(../images/square-button-sprite.png) 40 6 0 6;*/
+}
+
+.compose-send-button {
+    font-size: 16px;
+    line-height: 37px;
+    border-width: 0px 16px;
+    height: 38px;
+    min-width: 38px;
+    text-align: center;
+    -webkit-border-image: url(../images/square-button-sprite.png) 0 16 40 16 no-repeat;
+}
+
+.compose-send-button.enyo-button-down {
+    -webkit-border-image: url(../images/square-button-sprite.png) 40 16 0 16 no-repeat;
+}
+
+.enyo-row input {
+    /*  margin: -17px -14px;
+  padding: 17px 4px;*/
+}
+
+.compose-subject input {
+    /*width: 742px;*/
+    /*margin: -10px -24px -12px -8px;*/
+    /*padding: 12px 14px 12px 12px;*/
+}
+
+.compose-subject {
+    display: -webkit-box;
+    -webkit-box-align: center;
+    /*-webkit-border-image: url(../images/compose-subject-solid-bg.png) 14 14;*/
+}
+
+.compose-subject ::-webkit-input-placeholder {
+    color: #000000;
+    font-style: italic;
+}
+
+.compose-subject-inset {
+    /*-webkit-border-image: url(../images/compose-subject-edit-bg.png) 14 14;*/
+}
+
+.compose-subject .enyo-input {
+    /*	color: black;*/
+    font-size: 16px;
+    /*	margin:-6px 0px 0px -8px;*/
+    /*padding:17px 4px;*/
+}
+
+.to-input .enyo-input {
+    font-size: 16px;
+}
+
+.compose-subject-inset .enyo-input {
+    color: black;
+}
+
+.compose-header {
+    background: transparent url(../images/paper_page_texture.png) repeat;
+}
+
+.compose-send-header {
+    background: #FFFFFF;
+    padding: 0 14px;
+}
+
+.compose-background {
+    /*background:#aaaaaa;*/
+    /*background: transparent url(../images/compose-view-bg-tile.png) repeat;*/
+}
+
+.compose-send-scrollfade {
+    background: transparent url(../images/header-divider-dropshadow.png) bottom left repeat-x;
+}
+
+.torn-paper-effect-tile {
+    /*background: transparent url(../images/torn-paper-effect-tile.png) top left repeat-x;*/
+}
+
+.compose-scroller .enyo-scrollfades-top {
+    /* background: transparent url(../images/header-divider-dropshadow.png) top left repeat-x; */
+    height: 26px;
+    background-size: 100% 26px;
+    background-position: center bottom;
+}
+
+.compose-scroller .enyo-scrollfades-bottom {
+    /* background: transparent url(../images/header-divider-dropshadow.png) bottom left repeat-x; */
+    height: 26px;
+    background-size: 100% 26px;
+    background-position: center top;
+}
+
+.attach-message {
+    /*	border-width: 0px 6px;
+     line-height: 40px;
+     height: 44px;*/
+    min-width: 32px;
+    /*text-align: center;*/
+    /*-webkit-border-image: url(../images/square-button-sprite.png) 0 6 40 6;*/
+}
+
+.attach-message.enyo-button-down {
+    /*-webkit-border-image: url(../images/square-button-sprite.png) 40 6 0 6;*/
+}
+
+.attach-message img {
+    margin: -4px 0 0 0;
+}
+
+.new-contacts-button {
+    min-width: 32px;
+    /*border-width: 0px 6px;
+             line-height: 40px;
+             height: 44px;
+
+             text-align: center;
+             -webkit-border-image: url(../images/square-button-sprite.png) 0 6 40 6;*/
+}
+
+.new-contacts-button.enyo-button-down {
+    /*-webkit-border-image: url(../images/square-button-sprite.png) 40 6 0 6;*/
+}
+
+.new-contacts-button img {
+    margin: 0 0 0 0;
+}
+
+.to-input .enyo-fancy-input {
+    font-size: 16px;
+}
+
+/*.compose-scroller .enyo-scrollfades-top {
+	background: transparent url(../images/header-divider-dropshadow.png) bottom left repeat-x;
+}*/
+
+.compose-shadow {
+    background: url(../images/compose_left_shadow.png) repeat-y;
+    pointer-events: none;
+}
+
+.compose-shadow.left {
+    background-position: right top;
+}
+
+.compose-shadow.right {
+    background-position: left top;
+    background: url(../images/compose_right_shadow.png) repeat-y;
+}
+
+.enyo-custom-button.attachment-button {
+    margin: 8px 8px 8px 14px;
+    width: 34px;
+    height: 34px;
+    background: transparent url(../images/attachments_button.png) 0px 0px no-repeat;
+}
+
+.enyo-custom-button.attachment-button.enyo-button-down {
+    background-position: 0px -33px;
+}
+
+.enyo-custom-button.other-button {
+    margin: 8px 8px 8px 14px;
+    width: 34px;
+    height: 34px;
+    background: transparent url(../images/more-menu-icon.png) 0px 0px no-repeat;
+}
+
+.enyo-custom-button.other-button.enyo-button-down {
+    background-position: 0px -32px;
+}
+
+.header-content {
+    margin-top: 4px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    color: #FFFFFF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.compose-attachment-overide {
+    border-bottom: 0px;
+    border-top: 0px;
+    padding: 0px;
+}
+
+.subject-box .enyo-input-input {
+    font-size: 16px;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.subject-box.flagged .compose-red-flag {
+    display: inline;
+}
+
+.subject-box > .enyo-middle {
+    margin-right: -14px;
+    padding-right: 14px;
+    margin-left: -74px;
+    padding-left: 74px;
+}
+
+.subject-box.flagged > .enyo-middle {
+    padding-right: 23px;
+}
+
+.desktop-background {
+    min-height: 740px;
+    background-position: center top;
+}
+
+.desktop-background-shade {
+    -webkit-transition: background-color 1s ease;
+}
+
+.desktop-background-gradient {
+    -webkit-border-image: url('../images/compose-background-shadow.png') 0 128 stretch;
+    border-width: 0 128px;
+    margin: 0 -128px;
+}
+
+.desktop-background-center {
+    margin: 0 auto;
+    max-width: 768px;
+}
+
+.dotted-bottom {
+    background: transparent url('../images/dottedline_separator.png') bottom repeat-x;
+    border: 1px transparent;
+}
+
+.compose-header-bar {
+    margin: 0 -2px;
+    -webkit-border-image: url('../images/header_chrome_tile.png') 0 6 repeat;
+    border-width: 0 6px;
+    position: relative;
+    margin-bottom: -6px;
+    z-index: 1;
+}
+
+.header-send-icon {
+    margin: -6px 2px 0px -6px;
+    width: 32px;
+    height: 32px;
+    background: transparent url('../images/header-send-icon.png') top left;
+}
+
+.enyo-button-down .header-send-icon {
+    background-position: bottom left;
+}
+
+.compose-red-flag {
+    margin: 12px 0 0 -30px;
+    display: none;
+}
+
+.enyo-input-input {
+    font-size: 16px;
+}

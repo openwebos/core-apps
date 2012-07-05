@@ -1,0 +1,48 @@
+[
+    {
+        "type": "db.kind",
+        "object": "com.palm.app.email.carrier_defaults:1",
+        "caller": "com.palm.*",
+        "operations": {
+            "read": "allow" 
+        } 
+    },
+
+    {
+        "type": "db.kind",
+        "object": "com.palm.app.email.carrier_defaults:1",
+        "caller": "com.palm.service.customization",
+        "operations": {
+            "create": "allow",
+            "read": "allow",
+            "update": "allow",
+            "delete": "allow"
+        }
+    },
+
+    {
+        "type": "db.kind",
+        "object": "com.palm.app.email.carrier_defaults:1",
+        "caller": "com.palm.app.email",
+        "operations": {
+            "create": "allow",
+            "read": "allow",
+            "update": "allow",
+            "delete": "allow",
+            "extend": "allow"
+        } 
+    },
+    
+    {
+        "type": "db.kind",
+        "object": "com.palm.app.email.carrier_defaults:1",
+        "caller": "com.palm.mail.*",
+        "operations": {
+            "create": "allow",
+            "read": "allow",
+            "update": "allow",
+            "delete": "allow",
+            "extend": "allow"
+        } 
+    }
+]

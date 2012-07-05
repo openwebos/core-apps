@@ -1,0 +1,943 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+﻿html {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Prelude, Prelude Medium, Segoe UI, Arial, Helvetica, Sans-Serif;
+    font-size: 14pt;
+    cursor: pointer;
+    background-color: #e4e4e2;
+}
+
+img {
+    vertical-align: middle;
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.phatBorder {
+    border-style: solid;
+    border-width: 5px;
+}
+
+.selection-checked {
+    /* Hi will need to edit this */
+    background: url(../images/selection-checkmark.png) top right no-repeat;
+}
+
+/**/
+
+.title {
+    text-align: right;
+    background-color: #444;
+    border-bottom: 1px solid black;
+    color: White;
+    padding: 4px;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.tools {
+    border-bottom: 1px solid gray;
+    /* Note: Moz: this object is in an xul-box with align: stretch, but it's display: -moz-box seems to prevent width stretching */
+    width: 100%;
+}
+
+.tools input {
+    padding: 4px;
+}
+
+.enyo-hlayout > .enyo-tool-button {
+    padding: 5px;
+}
+
+/**/
+
+.divider {
+    background: #e4e4e2 url(../images/palm-divider-collapse-left.png) repeat-x;
+}
+
+.divider-image {
+    background: #e4e4e2;
+}
+
+.divider-label {
+    background-color: inherit;
+    padding: 0px 8px;
+    text-transform: uppercase;
+    color: #2d6c94;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+/**/
+
+.folder-name {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 12px;
+}
+
+.folder-unread {
+    position: relative;
+    /*right: 12px;*/
+    float: right;
+    padding: 4px 0px;
+    border-width: 0px 11px 0px 11px;
+    -webkit-border-image: url(../images/dashboard-unread.png) 0 11 0 11;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.folder-favorite {
+    float: right;
+    position: relative;
+    padding: 18px 0;
+    margin: -10px -10px 0 0;
+}
+
+.folder-favorite-icon {
+    height: 24px;
+    width: 50px;
+    background: url(../images/star.png) center 0px no-repeat;
+}
+
+.enyo-button-depressed > .folder-favorite-icon {
+    background: url(../images/star.png) center -24px no-repeat;
+}
+
+.indent-1 {
+    margin-left: 20px;
+}
+
+.indent-2 {
+    margin-left: 40px;
+}
+
+.indent-3 {
+    margin-left: 60px;
+}
+
+.indent-4 {
+    margin-left: 80px;
+}
+
+/**/
+.account-folder-title {
+    max-width: 230px;
+    margin: 0 0 0 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 32px;
+    line-height: 32px;
+}
+
+.sync-activity-animation.count2 > .account-folder-title {
+    max-width: 230px;
+}
+
+.sync-activity-animation.count3 > .account-folder-title {
+    max-width: 222px;
+}
+
+.sync-activity-animation.count4 > .account-folder-title {
+    max-width: 213px;
+}
+
+.mail-list {
+    background-color: #E6E6E6;
+}
+
+.mail-unread {
+    float: right;
+    border-width: 0px 11px 0px 11px;
+    -webkit-border-image: url(../images/email-badge.png) 0 11 0 11;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 12px;
+    height: 26px;
+    line-height: 26px;
+}
+
+.mail-unread-header {
+    border-width: 0px 11px 0px 11px;
+    -webkit-border-image: url(../images/dashboard-unread.png) 0 11 0 11;
+    color: white;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+}
+
+.sync-activity-animation.count2 > .mail-unread-header {
+    width: 36px;
+}
+
+.sync-activity-animation.count3 > .mail-unread-header {
+    width: 44px;
+}
+
+.sync-activity-animation.count4 > .mail-unread-header {
+    width: 55px;
+}
+
+.mail-unread-header.inside-pill {
+    color: #1F1F1F;
+}
+
+.mail-unread-header.error {
+    color: red;
+}
+
+.mail-item {
+    position: relative;
+    /*	padding:14px 12px 14px 24px;*/
+}
+
+.mail-item .dark-swipeable-client {
+/ / padding : 14 px 12 px 14 px 4 px;
+    /*from enyo-item*/
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+/ / height : 60 px;
+    font-size: .9rem;
+}
+
+.mail-item .dark-swipeable-client,
+.mail-item .enyo-confirmprompt {
+    margin: -20px 0px;
+}
+
+.mail-item.first .dark-swipeable-client,
+.mail-item.first .enyo-confirmprompt {
+    margin: -3px 0px -20px 0px;
+}
+
+.mail-item.enyo-held .dark-swipeable-client {
+    border-top-color: transparent;
+    background: transparent url(../images/highlight-bg.png) left top no-repeat;
+    -webkit-background-size: 100% 100%;
+}
+
+.mail-item.dark-swipeable {
+    padding: 0px;
+}
+
+.mail-from, .mail-subject, .mail-blurb {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.mail-when {
+    padding-top: 4px;
+    font-size: 12px;
+    color: #828282;
+}
+
+.mail-from {
+    font-size: 18px;
+}
+
+.mail-subject {
+    font-size: 14px;
+    color: #333333;
+}
+
+.mail-blurb {
+    font-size: 14px;
+    color: #828282;
+}
+
+.mail-status-icon {
+    position: absolute;
+    left: 4px;
+    top: 41px;
+}
+
+.mail-calendar-icon {
+    position: absolute;
+    left: 4px;
+    top: 55px;
+}
+
+.mail-flag-icon {
+    position: absolute;
+    left: 0px;
+    top: 5px;
+}
+
+.mail-priority-icon {
+    position: absolute;
+    left: 0px;
+    top: 22px;
+}
+
+.mail-attach-icon {
+    vertical-align: top;
+    padding: 0px 8px;
+}
+
+.mail-divider {
+    margin: -1px 0px;
+    padding: 4px 0 0 24px;
+    background: #e4e4e2 url(../images/palm-divider-collapse-left.png) repeat-x;
+}
+
+.mail-icon-padding {
+    padding: 0px;
+}
+
+/* Body */
+
+/*  Don't use padding here, it breaks the webview */
+.mail-body {
+    font-size: 16px;
+    width: 100%;
+}
+
+.mail-body-from-box {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mail-body-from {
+    font-size: 34px;
+    font-family: PreludeWGL-Light;
+    overflow: hidden;
+    margin-right: 10px;
+    margin-left: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333333;
+    padding-top: 10px;
+}
+
+.mail-body-recipients-caption {
+    color: #2d6c94;
+    display: inline;
+    /*	border-width: 0px 4px;
+     line-height: 38px;
+     height: 38px;
+     min-width: 38px;
+     text-align: center;*/
+    margin: 0 8px 0 0;
+    /*-webkit-border-image: url(../images/square-button-sprite.png) 0 4 40 4;*/
+}
+
+.mail-body-recipients-person {
+    display: inline;
+    margin: 0 4px 0 4px;
+}
+
+.mail-body-recipients {
+    font-size: 16px;
+    line-height: 40px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.mail-body-recipients.expanded {
+    color: gray;
+}
+
+.mail-body-subject {
+    color: black;
+    font-size: 16px;
+    /*background: transparent url(../images/command-menu-bg.png) left -10px repeat-x;*/
+    padding: 3px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.mail-body-subject-label {
+    color: #2d6c94;
+    line-height: 38px;
+    margin: 0 8px 0 0;
+    text-transform: capitalize;
+}
+
+.mail-body-from-photo {
+    position: absolute;
+    right: 8px;
+    top: 10px;
+    height: 60px;
+    width: 58px;
+    background-image: url(../images/msg-avatar-unclipped-well.png);
+}
+
+.mail-body-from-photo img {
+    -webkit-border-radius: 7px;
+    width: 44px;
+    height: 45px;
+    margin: 6px 7px;
+}
+
+.mail-body-meeting-invite {
+    margin: 0 50px 0 0;
+}
+
+/* lifted from Palm Email reference app */
+
+.mail-from {
+    overflow: hidden;
+    margin-right: 8px;
+    padding: 0px;
+    /*font-size: 18px;*/
+}
+
+.mail-when {
+    text-align: right;
+    /*font-size: 15px;
+         color: #777;*/
+}
+
+/* accounts */
+
+.domain-text {
+    font-size: 18px;
+    margin-left: 38px;
+}
+
+.login-text {
+    font-size: 14px;
+    color: #999;
+    /*margin-left: 38px; */
+    display: block;
+}
+
+.selected .domain-text,
+.selected .login-text {
+    color: #fff;
+}
+
+img .accountIcon {
+    float: left;
+    clear: left;
+    margin-left: 5px;
+}
+
+.accountName {
+    font-size: 16px;
+    color: #828282;
+    text-shadow: #ffffff 0px 1px 0px;
+    font-weight: bold;
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: -4px;
+    margin-left: 5px;
+}
+
+.body-header {
+    overflow: hidden;
+    background: transparent url(../images/paper_page_texture.png) repeat;
+}
+
+.readview-top-texture {
+    width: "100%";
+    height: 7px;
+    background: transparent url(../images/read_view_top_texture.png) repeat-x;
+}
+
+.sexyfresh-dough {
+    background: transparent url(../images/paper_page_texture.png) repeat;
+}
+
+.body-header > .mail-body-subject {
+    /*background-color:#eeeeee;*/
+}
+
+.body-placeholder {
+    background: #F9f9f9 url(../images/defaultview-panel-tile.png) bottom left repeat-x;
+}
+
+.inbox-header-chrome {
+    background: #FFFFFF url(../images/inbox-header-chrome.png) bottom left repeat-x;
+}
+
+.inbox-multiselect-chrome {
+    background: #FFFFFF url(../images/multi-select-header.png) bottom left repeat-x;
+}
+
+.enyo-toolbar-light.multiselect-color {
+    -webkit-border-image: url(../images/multi-select-header.png) 1 4 1 4 repeat repeat;
+}
+
+.mark-unread-text {
+    font-size: 15px;
+    color: #2D6C94;
+    text-align: right;
+    text-transform: capitalize;
+}
+
+.flag-message {
+    border-width: 0px 6px;
+    line-height: 40px;
+    height: 44px;
+    min-width: 32px;
+    text-align: center;
+    -webkit-border-image: url(../images/square-button-sprite.png) 0 6 40 6;
+}
+
+.flag-message.enyo-button-down {
+    -webkit-border-image: url(../images/square-button-sprite.png) 40 6 0 6;
+}
+
+.flag-message img {
+    margin: -8px 0 0 0;
+}
+
+/*sync activity animations*/
+.sync-activity-animation {
+    position: absolute;
+    right: 9px;
+    top: 14px;
+    width: 56px;
+    height: 26px;
+    background: url(../images/sync-activity-animation-1character.png) no-repeat;
+}
+
+.sync-activity-animation.count2 {
+    background: url(../images/sync-activity-animation-2characters.png) no-repeat;
+}
+
+.sync-activity-animation.count3 {
+    background: url(../images/sync-activity-animation-3characters.png) no-repeat;
+}
+
+.sync-activity-animation.count4 {
+    background: url(../images/sync-activity-animation-4characters.png) no-repeat;
+}
+
+.sync-activity-animation.frame1 {
+    background-position: 0px -26px;
+}
+
+.sync-activity-animation.frame2 {
+    background-position: 0px -52px;
+}
+
+.sync-activity-animation.frame3 {
+    background-position: 0px -78px;
+}
+
+.sync-activity-animation.frame4 {
+    background-position: 0px -104px;
+}
+
+.sync-activity-animation.frame5 {
+    background-position: 0px -130px;
+}
+
+.sync-activity-animation.frame6 {
+    background-position: 0px -156px;
+}
+
+.sync-activity-animation.frame7 {
+    background-position: 0px -182px;
+}
+
+.sync-activity-animation.frame8 {
+    background-position: 0px -208px;
+}
+
+.sync-activity-animation.frame9 {
+    background-position: 0px -234px;
+}
+
+.sync-activity-animation.frame10 {
+    background-position: 0px -260px;
+}
+
+.sync-activity-animation.frame11 {
+    background-position: 0px -286px;
+}
+
+.sync-activity-animation.frame12 {
+    background-position: 0px -312px;
+}
+
+.sync-activity-animation.frame13 {
+    background-position: 0px -338px;
+}
+
+.sync-activity-animation.frame14 {
+    background-position: 0px -364px;
+}
+
+.sync-activity-animation.frame15 {
+    background-position: 0px -390px;
+}
+
+.sync-activity-animation.frame16 {
+    background-position: 0px -416px;
+}
+
+.sync-activity-animation.frame17 {
+    background-position: 0px -442px;
+}
+
+.sync-activity-animation.frame18 {
+    background-position: 0px -468px;
+}
+
+.sync-activity-animation.frame19 {
+    background-position: 0px -494px;
+}
+
+.sync-activity-animation.frame20 {
+    background-position: 0px -520px;
+}
+
+.sync-activity-animation.frame21 {
+    background-position: 0px -546px;
+}
+
+.sync-activity-animation.frame22 {
+    background-position: 0px -572px;
+}
+
+.sync-activity-animation.frame23 {
+    background-position: 0px -598px;
+}
+
+.sync-activity-animation.frame24 {
+    background-position: 0px -624px;
+}
+
+/*
+img.floatLeft {
+    float: left;
+    margin: 4px;
+}
+img.floatRight {
+    float: right;
+    margin: 4px;
+}
+*/
+
+.flag {
+    width: 16px;
+    /*float: right;
+        position: relative;
+        padding: 18px 0;
+        margin: -10px -10px 0 0;*/
+}
+
+.flag-icon {
+    margin: -6px -2px 0 0;
+    height: 26px;
+    background: url(../images/flag_toggle.png) center 0px no-repeat;
+}
+
+.enyo-button-depressed > .flag-icon {
+    background: url(../images/flag_toggle.png) center -32px no-repeat;
+}
+
+.print-button {
+    width: 32px;
+    margin: 0 8px;
+}
+
+.print-icon {
+    margin: -6px -2px 0 0;
+    height: 32px;
+    background: url(../images/header-print-icon.png) center 0px no-repeat;
+}
+
+.enyo-button-down > .print-icon {
+    background: url(../images/header-print-icon.png) center -32px no-repeat;
+}
+
+.decline-icon {
+    margin: -6px;
+    height: 32px;
+    background: url(../images/invite-icon-decline.png) center 0px no-repeat;
+}
+
+.enyo-button-down > .decline-icon {
+    background: url(../images/invite-icon-decline.png) center -32px no-repeat;
+}
+
+.maybe-icon {
+    margin: -6px;
+    height: 32px;
+    background: url(../images/invite-icon-maybe.png) center 0px no-repeat;
+}
+
+.enyo-button-down > .maybe-icon {
+    background: url(../images/invite-icon-maybe.png) center -32px no-repeat;
+}
+
+.accept-icon {
+    margin: -6px;
+    height: 32px;
+    background: url(../images/invite-icon-accept.png) center 0px no-repeat;
+}
+
+.enyo-button-down > .accept-icon {
+    background: url(../images/invite-icon-accept.png) center -32px no-repeat;
+}
+
+.avatar-image-box {
+    background: transparent url('../images/profile_pic_container.png') center center;
+    margin: 0px 6px 0px 0px;
+}
+
+.enyo-rounded-box-inner {
+    margin: 8px 0px 0px;
+}
+
+.enyo-tool-button.enyo-button-disabled {
+    opacity: 0.5;
+}
+
+/*
+.disabled-toolbar .enyo-tool-button {
+	opacity:0.5;
+}*/
+
+.time-box {
+    text-align: center;
+    margin-right: 4px;
+}
+
+.short-time-box {
+
+}
+
+.when-date {
+    display: inline;
+    font-family: Prelude Medium;
+    color: #3a8bcb;
+    font-size: 16px;
+}
+
+.mail-when-month {
+    color: #0066cc;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.mail-when-day {
+    font-family: PreludeWGL-Light;
+    color: #333;
+    font-size: 38px;
+    border-bottom: 1px solid #DEDEDE;
+    font-weight: lighter;
+    margin: -3px -4px 0 -4px;
+    line-height: 45px;
+}
+
+.mail-when-time {
+    margin-top: 3px;
+    color: #666;
+    font-size: 14px;
+    font-weight: medium;
+}
+
+.dotted-bottom {
+    background: transparent url('../images/dottedline_separator.png') bottom repeat-x;
+    border: 1px transparent;
+}
+
+.enyo-toolbar {
+    min-height: 56px;
+}
+
+.header-shadow,
+.footer-shadow,
+.search-shadow,
+.message-header-shadow {
+    position: absolute;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.message-header-shadow {
+    margin-bottom: -5px;
+    height: 5px;
+    width: 100%;
+    background: transparent url('../images/email_header_dropshadow.png') bottom repeat-x;
+}
+
+.header-shadow {
+    top: 0;
+    height: 59px;
+    width: 100%;
+    background: transparent url('../images/light_chrome_drop_shadow_header.png') bottom repeat-x;
+}
+
+.footer-shadow {
+    bottom: 0;
+    height: 59px;
+    width: 100%;
+    background: transparent url('../images/light_chrome_drop_shadow_footer.png') top repeat-x;
+}
+
+.search-shadow {
+    top: 0;
+    height: 107px;
+    width: 100%;
+    background: transparent url('../images/light_chrome_drop_shadow_header.png') bottom repeat-x;
+}
+
+.toolbar-spacer {
+    width: 18px;
+}
+
+.two-panel-expanded .toolbar-spacer {
+    width: 30px;
+}
+
+.folder-info-title {
+    text-align: center;
+    padding-bottom: 6px;
+}
+
+.folder-info-item {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.body-stamp {
+    position: absolute;
+    z-index: 1;
+    right: 75px;
+}
+
+.mini-priority-box {
+    position: absolute;
+    z-index: 1;
+    right: 10px;
+    top: -14px;
+    -webkit-transform: rotate(-2.5deg);
+    max-width: 195px;
+    overflow: hidden;
+}
+
+.body-stamp.flagged-stamp {
+    width: 173px;
+    height: 85px;
+    background: transparent url('../images/flag_stamp.png') top right no-repeat;
+}
+
+.body-stamp.priority-stamp {
+    width: 297px;
+    height: 85px;
+    /*-webkit-transform:rotate(-10deg);*/
+}
+
+.priority-text {
+    display: none;
+}
+
+.priority-image {
+    display: none;
+}
+
+.body-stamp.priority-stamp .priority-text {
+    display: block;
+    font-weight: bold;
+    font-size: 27px;
+    color: rgba(239, 101, 101, 1.0);
+    text-align: right;
+    text-transform: uppercase;
+    line-height: 85px;
+    margin-top: -20px;
+}
+
+.body-stamp.priority-stamp .priority-image {
+    /*border:1px solid green;*/
+    display: block;
+    margin-top: -85px;
+    width: 297px;
+    height: 85px;
+    /*background:gray url('../images/priority_stamp_overlay.png') top right no-repeat;*/
+}
+
+.mini-priority-text {
+    display: none;
+}
+
+.mini-priority-image {
+    display: none;
+}
+
+.body-stamp.priority-stamp .mini-priority-text {
+    display: block;
+    font-weight: bold;
+    font-size: 28px;
+    color: rgba(128, 0, 0, 0.25);
+    text-align: right;
+    text-transform: uppercase;
+    line-height: 85px;
+    margin-top: -20px;
+}
+
+.body-stamp.priority-stamp .mini-priority-image {
+    /*border:1px solid green;*/
+    display: block;
+    margin-top: -85px;
+    width: 297px;
+    height: 85px;
+    /*background:gray url('../images/priority_stamp_overlay.png') top right no-repeat;*/
+}
+
+.no-overflow-button {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mark-unread-button {
+    min-width: 119px;
+    max-width: 175px;
+}
+
+.drawer-arrow {
+    margin: -6px 0px 0px -11px;
+    background: url('../images/drawer_arrow.png');
+}
+
+.inline-megaaudio {
+    margin: 0 14px;
+    max-width: 300px;
+}
+
+.enyo-modaldialog .palm-paragraph {
+    margin: 0 5px 10px 5px;
+}
