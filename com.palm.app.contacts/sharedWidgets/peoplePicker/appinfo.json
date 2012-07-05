@@ -1,0 +1,9 @@
+{
+    "title"   : "PersonListWidgetApp",
+    "type"    : "web",
+    "main"    : "peoplepicker.html",
+    "id"      : "com.palm.contacts.sharedwidgets.peoplepicker",
+    "version" : "1.0.0",
+    "vendor"  : "HP",
+    "noWindow": true
+}
