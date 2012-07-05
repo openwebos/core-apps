@@ -23,9 +23,13 @@ Clock Application for webOS. It was built using Enyo 1.0.
 
 Core
 -------
+This repository contains Clock Application for webOS. 
+
 index.html - This is the main html file which creates the main JS object for the App.
 
-source / - App Source Code folder. It contains the following sub-folders
+main / - App Source Code folder. It contains the main javascript file, alarm list and edit JS files. 
+
+dashAlarm / dashboard - contains JS code to create and manage Alarm dashboards.
 
 css/ - This folder contains the CSS stylesheets used by APP UI.
 
@@ -34,3 +38,5 @@ images/ - This folder contains all the UI images.
 appinfo.json - App description file. 
 
 depends.js - Required by Enyo 1.0. This file contains the list of all Javascript and CSS files that are used by the App. 
+
+configuration - This folder contains webOS db8 (MojoDB) schema definitions and DB permissions. 
