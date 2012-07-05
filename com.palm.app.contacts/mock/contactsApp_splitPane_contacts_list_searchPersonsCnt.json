@@ -1,0 +1,843 @@
+{
+    "returnValue": true,
+    "results"    : [
+        {
+            "_id"         : "++HLXrxSWCRov5zi",
+            "_kind"       : "com.palm.person:1",
+            "_rev"        : 452,
+            "addresses"   : [
+            ],
+            "anniversary" : "",
+            "birthday"    : "1991-03-01",
+            "contactIds"  : [
+                "++HLXrxAgpKCPj+n"
+            ],
+            "emails"      : [
+                {
+                    "_id"            : "1b9",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "muddy@hotmail.com",
+                    "primary"        : false,
+                    "type"           : "type_home",
+                    "value"          : "muddy@hotmail.com"
+                }
+            ],
+            "favorite"    : false,
+            "gender"      : "",
+            "ims"         : [
+            ],
+            "launcherId"  : "",
+            "name"        : {
+                "familyName"     : "Long",
+                "givenName"      : "Andrew",
+                "honorificPrefix": "",
+                "honorificSuffix": "",
+                "middleName"     : ""
+            },
+            "names"       : [
+                {
+                    "_id"       : "1c5",
+                    "familyName": "Long",
+                    "givenName" : "Andrew"
+                }
+            ],
+            "nickname"    : "",
+            "notes"       : [
+            ],
+            "organization": {
+                "department" : "",
+                "description": "",
+                "endDate"    : "",
+                "location"   : {
+                    "country"      : "",
+                    "locality"     : "",
+                    "postalCode"   : "",
+                    "primary"      : false,
+                    "region"       : "",
+                    "streetAddress": "",
+                    "type"         : "type_work"
+                },
+                "name"       : "",
+                "startDate"  : "",
+                "title"      : "",
+                "type"       : ""
+            },
+            "phoneNumbers": [
+            ],
+            "photos"      : {
+                "accountId"      : "++HLXrwY4JGq0Jp9",
+                "bigPhotoId"     : "1ba",
+                "bigPhotoPath"   : "mock/monkey.jpg",
+                "contactId"      : "++HLXrxAgpKCPj+n",
+                "listPhotoPath"  : "mock/monkey.jpg",
+                "listPhotoSource": "type_square",
+                "squarePhotoId"  : "1bb",
+                "squarePhotoPath": "mock/monkey.jpg"
+            },
+            "relations"   : [
+            ],
+            "reminder"    : "",
+            "ringtone"    : {
+                "location": "",
+                "name"    : ""
+            },
+            "searchTerms" : [
+                "along",
+                "longandrew"
+            ],
+            "sortKey"     : "long\tandrew",
+            "urls"        : [
+            ]
+        },
+        {
+            "_id"         : "2+4F",
+            "_kind"       : "com.palm.person:1",
+            "_rev"        : 336,
+            "addresses"   : [
+
+            ],
+            "anniversary" : "",
+            "birthday"    : "",
+            "contactIds"  : [
+                "1z3"
+            ],
+            "emails"      : [
+                {
+                    "_id"            : "2+4G",
+                    "favoriteData"   : {
+
+                    },
+                    "normalizedValue": "mitch.allen@palm.com",
+                    "primary"        : false,
+                    "type"           : "type_home",
+                    "value"          : "mitch.allen@palm.com"
+                }
+            ],
+            "favorite"    : true,
+            "gender"      : "",
+            "ims"         : [
+                {
+                    "favoriteData"   : {
+                    },
+                    "label"          : "label_other",
+                    "normalizedValue": "myskypename",
+                    "primary"        : false,
+                    "type"           : "type_skype",
+                    "value"          : "Myskypename",
+                    "x_displayType"  : "SKYPE"
+                }
+            ],
+            "launcherId"  : "",
+            "name"        : {
+                "familyName"     : "Allen",
+                "givenName"      : "Mitch",
+                "honorificPrefix": "",
+                "honorificSuffix": "",
+                "middleName"     : ""
+            },
+            "names"       : [
+                {
+                    "_id"            : "2+4H",
+                    "familyName"     : "Allen",
+                    "givenName"      : "Mitch",
+                    "honorificPrefix": "",
+                    "honorificSuffix": "",
+                    "middleName"     : ""
+                }
+            ],
+            "notes"       : [
+
+            ],
+            "organization": {
+                "department" : "",
+                "description": "",
+                "endDate"    : "",
+                "location"   : {
+                    "country"      : "",
+                    "locality"     : "",
+                    "postalCode"   : "",
+                    "primary"      : false,
+                    "region"       : "",
+                    "streetAddress": "",
+                    "type"         : "type_work",
+                    "value"        : ""
+                },
+                "name"       : "",
+                "startDate"  : "",
+                "title"      : "",
+                "type"       : ""
+            },
+            "phoneNumbers": [
+                {
+                    "_id"            : "2+4I",
+                    "favoriteData"   : {
+
+                    },
+                    "normalizedValue": "-4321117-056--",
+                    "primary"        : false,
+                    "speedDial"      : "",
+                    "type"           : "type_mobile",
+                    "value"          : "650-711-1234"
+                }
+            ],
+            "photos"      : {
+                "accountId"      : "++HJi22ZkK2izgO2",
+                "bigPhotoId"     : "8b",
+                "bigPhotoPath"   : "mock/mitch.jpg",
+                "contactId"      : "++HJi22oAcVJHPj1",
+                "listPhotoPath"  : "mock/mitch.jpg",
+                "listPhotoSource": "type_square",
+                "squarePhotoId"  : "8a",
+                "squarePhotoPath": "mock/mitch.jpg"
+            },
+            "relations"   : [
+
+            ],
+            "reminder"    : null,
+            "ringtone"    : {
+                "location": "",
+                "name"    : ""
+            },
+            "searchTerms" : [
+                "mallen",
+                "allenmitch"
+            ],
+            "sortKey"     : "allen\tmitch",
+            "urls"        : [
+
+            ]
+        },
+        {
+            "_id"         : "2+4S",
+            "_kind"       : "com.palm.person:1",
+            "_rev"        : 349,
+            "addresses"   : [
+
+            ],
+            "anniversary" : "",
+            "birthday"    : "",
+            "contactIds"  : [
+                "1zF"
+            ],
+            "emails"      : [
+                {
+                    "_id"            : "2+4T",
+                    "favoriteData"   : {
+
+                    },
+                    "normalizedValue": "mark.lam@palm.com",
+                    "primary"        : false,
+                    "type"           : "type_home",
+                    "value"          : "mark.lam@palm.com"
+                }
+            ],
+            "favorite"    : false,
+            "gender"      : "",
+            "ims"         : [
+
+            ],
+            "launcherId"  : "",
+            "name"        : {
+                "familyName"     : "Lam",
+                "givenName"      : "Mark",
+                "honorificPrefix": "",
+                "honorificSuffix": "",
+                "middleName"     : ""
+            },
+            "names"       : [
+                {
+                    "_id"            : "2+4U",
+                    "familyName"     : "Lam",
+                    "givenName"      : "Mark",
+                    "honorificPrefix": "",
+                    "honorificSuffix": "",
+                    "middleName"     : ""
+                }
+            ],
+            "notes"       : [
+
+            ],
+            "organization": {
+                "department" : "",
+                "description": "",
+                "endDate"    : "",
+                "location"   : {
+                    "country"      : "",
+                    "locality"     : "",
+                    "postalCode"   : "",
+                    "primary"      : false,
+                    "region"       : "",
+                    "streetAddress": "",
+                    "type"         : "type_work",
+                    "value"        : ""
+                },
+                "name"       : "",
+                "startDate"  : "",
+                "title"      : "",
+                "type"       : ""
+            },
+            "phoneNumbers": [
+
+            ],
+            "photos"      : {
+                "accountId"      : "++HJi22ZkK2izgO2",
+                "bigPhotoId"     : "8b",
+                "bigPhotoPath"   : "mock/snowboarder.jpg",
+                "contactId"      : "++HJi22oAcVJHPj1",
+                "listPhotoPath"  : "mock/snowboarder.jpg",
+                "listPhotoSource": "type_square",
+                "squarePhotoId"  : "8a",
+                "squarePhotoPath": "mock/snowboarder.jpg"
+            },
+            "relations"   : [
+
+            ],
+            "reminder"    : null,
+            "ringtone"    : {
+                "location": "",
+                "name"    : ""
+            },
+            "searchTerms" : [
+                "mlam",
+                "lammark"
+            ],
+            "sortKey"     : "lam\tmark",
+            "urls"        : [
+
+            ]
+        },
+        {
+            "_id"         : "++HLXrxU1MwHq_mE",
+            "_kind"       : "com.palm.person:1",
+            "_rev"        : 1099,
+            "addresses"   : [
+            ],
+            "anniversary" : "",
+            "birthday"    : "1992-03-04",
+            "contactIds"  : [
+                "++HLXrxAgq059Uzk",
+                "++HLXrxAgo3l+YiX",
+                "++HLXsixOy0PM57E",
+                "++HLXsNcVKSowVV4"
+            ],
+            "emails"      : [
+                {
+                    "_id"            : "1bd",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "richardpalmtest@gmail.com",
+                    "primary"        : false,
+                    "type"           : "type_home",
+                    "value"          : "richardpalmtest@gmail.com"
+                },
+                {
+                    "_id"            : "1b5",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "richard@hotmail.com",
+                    "primary"        : false,
+                    "type"           : "type_home",
+                    "value"          : "richard@hotmail.com"
+                }
+            ],
+            "favorite"    : false,
+            "gender"      : "",
+            "ims"         : [
+            ],
+            "launcherId"  : "",
+            "name"        : {
+                "familyName"     : "Palm",
+                "givenName"      : "Richard",
+                "honorificPrefix": "",
+                "honorificSuffix": "",
+                "middleName"     : ""
+            },
+            "names"       : [
+                {
+                    "_id"       : "44c",
+                    "familyName": "Palm",
+                    "givenName" : "Richard"
+                },
+                {
+                    "_id"       : "44d",
+                    "familyName": "Sibley",
+                    "givenName" : "Richard"
+                },
+                {
+                    "_id"            : "44e",
+                    "familyName"     : "",
+                    "givenName"      : "Richard Sibley",
+                    "honorificPrefix": "",
+                    "honorificSuffix": "",
+                    "middleName"     : ""
+                }
+            ],
+            "nickname"    : "",
+            "notes"       : [
+            ],
+            "organization": {
+                "department" : "",
+                "description": "",
+                "endDate"    : "",
+                "location"   : {
+                    "country"      : "",
+                    "locality"     : "",
+                    "postalCode"   : "",
+                    "primary"      : false,
+                    "region"       : "",
+                    "streetAddress": "",
+                    "type"         : "type_work"
+                },
+                "name"       : "",
+                "startDate"  : "",
+                "title"      : "",
+                "type"       : ""
+            },
+            "phoneNumbers": [
+            ],
+            "photos"      : {
+                "accountId"      : "++HLXrwY4JGq0Jp9",
+                "bigPhotoId"     : "1be",
+                "bigPhotoPath"   : "mock/hamster.jpg",
+                "contactId"      : "++HLXrxAgq059Uzk",
+                "listPhotoPath"  : "mock/hamster.jpg",
+                "listPhotoSource": "type_square",
+                "squarePhotoId"  : "1bf",
+                "squarePhotoPath": "mock/hamster.jpg"
+            },
+            "relations"   : [
+            ],
+            "reminder"    : "",
+            "ringtone"    : {
+                "location": "",
+                "name"    : ""
+            },
+            "searchTerms" : [
+                "rpalm",
+                "palmrichard",
+                "rsibley",
+                "sibleyrichard"
+            ],
+            "sortKey"     : "palm\trichard",
+            "urls"        : [
+            ]
+        },
+        {
+            "_id"         : "++HLXsObAuSDzwO3",
+            "_kind"       : "com.palm.person:1",
+            "_rev"        : 906,
+            "addresses"   : [
+                {
+                    "_id"          : "31f",
+                    "country"      : "",
+                    "locality"     : "Mountain View",
+                    "postalCode"   : "94040",
+                    "primary"      : false,
+                    "region"       : "CA",
+                    "streetAddress": "123 Home St.",
+                    "type"         : "type_home"
+                },
+                {
+                    "_id"          : "320",
+                    "country"      : "",
+                    "locality"     : "Mountain View",
+                    "postalCode"   : "94040",
+                    "primary"      : false,
+                    "region"       : "CA",
+                    "streetAddress": "123 Work St.",
+                    "type"         : "type_work"
+                },
+                {
+                    "_id"          : "321",
+                    "country"      : "",
+                    "locality"     : "",
+                    "postalCode"   : "",
+                    "primary"      : false,
+                    "region"       : "",
+                    "streetAddress": "123 Other St.\nP.O. Box 9876\nMountain View, CA 94040",
+                    "type"         : "type_other"
+                }
+            ],
+            "anniversary" : "2006-08-27",
+            "birthday"    : "1995-04-17",
+            "contactIds"  : [
+                "++HLXsNcVKByvaSw"
+            ],
+            "emails"      : [
+                {
+                    "_id"            : "324",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "joe-home@blow.com",
+                    "primary"        : true,
+                    "type"           : "type_home",
+                    "value"          : "joe-home@blow.com"
+                },
+                {
+                    "_id"            : "325",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "joe-work@blow.com",
+                    "primary"        : false,
+                    "type"           : "type_work",
+                    "value"          : "joe-work@blow.com"
+                },
+                {
+                    "_id"            : "326",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "joe-other@blow.com",
+                    "primary"        : false,
+                    "type"           : "type_other",
+                    "value"          : "joe-other@blow.com"
+                }
+            ],
+            "favorite"    : false,
+            "gender"      : "",
+            "ims"         : [
+                {
+                    "_id"            : "327",
+                    "favoriteData"   : {
+                    },
+                    "label"          : "label_home",
+                    "normalizedValue": "joe.blow.gtalk2",
+                    "primary"        : false,
+                    "type"           : "type_gtalk",
+                    "value"          : "joe.blow.gtalk2"
+                },
+                {
+                    "_id"            : "328",
+                    "favoriteData"   : {
+                    },
+                    "label"          : "label_other",
+                    "normalizedValue": "joe.blow.aim",
+                    "primary"        : false,
+                    "type"           : "type_aim",
+                    "value"          : "joe.blow.aim"
+                },
+                {
+                    "_id"            : "329",
+                    "favoriteData"   : {
+                    },
+                    "label"          : "label_other",
+                    "normalizedValue": "joe.blow.yahoo",
+                    "primary"        : false,
+                    "type"           : "type_yahoo",
+                    "value"          : "joe.blow.yahoo"
+                },
+                {
+                    "_id"            : "32a",
+                    "favoriteData"   : {
+                    },
+                    "label"          : "label_other",
+                    "normalizedValue": "joe.blow.skype",
+                    "primary"        : false,
+                    "type"           : "type_skype",
+                    "value"          : "joe.blow.skype"
+                },
+                {
+                    "_id"            : "32b",
+                    "favoriteData"   : {
+                    },
+                    "label"          : "label_other",
+                    "normalizedValue": "joe.blow.qq",
+                    "primary"        : false,
+                    "type"           : "type_qq",
+                    "value"          : "joe.blow.qq"
+                },
+                {
+                    "_id"            : "32c",
+                    "favoriteData"   : {
+                    },
+                    "label"          : "label_other",
+                    "normalizedValue": "joe.blow.msn",
+                    "primary"        : false,
+                    "type"           : "type_msn",
+                    "value"          : "joe.blow.msn"
+                },
+                {
+                    "_id"            : "32d",
+                    "favoriteData"   : {
+                    },
+                    "label"          : "label_other",
+                    "normalizedValue": "joe.blow.icq",
+                    "primary"        : false,
+                    "type"           : "type_icq",
+                    "value"          : "joe.blow.icq"
+                },
+                {
+                    "_id"            : "32e",
+                    "favoriteData"   : {
+                    },
+                    "label"          : "label_other",
+                    "normalizedValue": "joe.blow.jabber",
+                    "primary"        : false,
+                    "type"           : "type_jabber",
+                    "value"          : "joe.blow.jabber"
+                }
+            ],
+            "launcherId"  : "",
+            "name"        : {
+                "familyName"     : "Blow2",
+                "givenName"      : "Joe",
+                "honorificPrefix": "",
+                "honorificSuffix": "",
+                "middleName"     : ""
+            },
+            "names"       : [
+                {
+                    "_id"       : "38b",
+                    "familyName": "Blow2",
+                    "givenName" : "Joe"
+                }
+            ],
+            "nickname"    : "Joe-vial",
+            "notes"       : [
+                "notes notes notes and more notes"
+            ],
+            "organization": {
+                "_id"        : "32f",
+                "department" : "",
+                "description": "",
+                "endDate"    : "",
+                "location"   : {
+                    "country"      : "",
+                    "locality"     : "",
+                    "postalCode"   : "",
+                    "primary"      : false,
+                    "region"       : "",
+                    "streetAddress": "",
+                    "type"         : "type_work"
+                },
+                "name"       : "joes, inc",
+                "startDate"  : "",
+                "title"      : "Chief Joe",
+                "type"       : "type_work"
+            },
+            "phoneNumbers": [
+                {
+                    "_id"            : "330",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "-1789432-804--",
+                    "primary"        : false,
+                    "speedDial"      : "",
+                    "type"           : "type_home",
+                    "value"          : "408-234-9871"
+                },
+                {
+                    "_id"            : "331",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "-2789432-804--",
+                    "primary"        : false,
+                    "speedDial"      : "",
+                    "type"           : "type_work",
+                    "value"          : "408-234-9872"
+                },
+                {
+                    "_id"            : "332",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "-3789432-804--",
+                    "primary"        : false,
+                    "speedDial"      : "",
+                    "type"           : "type_mobile",
+                    "value"          : "408-234-9873"
+                },
+                {
+                    "_id"            : "333",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "-4789432-804--",
+                    "primary"        : false,
+                    "speedDial"      : "",
+                    "type"           : "type_work_fax",
+                    "value"          : "408-234-9874"
+                },
+                {
+                    "_id"            : "334",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "-5789432-804--",
+                    "primary"        : false,
+                    "speedDial"      : "",
+                    "type"           : "type_work_fax",
+                    "value"          : "408-234-9875"
+                },
+                {
+                    "_id"            : "335",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "-6789432-804--",
+                    "primary"        : false,
+                    "speedDial"      : "",
+                    "type"           : "type_pager",
+                    "value"          : "408-234-9876"
+                },
+                {
+                    "_id"            : "336",
+                    "favoriteData"   : {
+                    },
+                    "normalizedValue": "-7789432-804--",
+                    "primary"        : false,
+                    "speedDial"      : "",
+                    "type"           : "type_other",
+                    "value"          : "408-234-9877"
+                }
+            ],
+            "photos"      : {
+                "accountId"      : "++HJi22ZkK2izgO2",
+                "bigPhotoId"     : "8b",
+                "bigPhotoPath"   : "mock/mitch.jpg",
+                "contactId"      : "++HJi22oAcVJHPj1",
+                "listPhotoPath"  : "mock/mitch.jpg",
+                "listPhotoSource": "type_square",
+                "squarePhotoId"  : "8a",
+                "squarePhotoPath": "mock/mitch.jpg"
+            },
+            "relations"   : [
+                {
+                    "_id"    : "337",
+                    "primary": false,
+                    "type"   : "type_spouse",
+                    "value"  : "joe-spouse"
+                },
+                {
+                    "_id"    : "338",
+                    "primary": false,
+                    "type"   : "type_child",
+                    "value"  : "joe-child"
+                },
+                {
+                    "_id"    : "339",
+                    "primary": false,
+                    "type"   : "type_mother",
+                    "value"  : "joe-mother"
+                },
+                {
+                    "_id"    : "33a",
+                    "primary": false,
+                    "type"   : "type_father",
+                    "value"  : "joe-father"
+                },
+                {
+                    "_id"    : "33b",
+                    "primary": false,
+                    "type"   : "type_parent",
+                    "value"  : "joe-parent"
+                },
+                {
+                    "_id"    : "33c",
+                    "primary": false,
+                    "type"   : "type_brother",
+                    "value"  : "joe-brother"
+                },
+                {
+                    "_id"    : "33d",
+                    "primary": false,
+                    "type"   : "type_sister",
+                    "value"  : "joe-sister"
+                },
+                {
+                    "_id"    : "33e",
+                    "primary": false,
+                    "type"   : "type_friend",
+                    "value"  : "joe-friend"
+                },
+                {
+                    "_id"    : "33f",
+                    "primary": false,
+                    "type"   : "type_relative",
+                    "value"  : "joe-relative"
+                },
+                {
+                    "_id"    : "340",
+                    "primary": false,
+                    "type"   : "type_domestic_partner",
+                    "value"  : "joe-domesticpartner"
+                },
+                {
+                    "_id"    : "341",
+                    "primary": false,
+                    "type"   : "type_manager",
+                    "value"  : "joe-manager"
+                },
+                {
+                    "_id"    : "342",
+                    "primary": false,
+                    "type"   : "type_assistant",
+                    "value"  : "joe-assistant"
+                },
+                {
+                    "_id"    : "343",
+                    "primary": false,
+                    "type"   : "type_partner",
+                    "value"  : "joe-partner"
+                },
+                {
+                    "_id"    : "344",
+                    "primary": false,
+                    "type"   : "type_referred_by",
+                    "value"  : "joe-referredby"
+                }
+            ],
+            "reminder"    : "",
+            "ringtone"    : {
+                "location": "",
+                "name"    : ""
+            },
+            "searchTerms" : [
+                "jblow2",
+                "blow2joe"
+            ],
+            "sortKey"     : "blow2\tjoe",
+            "urls"        : [
+                {
+                    "_id"    : "345",
+                    "primary": false,
+                    "type"   : "type_home",
+                    "value"  : "www.blow-home.com"
+                },
+                {
+                    "_id"    : "346",
+                    "primary": false,
+                    "type"   : "type_work",
+                    "value"  : "www.blow-work.com"
+                },
+                {
+                    "_id"    : "347",
+                    "primary": false,
+                    "type"   : "type_homepage",
+                    "value"  : "www.blow-homepage.com"
+                },
+                {
+                    "_id"    : "348",
+                    "primary": false,
+                    "type"   : "type_ftp",
+                    "value"  : "www.blow-ftp.com"
+                },
+                {
+                    "_id"    : "349",
+                    "primary": false,
+                    "type"   : "type_blog",
+                    "value"  : "www.blow-blog.com"
+                },
+                {
+                    "_id"    : "34a",
+                    "primary": false,
+                    "type"   : "type_profile",
+                    "value"  : "www.blow-profile.com"
+                },
+                {
+                    "_id"    : "34b",
+                    "primary": false,
+                    "type"   : "type_other",
+                    "value"  : "www.blow-other.com"
+                }
+            ]
+        }
+    ],
+    "count"      : 5
+}

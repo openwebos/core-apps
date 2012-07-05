@@ -1,0 +1,45 @@
+{"returnValue": true, "results": [
+    {
+        "name"      : "Photo roll",
+        "path"      : "",
+        "total"     : {
+            "images": 2
+        },
+        "thumbnails": [
+            {
+                "data": {
+                    "path": "cache/images/01.jpg"
+                }
+            },
+            {
+                "data": {
+                    "path": "cache/images/02.jpg"
+                }
+            }
+        ]
+    },
+    {
+        "name"      : "Wallpapers",
+        "path"      : "",
+        "total"     : {
+            "images": 3
+        },
+        "thumbnails": [
+            {
+                "data": {
+                    "path": "cache/images/01.jpg"
+                }
+            },
+            {
+                "data": {
+                    "path": "cache/images/02.jpg"
+                }
+            },
+            {
+                "data": {
+                    "path": "cache/images/03.jpg"
+                }
+            }
+        ]
+    }
+]}

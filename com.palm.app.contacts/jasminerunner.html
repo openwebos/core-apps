@@ -1,0 +1,52 @@
+<!doctype html>
+<!-- LICENSE@@@
+
+     Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+     @@@LICENSE -->
+<html>
+<head>
+    <title>Jasmine Test Runner</title>
+
+    <!-- MODIFY ACCORDINGLY TO *LOCAL* ENYO SOURCE FILE -->
+    <script src="../../enyo/0.10/framework/enyo.js" type="text/javascript"></script>
+
+    <!-- MODIFY ACCORDINGLY TO *LOCAL* JASMINE SOURCE FILES -->
+    <link rel="stylesheet" type="text/css" href="../../frameworks/jasmine/jasmine.css">
+    <script type="text/javascript" src="../../frameworks/jasmine/jasmine.js"></script>
+    <script type="text/javascript" src="../../frameworks/jasmine/jasmine-html.js"></script>
+
+    <!-- INCLUDE ALL SPEC FILES HERE -->
+    <script type="text/javascript" src="tests/ContactsAppSpecs.js"></script>
+
+</head>
+
+<body>
+<script type="text/javascript">
+
+    if (enyo.windowParams.contactsApp !== undefined) {
+        window.contactsApp = enyo.windowParams.contactsApp;
+    }
+
+    if (!window.testUtils) {
+        window.testUtils = window.contactsApp.createComponent({name: "testUtils", kind: "TestUtils"});
+    }
+
+    jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+    jasmine.getEnv().execute();
+
+</script>
+</body>
+</html>

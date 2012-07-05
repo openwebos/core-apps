@@ -1,0 +1,12 @@
+{
+    "id"        : "com.palm.app.contacts",
+    "version"   : "3.0.6700",
+    "uiRevision": 2,
+    "vendor"    : "HP",
+    "type"      : "web",
+    "main"      : "index.html",
+    "title"     : "Contacts",
+    "icon"      : "icon.png",
+    "splashicon": "icon-256x256.png",
+    "removable" : false
+}
