@@ -1,28 +1,55 @@
-ummary
+core-apps
+=========
+
 Core-apps in Open webOS 1.0 includes the following Enyo 1.0 applications:
-accounts
-calculator
-calendar
-clock
-contacts
-email
-notes
+
+* accounts
+* calculator
+* calendar
+* clock
+* contacts
+* email
+* memos
+
+Installation Steps
+==================
+
+# Get the core-apps zip file.
+# Get the installation directory path specified in the LunaSysMgr configuration file and install the un-zipped core-apps in that location.
+# Install the Enyo 1.0 framework.
+# Make sure that the application's main index.html is pointing to the correct location. If necessary, modify the index.html file.
+# Start SysMgr
+# Start core-apps
+
 Dependencies
-Note:  SysMgr must be running in order to launch the core applications. SysMgr can be found here: https://github.com/sysmgr.
+============
+
+Note: LunaSysMgr must be running in order to launch the core applications. 
+
 Core-apps have the following dependencies:
-Enyo Framework 1.0: https://github.com/enyojs
-app-services https://github.com/openwebos/app-services are the services for the core applications contained in Open webOS 1.0. Services include both NodeJS services and C++ services.
-The core-apps installation folder and SysMgr config file must be located in the same directory. For more information, refer to the SysMgr's README.md file.
+
+* Enyo Framework 1.0: https://github.com/enyojs
+* app-services https://github.com/openwebos/app-services are the services for the core applications contained in Open webOS 1.0. Services include both NodeJS services and C++ services.
+
 Limitations
-The following limitations exist for core-apps:
-There is no desktop build support.
-Google and Yahoo services are not supported.
-You can create imap/pop email accounts only.
-You can create local contacts only.
-You can create local calendars only.
+===========
+
+Note: The following limitations apply to Open webOS 1.0:
+
+* Third-party accounts such as Google, Yahoo, Facebook, etc... are not supported at this time.
+* There is no desktop build support.
+* You can create imap/pop email accounts.
+* You can create local contacts and local calendars. The contacts and calendar events that you create will be stored locally and will not sync and will not sync to any external servers.
+
 Additional Information
-For more information about an individual core-app, refer to the core-app's README.md file.
+======================
+
+* For more information about an individual core-app, refer to the core-app's README.md file.
+* For more information about developing Enyo applications, see: https://developer.palm.com/content/api/dev-guide/enyo.html
+
 Copyright and License Information
+=================================
+
 All content, including all source code files and documentation files in this repository are: 
 Copyright (c) 2011-2012 Hewlett-Packard Development Company, L.P.
 All content, including all source code files and documentation files in this repository are: Licensed under the Apache License, Version 2.0 (the "License"); you may not use this content except in compliance with the License. You may obtain a copy of the License at
