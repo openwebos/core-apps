@@ -14,12 +14,12 @@ Core-apps in Open webOS 1.0 includes the following Enyo 1.0 applications:
 Installation Steps
 ==================
 
-# Get the core-apps zip file.
-# Get the installation directory path specified in the LunaSysMgr configuration file and install the un-zipped core-apps in that location.
-# Install the Enyo 1.0 framework.
-# Make sure that the application's main index.html is pointing to the correct location. If necessary, modify the index.html file.
-# Start SysMgr
-# Start core-apps
+#Get the core-apps zip file.
+#Get the installation directory path specified in the LunaSysMgr configuration file and install the un-zipped core-apps in that location.
+#Install the Enyo 1.0 framework.
+#Make sure that the application's main index.html is pointing to the correct location. If necessary, modify the index.html file.
+#Start SysMgr
+#Start core-apps
 
 Dependencies
 ============
