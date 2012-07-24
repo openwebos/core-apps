@@ -23,9 +23,9 @@ Core-apps have the following dependencies:
 ## Installation Steps
 
 1. Get the core-apps zip file.
-2. Get the installation directory path specified in the LunaSysMgr configuration file and install the un-zipped core-apps in that location.
-3. Install the Enyo 1.0 framework.
-4. Make sure that the application's main index.html is pointing to the correct location. If necessary, modify the index.html file.
+2. Get the installation directory path specified in the openwebos/luna-sysmgr configuration file and install the un-zipped core-apps files in that location.
+3. Install the Enyo 1.0 framework in a known location.
+4. Make sure that the application's main index.html is pointing to the directory where you installed the Enyo 1.0 framework. If necessary, modify the application's index.html file.
 5. Start SysMgr
 6. Launch core-apps
 
