@@ -1,6 +1,6 @@
 # core-apps
 
-Core-apps in Open webOS 1.0 includes the following Enyo 1.0 applications:
+Core-apps includes the following Enyo 1.0 applications:
 
 * accounts
 * calculator
@@ -10,9 +10,9 @@ Core-apps in Open webOS 1.0 includes the following Enyo 1.0 applications:
 * email
 * memos
 
-## Dependencies
+Note: This release is provided for informational purposes only.
 
-Note: LunaSysMgr must be running in order to launch the core applications. 
+## Dependencies
 
 Core-apps have the following dependencies:
 
@@ -20,21 +20,11 @@ Core-apps have the following dependencies:
 
 * app-services https://github.com/openwebos/app-services are the services for the core applications contained in Open webOS 1.0. Services include both NodeJS services and C++ services.
 
-## Installation Steps
-
-1. Get the core-apps zip file.
-2. Get the installation directory path specified in the openwebos/luna-sysmgr configuration file and install the un-zipped core-apps files in that location.
-3. Install the Enyo 1.0 framework in a known location.
-4. Make sure that the application's main index.html is pointing to the directory where you installed the Enyo 1.0 framework. If necessary, modify the application's index.html file.
-5. Start SysMgr
-6. Launch core-apps
-
 ## Limitations
 
-Note: The following limitations apply to Open webOS 1.0:
+Note: The following limitations apply to this July 2012 Beta release. Additional functionality will be supported in the future.
 
 * Third-party accounts such as Google, Yahoo, Facebook, etc... are not supported at this time.
-* There is no desktop build support.
 * You can create imap/pop email accounts.
 * You can create local contacts and local calendars. The contacts and calendar events that you create will be stored locally and will not sync to external servers.
 
