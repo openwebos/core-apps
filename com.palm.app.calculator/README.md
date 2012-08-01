@@ -18,7 +18,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 Quick Info
------------
+----------
 Calculator Application for webOS. It was built using Enyo 1.0. 
 
 Core
