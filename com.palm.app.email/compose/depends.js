@@ -27,6 +27,5 @@ enyo.depends(
     "source/Composition.js",
     "source/EmailRecipient.js",
     "../controls/",
-    "../css/compose.css",
-    "/usr/palm/frameworks/caja/html-sanitizer-minified.js"
+    "../css/compose.css"
 );

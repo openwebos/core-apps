@@ -38,7 +38,7 @@ enyo.kind({
 
         // Email Body Content starts here
         // this sauce is weak. So weak.
-        ((window.fauxMail || !window.PalmSystem) ?
+        /*((window.fauxMail || !window.PalmSystem) ?
             // FAKE webview
         {name: "body", kind: "Control", nodeTag: "pre", flex: 1, className: "mail-body", resize: function () {
         },
@@ -51,8 +51,10 @@ enyo.kind({
             onAlertDialog: "alertDialogHandler", onConfirmDialog: "confirmDialogHandler", onPromptDialog: "promptDialogHandler",
             onSSLConfirmDialog: "SSLConfirmDialogHandler"
         }
-            ),
+            ),*/
+        
         // This goes second, even though it is displayed first, in order to float over the webview
+        {kind:"Scroller", flex:1, style:"height:1000px;", components:[
         {name: "mailHeaderUnit", components: [
             {name: "header", className: "body-header", components: [
                 {name: "bodyStamp", className: "body-stamp", components: [
@@ -141,6 +143,8 @@ enyo.kind({
                 ]}
             ]},
             // end email header
+            //{name:"body", kind:"Iframe", flex:1,style: "width: 100%; height: 400px; background-color: white;" },
+            {name: "body", kind: "DivHtmlView", showing: true, onViewReady: "viewReady", onLinkClick: "openLink"}, 
             {name: "messageErrors", kind: "Pane", showing: false, flex: 1, components: [
                 {name: "downloadError", className: "body-placeholder", style: "text-align: center; background:white;", pack: "center", kind: "VFlexBox", components: [
                     {kind: "Image", src: "../images/list-error.png"},
@@ -157,6 +161,7 @@ enyo.kind({
                 ]}
             ]}
         ]}, // end mail header unit
+        ]},
         {name: "appMgrOpen", method: "open", kind: "enyo.PalmService", service: enyo.palmServices.application},
         {name: "pseudoDetails", kind: "com.palm.library.contactsui.detailsDialog", onCancelClicked: "closePseudoDetails"},
         {name: "webviewContextMenu", kind: "PopupSelect", onSelect: "webviewContextMenuSelect"}
@@ -628,15 +633,19 @@ enyo.kind({
     },
 
     setBody: function (email, isQuoting) {
-        if (this.$.body.setHTML) { // i.e., a real WebView, which we use onDevice
+        /*if (this.$.body.setHTML) { // i.e., a real WebView, which we use onDevice
             var body = email.getBodyPart();
             var html = this._buildMessageHTML(body.path, body.mimeType, isQuoting);
-            this.$.body.setHTML("file:///email-local-content.html", html);
+            
+            //this.$.body.setHTML("file:///email-local-content.html", html);
             this.resize();
         } else {
             this.$.body.setContent(email.data.summary);
 
-        }
+        }*/
+    	var body = email.getBodyPart();
+    	this.$.body.loadUrl("file://" + body.path, body.mimeType);
+    	
     },
     _buildMessageHTML: function (path, mimeType, replyOrForward) {
 
@@ -841,7 +850,7 @@ enyo.kind({
         }
     },
 
-    mousedownHandler: function (sender, event) {
+  /*  mousedownHandler: function (sender, event) {
         return this.forwardMouseEventToBody(event);
     },
 
@@ -862,7 +871,7 @@ enyo.kind({
         // Hack to call flick handler in header on body
         // FIXME should pass event instead?
         return this.$.body.$.view.flickHandler(sender, event);
-    },
+    },*/
 
     headerResized: function (sender, event) {
         var view = this.$.body,
@@ -883,10 +892,11 @@ enyo.kind({
         }
     },
     resize: function () {
-        this.headerResized();
+    	
+        /*this.headerResized();
         if (this.$.body.resize) {
             this.$.body.resize();
-        }
+        }*/
         this.resized(); // provided by enyo. needed for vertical reflow
         this._doingNestedScroll = undefined;
     },
@@ -899,6 +909,14 @@ enyo.kind({
                 {regex: ".*", cookie: "", enable: true}
             ]);
         }
+    },
+    
+    openLink: function (sender, url) {
+        // TODO remove this logging
+        this.log("### Opening URL", url);
+
+        // Launch default app for handling this url
+        this.$.appMgrOpen.call({target: url, subscribe: false});
     },
 
     DEFAULT_SENDER_IMAGE: '../images/detail_avatar.png'

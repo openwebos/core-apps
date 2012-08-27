@@ -312,11 +312,12 @@ enyo.kind({
         if (this.composition.originalText) {
             this.$.originalMessageBody.show();
 
-            var sanitized = html_sanitize(this.composition.sanitizeOriginalText(), function (url) {
+           /* var sanitized = html_sanitize(this.composition.sanitizeOriginalText(), function (url) {
                 return url;
             }, function (id) {
                 return id;
-            });
+            });*/
+            var sanitized = this.sanitizeHtml(this.composition.sanitizeOriginalText());
             this.$.originalMessageBody.setValue(sanitized);
         }
 
@@ -916,5 +917,10 @@ enyo.kind({
         this.$.missingRecipientsAlert.close();
         this.$.badRecipientsAlert.close();
         this.$.toInput.forceFocus();
+    },
+    sanitizeHtml: function (unsafeHtml) {
+ 	   var rEx = new RegExp("<(script|object|embed|iframe)[^>]*>([\\S\\s]*?)<\/(script|object|embed|iframe)>", "gim");
+ 	   
+ 	   return unsafeHtml.replace(,"");
     }
 });
