@@ -143,7 +143,6 @@ enyo.kind({
                 ]}
             ]},
             // end email header
-            //{name:"body", kind:"Iframe", flex:1,style: "width: 100%; height: 400px; background-color: white;" },
             {name: "body", kind: "DivHtmlView", showing: true, onViewReady: "viewReady", onLinkClick: "openLink"}, 
             {name: "messageErrors", kind: "Pane", showing: false, flex: 1, components: [
                 {name: "downloadError", className: "body-placeholder", style: "text-align: center; background:white;", pack: "center", kind: "VFlexBox", components: [
