@@ -286,7 +286,7 @@ enyo.kind({
     sanitizeHtml: function (unsafeHtml) {
     	   var rEx = new RegExp("<(script|object|embed|iframe)[^>]*>([\\S\\s]*?)<\/(script|object|embed|iframe)>", "gim");
     	   
-    	   return unsafeHtml.replace(,"");
+    	   return unsafeHtml.replace(rEx,"");
     },
 
     sanitizeText: function (unsafeText) {
