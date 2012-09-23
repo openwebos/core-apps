@@ -55,8 +55,8 @@ enyo.kind({
                         onChange: "accountTypeChanged",
                         items: [
                             {caption: $L("IMAP"), value: AccountWizard.IMAP},
-                            {caption: $L("POP"), value: AccountWizard.POP},
-                            {caption: $L("EAS"), value: AccountWizard.EAS} /* , showing: false */
+                            {caption: $L("POP"), value: AccountWizard.POP}
+                           /* {caption: $L("EAS"), value: AccountWizard.EAS} /* , showing: false */
                         ]
                     }
                 ]},
