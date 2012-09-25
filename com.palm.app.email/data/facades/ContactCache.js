@@ -16,6 +16,11 @@
 //
 // LICENSE@@@
 
+/**
+ * Cache for contact lookup results.
+ * Used for quick rendering of contact details in message view and lists.
+ */
+
 if (!window.ContactCache) {
     ContactCache = function (size) {
         var contactInfoMap = {};

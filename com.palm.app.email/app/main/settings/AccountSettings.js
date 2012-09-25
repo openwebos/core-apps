@@ -256,14 +256,19 @@ enyo.kind({
         {name: "deleteAccount", kind: "PalmService", service: enyo.palmServices.accounts, method: "deleteAccount", onResponse: "doAccountsModify_Done"}
     ],
     /** end ui components */
+
+
     pushFreq: {caption: $L("As Items Arrive"), value: AccountPreferences.SYNC_PUSH},
     wasEdited: false,
+
     create: function () {
         this.inherited(arguments);
     },
 
+    /**
+     * Used to display blank signature field if  NO_SIGNATURE constant is loaded
+     */
     checkNoSigPlaceholder: function () {
-        // this is a bit of a hack, but fixes functionality for friday
         var siggy = this.$.signature;
         if (siggy.getHtml() === AccountPreferences.NO_SIGNATURE_BY_USER) {
             siggy.setValue("");
@@ -271,6 +276,9 @@ enyo.kind({
     },
 
     _loadFolders: function (account) {
+        if (!account) {
+            return;
+        }
         var accountId = account.getId();
         var defSent = this.$.defSent, defDraft = this.$.defDraft, defTrash = this.$.defTrash, folderGroup = this.$.folderGroup;
         [defSent, defDraft, defTrash].forEach(function (row) {
@@ -281,29 +289,33 @@ enyo.kind({
         noFolderDiv.setShowing(true);
 
         var onComplete = function (toShow) {
+            if (toShow) {
+                toShow.setShowing(true);
+            }
             noFolderDiv.setShowing(false);
         }
-        // TODO: refactor this sig
-        // Note, even though second param is technically used in callback,
-        // it is not the desired behavior for every case the referenced load fn handles.
-        // Not a bug, so don't refactor.
-        Folder.loadIndentedFolderItems(accountId, defSent, account.getSentFolderId(), undefined, function () {
-            defSent.setShowing(true);
-            onComplete()
-        });
-        Folder.loadIndentedFolderItems(accountId, defDraft, account.getDraftsFolderId(), undefined, function () {
-            defDraft.setShowing(true);
-            onComplete()
-        });
-        Folder.loadIndentedFolderItems(accountId, defTrash, account.getTrashFolderId(), undefined, function () {
-            defTrash.setShowing(true);
-            onComplete()
+
+        // load folder selections and toggle ui display accordingly
+        var listsNStuffs = [
+            {selector: defSent, defValue: account.getSentFolderId()},
+            {selector: defDraft, defValue: account.getDraftsFolderId()},
+            {selector: defTrash, defValue: account.getTrashFolderId()}
+        ];
+
+        listsNStuffs.forEach(function (pairing) {
+            Folder.loadIndentedFolderItems(accountId, pairing.selector, pairing.defValue, undefined,
+                function () {
+                    onComplete(pairing.selector);
+                });
         });
 
         // gmail doesn't allow you to change the sent folder
         this.$.defSent.setDisabled(account.getTemplateId() === "com.palm.google");
     },
 
+    /**
+     * Fire a back event.
+     */
     doBack: function () {
         if (this.wasEdited) {
             // save account
@@ -312,12 +324,18 @@ enyo.kind({
         this.owner.showPreferences();
     },
 
+    /**
+     * Handler for accounts service modification callbacks. Returns the user to
+     * the application preferences scene after account info is updated.
+     */
     doAccountsModify_Done: function () {
         this.owner.showPreferences();
     },
 
+    /**
+     * Show/hide the ringtone picker based on notification preference selection.
+     */
     toggleRingtonePicker: function (sender, event) {
-        //EmailApp.Util.printObj("### this is our drawer component ", this.$.drawer);
         var notificationType = this.$.notificationType.getValue();
 
         var notifBlock = this.$.newMessageNotifications;
@@ -334,6 +352,9 @@ enyo.kind({
         this.valueChanged();
     },
 
+    /**
+     * Save account display name to the database
+     */
     saveAccountName: function () {
         // account name needs to be saved through accounts service
         var name = this.$.accountName.getValue();
@@ -345,11 +366,12 @@ enyo.kind({
                 }
             })
         }
-        ;
     },
 
+    /**
+     * Save account preferences to the database
+     */
     saveAccount: function () {
-
         var ringtoneName = "";
         var ringtonePath = "";
         var notificationType = this.$.notificationType.getValue();
@@ -362,7 +384,6 @@ enyo.kind({
                 notificationType = prefs.notifications.type || AccountPreferences.NOTIFICATION_SYSTEM;
             }
         }
-
 
         var toSave = {
             _id: this.currentAccountId,
@@ -388,6 +409,13 @@ enyo.kind({
         this.saveAccountName(); // save account name second
     },
 
+    /**
+     * Remove account from the email application.
+     * Disables the email functionality for displayed account.
+     * If the displayed account only supports email, or has email as its
+     * last remaining capability (ie: contacts, etc. have been turned off),
+     * it will delete the account from the device.
+     */
     removeAccount: function () {
 
         // Start the spinner on the button
@@ -421,18 +449,22 @@ enyo.kind({
         this.$.modifyAccount.call(param);
     },
 
+    /**
+     * Handler for the Change Login button. Shows the edit screen for the current account
+     */
     editLogin: function () {
         this.owner.showEditMode(this.currentAccountId);
     },
 
+    /**
+     * Load account data for provided account ID
+     */
     loadAccount: function (accountId) {
         this.currentAccountId = accountId;
 
-        console.log("### received the following account ID: " + accountId);
-        // take provided accountId and set up in scene
-
         var accts = enyo.application.accounts;
         if (!accts || !accts.getDefaultAccountId) {
+            // too early, accounts haven't been loaded yet
             return;
         }
         var account = this.account = accts.getAccount(accountId);
@@ -480,6 +512,10 @@ enyo.kind({
         this.$.replyToGroup.setShowing(!isEAS);
         this.wasEdited = false;
     },
+
+    /**
+     * Wrapper for accounts getIconById method. Get image path for displayed account icon.
+     */
     getIconPath: function (acctId) {
         return enyo.application.accounts.getIconById(acctId, false);
     },
@@ -488,6 +524,9 @@ enyo.kind({
         this.$.ringtonePicker.pickFile();
     },
 
+    /**
+     * Ringtone selection handler.
+     */
     setRingtone: function (sender, ringtone) {
         if (!ringtone.length) {
             return;
@@ -500,21 +539,9 @@ enyo.kind({
         this.valueChanged();
     },
 
-    saveTrash: function (folderId) {
-        console.log("### saving trash");
-        this._saveDefFolder(folderId, "trash");
-    },
-
-    saveSent: function (folderId) {
-        console.log("### saving sent");
-        this._saveDefFolder(folderId, "sent");
-        var div = this.$.defSent;
-        this._setdefSelection(div, text);
-    },
-
-    _setDivSelection: function (div, text) {
-        div.setContent(div.defStem + " -- " + enyo.application.folderProcessor.folders[folderId].displayName);
-    },
+    /**
+     * Set flag to indicate user changes which need to be saved to the database
+     */
     valueChanged: function (inSender, inEvent) {
         this.wasEdited = true;
     }

@@ -90,12 +90,12 @@ enyo.kind({
                         {kind: "InputBox", components: [
                             {name: "inUser", kind: "Input", className: "enyo-middle", flex: 1, value: "", hint: $L("Username"), spellcheck: false, autocorrect: false, className: "babelfish", autoCapitalize: "lowercase", onblur: "copyUserToOut", onkeypress: "isFormComplete", onkeydown: "checkEnter", components: [
                                 {content: $L("Username")}
-                            ]}
+                            ]},
                         ]},
-                        {kind: "InputBox", name: "lastEasRow", components: [
+                        {kind: "InputBox", components: [
                             {name: "inPassword", kind: "Input", className: "enyo-middle", flex: 1, inputType: "password", value: "", hint: $L("Password"), spellcheck: false, autocorrect: false, className: "babelfish", autoCapitalize: "lowercase", onblur: "copyPassToOut", onkeypress: "isFormComplete", onkeydown: "checkEnter", onfocus: "checkInPass", components: [
                                 {content: $L("Password")}
-                            ]}
+                            ]},
                         ]},
                         {name: "popImapIncoming", components: [
                             {
@@ -115,7 +115,7 @@ enyo.kind({
                         {kind: "InputBox", name: "inPortWrapper", components: [
                             {name: "inPort", kind: "Input", className: "enyo-last", inputType: "number", value: "", hint: $L("Port"), spellcheck: false, autocorrect: false, className: "babelfish", flex: 1, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
                                 {content: $L("Port")}
-                            ]}
+                            ]},
                         ]}
 
                     ]
@@ -170,7 +170,7 @@ enyo.kind({
                                         {content: $L("Port")}
                                     ]},
                                 ]}
-                            ]}
+                            ]},
                         ]}
 
                     ]
@@ -685,15 +685,6 @@ enyo.kind({
         $$.imapRoot.setShowing(accountType === AccountWizard.IMAP && this.isEditMode);
         $$.addressBlock.setShowing(!this.isEditMode);
         $$.outAuthBlock.setOpen($$.useAuthentication.getState());
-        if (isEas && !$$.lastEasRow.hasClass(this.LAST_ROW_CLASS)) {
-            console.log("### set the last class");
-            $$.lastEasRow.setClassName(this.LAST_ROW_CLASS);
-            $$.inPassword.setClassName(this.LAST_ROW_CLASS);
-        } else if (!isEas && $$.lastEasRow.hasClass(this.LAST_ROW_CLASS)) {
-            console.log("### clear the last class");
-            $$.lastEasRow.setClassName("");
-            $$.inPassword.setClassName("enyo-middle");
-        }
     },
 
 
@@ -768,6 +759,5 @@ enyo.kind({
      */
     doBack: function () {
         this.owner.showSimpleConfig();
-    },
-    LAST_ROW_CLASS: "enyo-last"
+    }
 });

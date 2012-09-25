@@ -16,6 +16,7 @@
 //
 // LICENSE@@@
 
+
 /*global Folder:true, EmailApp */
 
 if (!window.Folder) {
@@ -135,6 +136,7 @@ Folder.getAccountFolderList = function (accountId, filter, callback) {
             callback
         );
     } else {
+        // TODO: consolidate mock data code
         cacheMail.getFolders(accountId, function (folders) {
             callback({returnValue: true, results: folders});
         });
@@ -143,6 +145,9 @@ Folder.getAccountFolderList = function (accountId, filter, callback) {
 
 /**
  * Method for loading a ListSelector or PopupList with preformatted folder data
+ *
+ * TODO: remove UI logic
+ *
  * @param {Object} accountId account id for folders
  * @param {Object} callingWidget widget to display data. must provide a setItems method
  * @param {Object} initialVal (optional) initial value for the ListSelector
@@ -191,7 +196,7 @@ Folder.loadIndentedFolderItems = function (accountId, callingWidget, initialVal,
     }
 };
 
-
+// TODO: rename to something like setSpecialFolder
 Folder.setImapServerFolder = function (emailAccountId, folderId, type, callback) {
     var toSave = {
         _id: emailAccountId
@@ -215,6 +220,7 @@ Folder.setFavorite = function (folderId, favorite) {
     return EmailApp.Util.callService('palm://com.palm.db/merge', {objects: [toSave]});
 };
 
+// TODO: abstract into some kind of Transport object
 Folder.syncFolder = function (transportUrl, accountId, folderId, force) {
     if (!transportUrl) {
         return undefined;

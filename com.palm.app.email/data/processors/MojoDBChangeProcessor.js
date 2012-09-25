@@ -457,7 +457,8 @@ EmailApp.MojoDBChangeProcessor.prototype.commitBatchedWrites = function (callbac
     }, function (resp) {
         // TODO: Remove this after performance enhancements
         var time = Date.now() - startTime;
-        console.log("##commitBatchedWrites Merge call took " + time + " milliseconds");
+        //var time = Date.now() - startTime;
+        //console.log("##commitBatchedWrites Merge call took " + time + " milliseconds");
         callback();
     });
 

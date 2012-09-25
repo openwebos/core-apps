@@ -19,13 +19,19 @@
 /*global enyo, window, console, mail, EmailApp, Email, EmailRecipient, setTimeout, $L
  */
 
+// FIXME ComposeWindow needs to be refactored to make logic more transparent/maintainable
+
 enyo.string.isBlankRegExp = /^\s*$/;
 enyo.string.isBlank = function (str) {
     return enyo.string.isBlankRegExp.test(str);
 };
 
+/*
+ * Fixed-width, centered container which displays a darkened version of the
+ * user's wallpaper as the outer window margins.
+ */
 enyo.kind({
-    name: "DesktopBackground",
+    name: "WallpaperedContainer",
     kind: "Control",
     className: "enyo-fit desktop-background",
     components: [
@@ -68,8 +74,11 @@ enyo.kind({
 
 });
 
+/**
+ * Compose window content
+ */
 enyo.kind({
-    name: "enyo.ComposeMailApp",
+    name: "enyo.ComposeWindow",
     kind: "VFlexBox",
     className: "basic-back",
     statics: {
@@ -81,8 +90,7 @@ enyo.kind({
         smartTextDisabled: false
     },
     components: [
-//		{kind: "ApplicationEvents", onUnload: "unloadHandler"},
-        {kind: "DesktopBackground", components: [
+        {kind: "WallpaperedContainer", components: [
             {name: "composeMainBody", kind: "VFlexBox", height: "100%", className: "compose-main-child", components: [
                 {name: "sendHeader", height: "59px", kind: "VFlexBox", className: "compose-header-bar enyo-row", components: [
                     {name: "tornPaperEffect", className: "torn-paper-effect-tile", height: "2px" },
@@ -94,15 +102,10 @@ enyo.kind({
                                 {name: "saveAsDraftMenuItem", caption: $L("Save As Draft"), onclick: "saveDraftClicked"},
                                 {name: "discardMessageMenuItem", caption: $L("Discard Message"), onclick: "discardMessage"},
                             ]}
-                            // {kind:"Image", style: "", src:"../images/attachments_button.png"}
                         ]},
-                        {name: "attachButton", className: "attachment-button", kind: "CustomButton", onclick: "attachClick", style: "", components: [
-                            // {kind:"Image", style: "", src:"../images/attachments_button.png"}
-                        ]},
+                        {name: "attachButton", className: "attachment-button", kind: "CustomButton", onclick: "attachClick", style: "", components: []},
                         {name: "headerContent", className: "header-content", content: "", flex: 1},
-                        //{kind: "CustomButton", caption:"Send", className: "compose-send-button", onclick: "sendClick" },
                         {name: "sendButton", kind: "Button", className: "enyo-button-blue", style: "margin: 6px 8px 0 0;min-width:64px;", height: "20px", onclick: "sendClick", components: [
-                            //{kind:"Image", src:"../images/menu-icon-send.png", style:"style:"margin: -7px 2px 0px 0px;;display:inline-block;"},
                             {kind: "HFlexBox", components: [
                                 {className: "header-send-icon"},
                                 {content: $L("Send")}
@@ -121,13 +124,13 @@ enyo.kind({
                                 ]}
                             ]},
                             {kind: "VFlexBox", name: "toRow", style: "padding: 0 0;", showing: true, className: "enyo-row dotted-bottom", components: [
-                                {name: "toInput", style: "", kind: "AddressingPopup", expandButtonCaption: $L("To:"), onExpandButtonClick: "toClick", onkeydown: "addressKeyDown", tabIndex: 10, /*, hint: $L("Name or email address"), type: "email", defaultData: defaultContactsData*/ },
+                                {name: "toInput", style: "", kind: "AddressingPopup", expandButtonCaption: $L("To:"), onExpandButtonClick: "toClick", onkeydown: "addressKeyDown", tabIndex: 10}
                             ]},
                             {kind: "VFlexBox", name: "ccRow", style: "padding: 0 0;", showing: false, className: "enyo-row dotted-bottom", components: [
-                                {name: "ccInput", kind: "AddressingPopup", expandButtonCaption: $L("CC:"), onkeydown: "addressKeyDown", onfocus: "addressFocused", tabIndex: 20, /*, hint: $L("Name or email address"), type: "email", defaultData: defaultContactsData*/ },
+                                {name: "ccInput", kind: "AddressingPopup", expandButtonCaption: $L("CC:"), onkeydown: "addressKeyDown", onfocus: "addressFocused", tabIndex: 20}
                             ]},
                             {kind: "VFlexBox", name: "bccRow", style: "padding: 0 0;", showing: false, className: "enyo-row dotted-bottom", components: [
-                                {name: "bccInput", kind: "AddressingPopup", expandButtonCaption: $L("BCC:"), onkeydown: "addressKeyDown", onfocus: "addressFocused", tabIndex: 30, /*, hint: $L("Name or email address"), type: "email", defaultData: defaultContactsData*/ },
+                                {name: "bccInput", kind: "AddressingPopup", expandButtonCaption: $L("BCC:"), onkeydown: "addressKeyDown", onfocus: "addressFocused", tabIndex: 30}
                             ]},
                             {name: "subjectRow", className: "enyo-row dotted-bottom", components: [
                                 {kind: "HFlexBox", height: "54px", name: "subjectBox", className: "subject-box", style: "padding: 0 14px;", components: [
@@ -137,7 +140,7 @@ enyo.kind({
                                 ]}
                             ]},
                         ]},
-                        {name: "attachments", kind: "AttachmentsDrawer", composeMode: true, collapsible: true, onAttachmentsRemoved: "handleAttachmentsRemoved"},
+                        {name: "attachments", kind: "AttachmentsDrawer", className: "compose-attachments-drawer", composeMode: true, collapsible: true, onAttachmentsRemoved: "handleAttachmentsRemoved"},
                         {name: "bodyContainer", style: " background-color: white; ", components: [
                             {name: "bodyInput", kind: "RichText", hint: "", placeholderClassName: "", flex: 1, styled: false, tabIndex: 50, style: "padding:14px 14px 0px 14px; min-height: 75px; background-color: white;font-size:16px;", oninput: "changeHandler"},
                             {name: "originalMessageBody", kind: "RichText", hint: "", placeholderClassName: "", styled: false, showing: false, flex: 1, style: "padding:0px 14px 14px 14px; background-color: white;", oninput: "changeHandler"},
@@ -180,18 +183,18 @@ enyo.kind({
         subject: "",
         message: ""
     },
-    // NOTES: compose needs to:
-    // have a complete account object to be able to do from
-    // load a draft message
-    // load a message to reply to or forward
-    // load a list of recipients to reply to
+
+    /**
+     * Loads account info, new or draft message, potential recipients
+     */
     create: function () {
         this.inherited(arguments);
         console.info("WINLOG: ComposeApp create: " + window.name);
 
         // Temporarily work around sporadic non-delivery of unload events from the ApplicationEvents component.
         // Uncomment the ApplicationEvents component when removing this workaround.
-        var that = this;
+        var that = this,
+            $$ = this.$;
         var unloadFunc = function (e) {
             console.info("WINLOG: Compose window UNLOAD: " + window.name);
             that.unloadHandler(e);
@@ -199,11 +202,6 @@ enyo.kind({
         }
         window.addEventListener('unload', unloadFunc);
 
-
-        //this.log(enyo.json.stringify(enyo.windowParams, undefined, 2));
-
-        // FIXME: experimental launch params use in conjunction with cards.js
-        // likely to change.
         this.populateMessage(enyo.windowParams);
         this.configureSenderAccounts(enyo.windowParams.accountId);
 
@@ -213,31 +211,43 @@ enyo.kind({
             this.disableSmartText();
         }
 
-        setTimeout((function () {
+        // FIXME: Maybe this can be optimized further
+        var focusMaker = function () {
             if (enyo.windowParams.mailToURL) {
-                this.$.subjectInput.forceFocus();
+                $$.subjectInput.forceFocus();
             } else if (enyo.windowParams.action === "replyall" || enyo.windowParams.action === "reply") {
-                var bodyInputElem = this.$.bodyInput.hasNode();
-                this.$.bodyInput.forceFocus();
+                var bodyInputElem = $$.bodyInput.hasNode();
+                $$.bodyInput.forceFocus();
                 window.getSelection().setPosition(bodyInputElem, 0);
             } else {
-                this.$.toInput.forceFocus();
+                $$.toInput.forceFocus();
             }
-        }).bind(this), 0);
-        //this.$.from.setItems([{caption: "whatever", value:2}, {caption: "foo", value:3}]);
+        };
+
+        // defer focus until everything's rendered
+        setTimeout(focusMaker, 0);
+
         EmailApp.Util.setUpConnectionWatch();
     },
 
+    /**
+     * Closes the Missing Attachments dialog.
+     */
     closeAttachmentAlert: function () {
         this.$.missingAttachmentsAlert.close();
     },
 
+    /**
+     * Dialog close handler
+     */
     dialogClosed: function (inSender, inEvent) {
         this.$.sendButton.setDisabled(false);
     },
 
+    /**
+     * Clean up the dom after the screen is dismissed. (ie: through sending a mail or cancelling)
+     */
     unloadHandler: function (e) {
-
         if (this.draftIsDirty) {
             this.saveDraft(true);
         }
@@ -246,6 +256,9 @@ enyo.kind({
         this.destroy();
     },
 
+    /**
+     * Render completion handler. Enyo framework call.
+     */
     rendered: function () {
         this.inherited(arguments);
         if (window.windowLaunchTime) {
@@ -296,7 +309,8 @@ enyo.kind({
 
         // This flag indicates original fwd content has been modified,
         // and is used to enable "smart forward" for EAS when it's set to false.
-        // This is always set when we save a draft, since we collapse forwarded content into the saved draft.
+        // This is always set when we save a draft, since we collapse forwarded
+        // content into the saved draft.
         // So, we need to copy the state from the existing email when editing a draft.
         if (inParams && inParams.edit && inParams.edit.flags && inParams.edit.flags.editedOriginal) {
             this.disableSmartText();
@@ -424,15 +438,14 @@ enyo.kind({
 
     isSmartTextAllowed: function () {
         var accountId = this.getSelectedAccountId();
-
         var acct = enyo.application.accounts.getAccount(accountId);
 
-        if (acct) {
-            return (this.composition.isReply() && acct.isSmartReplyEnabled()) ||
-                (this.composition.isForward() && acct.isSmartForwardEnabled());
+        if (!acct) {
+            return false;
         }
 
-        return false;
+        return (this.composition.isReply() && acct.isSmartReplyEnabled()) ||
+            (this.composition.isForward() && acct.isSmartForwardEnabled());
     },
 
     _getRecipients: function () {
@@ -448,8 +461,8 @@ enyo.kind({
 
         return recipients;
     },
-
-    _formatPlainText: function (text, newline) {
+       
+    _formatPlainText: function(text, newline) {
         return text.replace("\u00A0", " ").replace(/\r\n|\n/g, newline);
     },
 
@@ -526,14 +539,14 @@ enyo.kind({
 
         // editedOriginal is set to true if the original was edited OR if we just want to disable SmartReply/SmartForward
         draftEmail.data.flags.editedOriginal = editedOriginal;
-
+        
         // Plain text version of body
         var plainText;
         try {
             plainText = this._formatPlainText(this.$.bodyInput.getText(), "\r\n");
-
+            
             var plainOriginalText = this.$.originalMessageBody.getText();
-
+            
             if (plainOriginalText && plainOriginalText.length > 0) {
                 plainText += "\r\n> " + this._formatPlainText(plainOriginalText, "\r\n> ");
             }

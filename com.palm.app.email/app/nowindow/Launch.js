@@ -19,6 +19,8 @@
 /**
  * Class for handling email application launches. Throws up the initial app, and handles relaunches
  * when only the headless part of the app sticks around (hence "nowindow")
+ *
+ * This is available to the rest of the email app as the global singleton enyo.application.launcher.
  */
 enyo.kind({
     name: "EmailAppLaunch",
@@ -50,6 +52,7 @@ enyo.kind({
         // Helper Launch handlers below. (hoisting pulls them to the top);
 
         // folders loaded callback
+        // TODO move outside of function
         function handleRelaunch() {
             console.log("Loaded folder processor, launching.");
 
@@ -201,7 +204,6 @@ enyo.kind({
     relaunch: function (params) {
         console.log("relaunch called with param keys " + JSON.stringify(Object.keys(params)));
 
-
         if (params.launchedAtBoot) {
             return;
         }
@@ -247,6 +249,7 @@ enyo.kind({
                 accountId: params.accountId
             });
         } else {
+            // Activate main mail card
             this.openCard("mail", params, false);
         }
     }

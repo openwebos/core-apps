@@ -24,6 +24,13 @@ enyo.dispatchBack = function () {
     enyo.dispatch({type: "back", preventDefault: enyo.nop});
 };
 
+/* This is the main email app window.
+ *
+ * Holds the following panes; only one is visible at a time:
+ * - slidingPane: main pane containing three sliding panels.
+ * - firstLaunchPane: displayed on first launch
+ * - masterSettings: preferences pane
+ */
 enyo.kind({
     name: "MailApp",
     kind: "Pane",
@@ -32,11 +39,13 @@ enyo.kind({
         {kind: "ApplicationEvents", onOpenAppMenu: "openAppMenu", onBack: "backHandler", onWindowParamsChange: "windowParamsChanged",
             onResize: "resizeHandler", /*onUnload:"unloadHandler", */onWindowHidden: "windowHiddenHandler", onWindowShown: "windowShownHandler",
             onWindowActivated: "windowActivatedHandler"},
+
         {name: "checkFirstLaunch", kind: "Accounts.checkFirstLaunch", onCheckFirstLaunchResult: "_firstLaunchResponder", appId: "com.palm.app.email"},
         // TODO: replace SlidingPane style below with this, once animations are added back in:  style: "background: url(../images/Mail-2-1a-256.png) center center no-repeat, url(../images/loading-bg.png) top left repeat-x;"
+
         {name: "slidingPane", kind: "SlidingPane", style: "background: url(../images/loading-bg.png) top left repeat-x;", flex: 1, components: [
             {width: "320px", name: "folderSliding", dragAnywhere: false, fixedWidth: true, components: [
-                {name: "accounts", kind: "MailAccounts", flex: 1,
+                {name: "accounts", kind: "FolderListPane", flex: 1,
                     onSelectFolder: "folderChosen",
                     onComposeMessage: "composeMessage",
                     onFoldersLoaded: "foldersLoaded",
@@ -156,6 +165,7 @@ enyo.kind({
             this.disregardKeepAlive = false;
         }
     },
+
     firstLaunchDone: function () {
         this.$.checkFirstLaunch.firstLaunchHasBeenShown();
         this._unhideMainApp();
@@ -185,11 +195,16 @@ enyo.kind({
             enyo.application.contactCache.clearCache();
         }
     },
+
     windowShownHandler: function () {
+        //console.log("@@@ window shown");
+
         this.$.checkFirstLaunch.shouldFirstLaunchBeShown();
     },
 
     windowActivatedHandler: function (inSender, event) {
+        //console.log("@@@ window activated!");
+
         if (!enyo.application.accounts.hasAccounts()) {
             this.showFirstLaunch();
             return;
@@ -234,6 +249,7 @@ enyo.kind({
             this.$.body.hideNextPrev();
         }
     },
+
     rendered: function () {
         this.resizeHandler();
         this.inherited(arguments);
@@ -275,7 +291,9 @@ enyo.kind({
         });
     },
 
+    // Called when the user opens the app menu
     openAppMenu: function () {
+        // Make sure the menu has been instantiated if it's still marked as lazy
         this.$.appMenu.validateComponents();
 
         // Set up menu item enablement & owners properly:
@@ -286,6 +304,7 @@ enyo.kind({
         if (this.isMainView()) {
             var slidingViewName = this.$.slidingPane.getViewName();
 
+            // Give each view a chance to configure the menu and take ownership of menu items
             // Second parameter is whether the view is hidden/off-screen
             // FIXME: needs to be revised to work properly in single-view sliding mode (i.e. on phones)
             this.configureAppMenu(this.$.accounts, slidingViewName !== "folderSliding");
@@ -324,6 +343,7 @@ enyo.kind({
 
         return launchHandled;
     },
+
     /*
      * Handles launches that have no params, automatically selecting the first favorited folder.
      */
@@ -582,11 +602,13 @@ enyo.kind({
         this.$.masterSettings.showPreferences();
         this.selectViewByName("masterSettings");
     },
+
     showHelp: function () {
         var url = "http://help.palm.com/email/index.html";
         EmailApp.Util.callService("palm://com.palm.applicationManager/open",
             {id: "com.palm.app.help", params: {target: url}});
     },
+
     headerTap: function () {
         if (this.$.slidingPane.view === this.$.mailSliding) {
             this.$.slidingPane.selectView(this.$.folderSliding);

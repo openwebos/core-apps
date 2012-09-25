@@ -73,9 +73,10 @@ var AccountWizard = function (assistant) {
  */
 AccountWizard.prototype._attemptServerPrefix = function (emailAddress, password, domain, bestMxServer) {
 
-    // Store static constants locally
+    // Store static constants locally for loop performance
     var S_PREFIX = AccountWizard.S_PREFIX, S_TYPE = AccountWizard.S_TYPE, S_PORT = AccountWizard.S_PORT, S_SSL = AccountWizard.S_SSL, S_PRIORITY = AccountWizard.S_PRIORITY, SMTP = AccountWizard.SMTP;
     var ServerConfig = AccountWizard.ServerConfig;
+    var data;
 
     // TODO: Ideally, we'd use the server domain, the MX server domain,
     // and appropriate prefixes of the MX server domain to guide this process.
@@ -94,7 +95,7 @@ AccountWizard.prototype._attemptServerPrefix = function (emailAddress, password,
 
         //this.log("Attempting server prefix. This is the server: ___", server);
 
-        var data = new ProtocolSettings({
+        data = new ProtocolSettings({
             "email": emailAddress,
             "username": emailAddress,
             "password": password,
@@ -113,8 +114,7 @@ AccountWizard.prototype._attemptServerPrefix = function (emailAddress, password,
             if (!this._validateProtocolSettings(data)) {
                 continue;
             }
-        }
-        else {
+        } else {
             // Validate the SMTP account
             this._validateSMTPSettings(data);
         }
@@ -174,9 +174,6 @@ AccountWizard.prototype.attemptYahooAccount = function (emailAddress, password, 
  * @param {Object} protType
  */
 AccountWizard.prototype.getTemplateForProtocol = function (protType) {
-    if (!protType) {
-        return undefined;
-    }
     return this.protTemplates[protType]; // can be undefined
 };
 

@@ -16,11 +16,13 @@
 //
 // LICENSE@@@
 
+
 /*global AccountPreferences:true */
 /**
- * models email account preferences.
+ * Operations for manipulating email account preferences (ie: sync-frequencies,
+ * default signatures,lookback windows, and more.
+ * Note that these should not be confused with application preferences.
  */
-
 var AccountPreferences = {};
 
 AccountPreferences.getPrefsByAccountId = function (accountId) {
@@ -28,6 +30,30 @@ AccountPreferences.getPrefsByAccountId = function (accountId) {
     return pref.getPrefsData();
 };
 
+/**
+ * Save preferences for an email account.
+ * @param {Object} params -- preferences in the format:
+ * {
+ _id:  com.palm.account id string
+ // all other params are optional
+ syncFrequencyMins: AccountPreferences.SYNC_XXXX constant
+ syncWindowDays: AccountPreferences.LOOKBACK_XXXX constant
+ realName: string to display as sender name
+ replyTo: string replyto email address
+ signature: string email signature
+ notifications: { // notification preferences block
+ "enabled": boolean
+ "ringtoneName": string for display,
+ "ringtonePath": string path for actual file
+ "type": AccountPreferences.NOTIFICATION_XXXX constant
+ },
+ deleteFromServer: boolean
+ deleteOnDevice: boolean
+ sentFolderId: string folder id
+ trashFolderId: string folder id
+ draftsFolderId: string folder id
+ }
+ */
 AccountPreferences.saveAccountPreferences = function (params) {
 
     if (!params || !params._id) {
@@ -45,22 +71,29 @@ AccountPreferences.saveAccountPreferences = function (params) {
     var toSave = {}, sanitizeStr = AccountPreferences.sanitizeStr;
 
     // copy out only the variables that should be saved to the database
-    ["realName", "_id", "syncFrequencyMins", "syncWindowDays", "replyTo", "deleteFromServer", "deleteOnDevice", "inboxFolderId", "outboxFolderId", "notifications", "draftsFolderId", "trashFolderId"].forEach(function (key) {
-        var val = params[key];
-        toSave[key] = (typeof val === "string") ? sanitizeStr(val) : val;
-    });
+    ["realName", "_id", "syncFrequencyMins", "syncWindowDays", "replyTo",
+     "deleteFromServer", "deleteOnDevice", "inboxFolderId", "outboxFolderId",
+     "notifications", "draftsFolderId", "trashFolderId"].forEach(
+        function (key) {
+            var val = params[key];
+            toSave[key] = (typeof val === "string") ? sanitizeStr(val) : val;
+        }
+    );
 
     toSave.signature = AccountPreferences._correctSignature(params.signature);
-    console.log("@@@ saving the account");
     EmailApp.Util.callService('palm://com.palm.db/merge', {objects: [toSave]});
 };
 
+/**
+ * Used to update the displayed name for an email account
+ * @param {String} accountId: com.palm.account _id
+ * @param {String} accountName: name to display for account
+ */
 AccountPreferences.saveAccountName = function (accountId, accountName) {
     if (!accountId || accountName === undefined) {
         return;
     }
 
-    console.log("Saving account name");
     // save account alias
     EmailApp.Util.callService('palm://com.palm.service.accounts/modifyAccount', {
         "accountId": accountId,
@@ -72,7 +105,10 @@ AccountPreferences.saveAccountName = function (accountId, accountName) {
     });
 };
 
-
+/**
+ * Strips html and scripts from provided string. Used for saving email signatures
+ * TODO: Move into utils, if applicable.
+ */
 AccountPreferences.sanitizeStr = function (str) {
     if (!str || typeof str !== "string") {
         // return whatever we were sent
@@ -83,6 +119,13 @@ AccountPreferences.sanitizeStr = function (str) {
     return str.replace(/<\/?[^>]+>/gi, '');
 };
 
+/**
+ * Tweak signature from database for proper display in the application.
+ * This is necessary since blank/null signature values in the db are treated as
+ * the default device signature,
+ *    ie: "Sent from my [webOS device]"
+ * while actual blank display signatures are stored using a placeholder string.
+ */
 AccountPreferences._correctSignature = function (signature) {
 
     signature = signature || AccountPreferences.NO_SIGNATURE_BY_USER;
@@ -99,7 +142,7 @@ AccountPreferences._correctSignature = function (signature) {
         if (strippedSig.trim().length === 0) {
             signature = AccountPreferences.NO_SIGNATURE_BY_USER;
         } else if (strippedSig !== AccountPreferences.NO_SIGNATURE_BY_USER) {
-            // preserving old logic. Tgis looks stupid, but I'm guessing
+            // preserving old logic. This looks stupid, but I'm guessing
             // we could end up with the no-sig value after cleanup
             signature = AccountPreferences.addStylingToSig(signature);
         }
@@ -107,6 +150,10 @@ AccountPreferences._correctSignature = function (signature) {
     return signature;
 };
 
+/**
+ * Add wrapper div and styling to stored signature for actual display.
+ * Returns fixed-up html string, containing the signature text.
+ */
 AccountPreferences.addStylingToSig = function (signature) {
     // If the signature is empty or already has styling, just return it. Otherwise add the styling
     if (!signature || signature.indexOf('<div style="font-family: arial') === 0) {
@@ -116,8 +163,9 @@ AccountPreferences.addStylingToSig = function (signature) {
 };
 
 
-/** function is used to resolve a signature from a raw com.palm.account or an account
- * displayed in the compose view's from dropdown
+/**
+ * Used to retrieve an email account signature using the raw com.palm.account
+ * _id value.
  */
 AccountPreferences.getSignature = function (accountId) {
     var carrierDefs = enyo.application.carrierDefaults;

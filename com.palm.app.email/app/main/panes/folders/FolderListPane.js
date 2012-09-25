@@ -16,6 +16,10 @@
 //
 // LICENSE@@@
 
+/**
+ * Folder list pane
+ * Displays lists of mail folders, grouped by account
+ */
 enyo.kind({
     name: "MailAccounts",
     kind: "VFlexBox",
@@ -61,16 +65,23 @@ enyo.kind({
         this.inherited(arguments);
     },
 
+    /**
+     * Stub. App menu has been moved into the MailApp.js itself
+     */
     getAppMenuConfigs: function () {
         return {};
     },
+
+    /**
+     *    Handler for updating pane with account watch data.
+     */
     accountsChanged: function () {
         var oldAccounts = this.accounts;
         var accts = enyo.application.accounts;
         this.accounts = accts.getSortedList();
         this.defaultAccount = accts.getDefaultAccount();
 
-        // TODO: update this
+        // TODO: update this with a stub CombinedAccount
         this.accounts.unshift({
             getAlias: function () {
                 return $L("Favorites")
@@ -118,6 +129,9 @@ enyo.kind({
         }
     },
 
+    /**
+     * Retrieve a Folders widget by the index of its corresponding account in the accounts list.
+     */
     getFoldersObjByIndex: function (index) {
         return this.$.accountsList.getControls()[index];
     },
@@ -138,6 +152,10 @@ enyo.kind({
         this.doSelectFolder(inFolder);
     },
 
+    /**
+     *    Handler for completion of folder loading. Notifies container of
+     *  load completion through FoldersLoaded event.
+     */
     foldersLoaded: function (inSender, inFolder) {
         this.doFoldersLoaded();
     },
@@ -194,6 +212,10 @@ enyo.kind({
             this.showHideHeader(true);
         }
     },
+
+    /**
+     * Listens for Default Account preference changes and updates accordingly.
+     */
     prefsChanged: function (key, value) {
         if (key === "defaultAccountId") {
             this.defaultAccount = enyo.application.accounts.getDefaultAccount();

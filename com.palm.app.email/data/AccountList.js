@@ -16,6 +16,7 @@
 //
 // LICENSE@@@
 
+
 // A simple class to encapsulate the global accounts list for the email app.
 // Extends the accounts.ui library support by adding an account ID lookup table, a facility for "change listeners", and coordinated functionality for com.palm.mail.account objects.
 // onReady function will be called after the accounts list has been loaded.
@@ -32,10 +33,6 @@ EmailApp.AccountList = function (onReady) {
     var __acctsServiceCall = null;
     var that = this;
 
-
-    var forceLogic = arguments.length > 1 && arguments[1] === 'klaatu barada nikto';
-    console.log("#$@%@#% force logic? " + forceLogic);
-
     // Public variables
     var accountTemplates = this.accountTemplates = {}; // hash of template ids to templates
     var getTemplateMailProvider = this.getTemplateMailProvider;
@@ -49,8 +46,8 @@ EmailApp.AccountList = function (onReady) {
     EmailApp.Util.mixInBroadcaster(this, "EmailApp.AccountList");
 
     // On desktop, fake some data & call through.
-    if (!EmailApp.Util.hasServiceCallbacks() && !forceLogic) {
-        console.log("#@#$@ USING DUMMY ACCOUNTS");
+    if (!EmailApp.Util.hasServiceCallbacks()) {
+        // TODO: Remove browser-specific/testing code.
         _accountsChanged([
             {_id: "fake-account-1", alias: "Palm", username: "fakeuser@fakedomain.com", accountId: "fake-account-1"},
             {_id: "fake-account-2", alias: "Palm 2", username: "otherfakeuser@fakedomain.com", accountId: "fake-account-2"}
@@ -147,7 +144,8 @@ EmailApp.AccountList = function (onReady) {
      * Set up a watch on com.palm.account entries. Any existing watch will be cancelled and overridden with the new watch.
      */
     function refresh() {
-        if (!EmailApp.Util.hasServiceCallbacks() && !forceLogic) {
+        if (!EmailApp.Util.hasServiceCallbacks()) {
+            // TODO: remove browser-specific hacks
             return;
         }
         if (_accountsAutoFinder) {
@@ -405,6 +403,7 @@ EmailApp.AccountList.prototype = {
         // Return one icon or the other, depending on whether or not the "big" one was requested.
         if (icon) {
             path = big ? icon.loc_48x48 : icon.loc_32x32;
+            // TODO: Remove browser-specific hacks
             if (!EmailApp.Util.onDevice() && template) { // Yuck. How do we find these onDevice?
                 path = "../tests/mock/accounts/" + template.templateId + "/" + path;
             }
@@ -457,8 +456,7 @@ EmailApp.AccountList.prototype = {
      * Retrieve a transport type string for an provided account id.
      * reutrns "POP","IMAP", "POP"
      * @param {String} accountId
-     * REFAC
-     * TODO: Might not always be safe. See if there's a more reliable way to get this info
+     * TODO: REFACTOR Might not always be safe. See if there's a more reliable way to get this info
      * maybe use the whole transport uri instead of pulling out the name
      */
     getAccountType: function (accountId) {

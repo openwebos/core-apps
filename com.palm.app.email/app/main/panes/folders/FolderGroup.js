@@ -19,6 +19,9 @@
 /*global console, enyo, Folder, EmailApp, mail, cacheMail
  */
 
+/**
+ * UI Widget for displaying a group of folders for an account.
+ */
 enyo.kind({
     name: "Folders",
     kind: "Control",
@@ -80,6 +83,7 @@ enyo.kind({
             this.$.header.close();
         }
 
+        // bind and add listeners
         this.prefsChangedCallbackBound = this.prefsChangedCallback.bind(this);
         enyo.application.prefs.addListener(this.prefsChangedCallbackBound);
 
@@ -121,6 +125,7 @@ enyo.kind({
             return true;
         }
 
+        // if id is in the list
         if (this._allFolders.some(function (f) {
             return f._id === id;
         })) {
@@ -130,7 +135,7 @@ enyo.kind({
             this.$.selection.clear();
         }
     },
-    selectionChanged: function (inSender) {
+    selectionChanged: function (sender) {
         this.$.list.render();
     },
 
@@ -142,12 +147,14 @@ enyo.kind({
         if (this.isFavorites() && accts.hasAccounts() && accts.getAccounts().length < 2 && enyo.application.prefs.get("showAllInboxes")) {
             this.removeFolderFromListById(this._allFolders, Folder.kAllInboxesFolderID);
 
-            //now call this.gotFolders() to update the list
-
+            // force a list update
             this.gotFolders(this._allFolders, true);
         }
     },
 
+    /**
+     * Handler for application preference changes
+     */
     prefsChangedCallback: function (propName, newValue) {
         //we only care about the synthetic folder prefs, so if we're not the favorites folders list, ignore any prefs changes
         if (!this.isFavorites()) {
@@ -175,6 +182,7 @@ enyo.kind({
             index++;
         }
 
+        // FIXME: Remove this once we're certain of fix
         // DEBUG(AK) for DFISH-19417
         var flaggedFolderMatcher = function (element) {
             return element._id === Folder.kAllFlaggedFolderID;
@@ -225,6 +233,9 @@ enyo.kind({
         });
     },
 
+    /**
+     * Returns true if the folder is a favorite folder. False otherwise.
+     */
     isFavorites: function () {
         return !this.account.getId() && this.account.isFavoritesAccount;
     },
@@ -326,7 +337,7 @@ enyo.kind({
                 that.$.list.renderRow(index);
             }
         });
-
+        // fire loaded event
         this.doLoaded();
     },
 
@@ -353,8 +364,6 @@ enyo.kind({
         }
 
         //now call this.gotFolders to do continue onwards
-
-
         this.gotFolders(sortedFolders);
     },
 

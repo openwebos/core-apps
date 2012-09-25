@@ -16,6 +16,31 @@
 //
 // LICENSE@@@
 
+/*
+ * setAccountPreferences()
+ *  syncLookback
+ *  syncFrequencyMins
+ *  deleteFromServer
+ *  deleteOnDevice
+ *  replyTo
+ *  signature
+ *  realName
+ *  useHtml
+ *  acctName
+ *  defaultAccountFlag
+ *
+ * setAccountDetails
+ *  name - same at acctName?
+ *  rootFolder
+ *  port
+ *  password
+ *  smtpLogin
+ *  smtpPassword
+ *  smtpHost
+ *  smtpSsl
+ *  smtpPort
+ */
+
 // TODO: look at deprecating this
 
 /*global Mojo, $L, Class, window, document, PalmSystem, AppAssistant, palmGetResource, Foundations, _,

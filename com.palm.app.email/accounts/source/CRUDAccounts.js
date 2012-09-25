@@ -51,15 +51,22 @@ enyo.kind({
     create: function () {
         this.inherited(arguments);
         this.validateWizardResult = this.validateWizardResult.bind(this);
-        //this.setupConnectionWatch();
         EmailApp.Util.setUpConnectionWatch();
         this.removeSecurityPolicies = this.removeSecurityPolicies.bind(this);
         this.$.errorDialog.validateComponents();
     },
 
+    /**
+     * Manually dispatch an enyo back event.
+     * TODO: determine if needed.
+     */
     doBack: function () {
         enyo.dispatchBack();
     },
+
+    /**
+     * Display the basic account wizard screen
+     */
     showSimpleConfig: function (hasError) {
         var simCon = this.$.simpleConfig;
         simCon.loadAccount(this.account);
@@ -75,7 +82,8 @@ enyo.kind({
      *                  'password' : string
      *                 }
      *
-     * @param errorSettings: {ProtocolSettings}, included if account setup was unsuccessful, but fixable (mostly correct info)
+     * @param errorSettings: {ProtocolSettings}, included if account setup was
+     *            unsuccessful, but fixable (mostly correct info)
      */
     showManualConfig: function (simpleFields, errorSettings) {
         var ca = this.account;
@@ -102,6 +110,9 @@ enyo.kind({
         this.$.settingPane.selectView(this.$.manualConfig);
     },
 
+    /**
+     * Create a fresh account wizard for use on the config scenes.
+     */
     makeFreshWizard: function () {
         this.exitedWizard = false;
         this.wizard = new AccountWizard(this, this.validateWizardResult);
@@ -129,6 +140,10 @@ enyo.kind({
         this.showSimpleConfig(this.account, hasError);
     },
 
+    /**
+     * Lookup passwords if they haven't been provided by the user. Used for account modifications.
+     * @param {function} onComplete -- completion handler for password lookup, accepting the completed combined account object
+     */
     checkPasswords: function (onComplete) {
         var ca = this.account;
         var accountId = ca.getId();
@@ -168,12 +183,14 @@ enyo.kind({
         }
     },
 
+    /**
+     * Populate a combind account with data from the database
+     * @param {Object} -- raw com.palm.account record to look up com.palm.mail.account information for.
+     */
     loadAccountFromDb: function (account) {
-
-        console.log("### loading account from database");
         var that = this,
             ca = new CombinedAccount().setAccountData(account);
-        console.log("@@@ set our account data. What the hell did we set?");
+
         function handleMail(resp) {
             var mailAcct = (resp.results && resp.results.length) ? resp.results[0] : undefined;
             if (mailAcct) {
@@ -187,26 +204,10 @@ enyo.kind({
         ]}}, handleMail);
     },
 
-    _cloneAccount: function (toClone) {
-        return this._cloneIt(toClone);
-    },
-
-    _cloneIt: function _cloneIt(toClone) {
-        if (!toClone) {
-            return;
-        }
-        var toRet = {}, that = this;
-        Object.keys(toClone).forEach(function (key) {
-            // ensure a deep copy
-            if (typeof toClone[key] === "object") {
-                toRet[key] = that._cloneIt(toClone[key]);
-            } else {
-                toRet[key] = toClone[key];
-            }
-        });
-        return toRet;
-    },
-
+    /**
+     * Mix in properties from source object into a destination object
+     * Existing properties (aside from 0, null, empty strings) within the destination object will not be overwritten
+     */
     _copyInProps: function (src, dest) {
         if (!src || !dest) {
             return undefined;
@@ -220,7 +221,10 @@ enyo.kind({
         return dest;
     },
 
-
+    /**
+     * Mixes error settings from a failed wizard-validation into
+     * the current CombinedAccount object for use in manual configuration.
+     */
     mixinErrorSettings: function (toMix) {
         if (this.account && this.account.getId()) {
             return; // don't mix anything in
@@ -232,6 +236,10 @@ enyo.kind({
         }
     },
 
+    /**
+     * Used to double check a successful wizard result before sending it onward.
+     * Prevents creation of duplicate accounts.
+     */
     validateWizardResult: function (result) {
         // we're doing other people's work here, but oh well...
         if (this.exitedWizard) {
@@ -249,18 +257,29 @@ enyo.kind({
         }
     },
 
+    /**
+     * Send successful validation result back to the accounts service.
+     */
     sendValidResult: function (result) {
         this.$.crossAppResult.sendResult(result);
         this.wizard.resetWizardState(); // don't send anything else
         this.exitedWizard = true;
     },
 
-    // Account is not a duplicate
+
+    /**
+     * Handler for the Accounts.DuplicateCheck service.
+     * Sends a completed, validated result back to the accounts service.
+     */
     newAccountHandler: function (inSender, wizardResult) {
         this.sendValidResult(wizardResult);
     },
 
-    // Account already exists
+
+    /**
+     * Handler for the Accounts.DuplicateCheck service. Notifies the user that an
+     * account has already been created with the provided credentials.
+     */
     duplicateAccountHandler: function (inSender, wizardResult) {
         // The account already exists
         if (wizardResult.isDuplicateAccount) {
@@ -285,7 +304,9 @@ enyo.kind({
         }
     },
 
-
+    /**
+     * Cleans up any existing validation attempts/work and exits the wizard.
+     */
     exitWizard: function (isRemoval) {
         try {
             this.wizard.stopWizard();
@@ -311,6 +332,17 @@ enyo.kind({
         this.$.settingPane.selectView(this.$.blank);
     },
 
+    /**
+     * Used to display validation errors to the user.
+     * @param {Object} toDisplay - JSON object in the format:
+     *         {
+     *            title {String} : (optional) error box title to display
+     *            message {String} : (optional) error text to display
+     *            text {String} : (optional) backup text to display
+     *            choices {Array of JSON objects} : (optional). Choices to display to the user. See default example below,
+     *            onChoose {function} : callback function for choice selection
+     *        }
+     */
     showError: function (toDisplay) {
         this.$.errorTitle.setContent(toDisplay.title || "");
         // where the heck is this getting changed to 'text'?
@@ -334,6 +366,10 @@ enyo.kind({
         this.$.errorDialog.openAtCenter();
     },
 
+    /**
+     * Handler for error dialog choice selection. Fires handler for
+     * displayed choices, and closes the error dialog.
+     */
     checkChoice: function (sender, inevent) {
         if (this.$.errorDialog.choiceMatters) {
             var handler = this.$.errorDialog.choiceMatters;
@@ -343,6 +379,11 @@ enyo.kind({
         this.$.errorDialog.toggleOpen();
     },
 
+    /**
+     * Loader function for cross-app entry. When accessed through the accounts application
+     * all initial account/template information will be provided through the window
+     * parameters.
+     */
     windowParamsChangeHandler: function (inSender, event) {
         var params = event && event.params;
         if (!params) {
@@ -363,6 +404,10 @@ enyo.kind({
         this.launchCapability = params.capability;
     },
 
+    /**
+     * Make a default MailAccount stub for use in initial validation attempts
+     * Matches the format of com.palm.mail.account entries.
+     */
     makeDummyMailAccount: function (templateId) {
         return {
             encryption: "",
@@ -380,6 +425,10 @@ enyo.kind({
         }
     },
 
+    /**
+     * Make a default JSON stub for use in initial validation attempts.
+     * Matches the format of com.palm.account entries.
+     */
     makeDummyAccount: function () {
         var wizTemp = this.wizardTemplate;
         return {
@@ -389,16 +438,12 @@ enyo.kind({
         };
     },
 
+    /**
+     * This function initiates the UI flow for password policy validation.
+     * @param {Object} emailAddress - address for this account (used to verify that the current policy is for this account)
+     * @param {Object} onSuccess - optional callback that will be invoked when the user completes the process
+     */
     handlePasswordPolicy: function (emailAddress, onSuccess) {
-
-        /**
-         * This function initiates the UI flow for password policy
-         * @param {Object} controller
-         * @param {Object} emailAddress - address for this account (used to verify that the current policy is for this account)
-         * @param {Object} onSuccess - optional callback that will be invoked when the user completes the process
-         * @param {Object} onCancel - optional callback that will be invoked if the user cancels out of the process
-         */
-
         console.log("SecuritypolicyAssistant.handlePasswordPolicy addr");
         var getPolicies;
         var retryCount = 0;
@@ -465,18 +510,18 @@ enyo.kind({
     },
 
     guardSuccess: function () {
-        // will be supplied later
+        // stub. Will be overridden dynamically by SecurityPolicy enforcement code
     },
     guardFailure: function () {
-        // will be supplied later
+        // stub. Will be overridden dynamically by SecurityPolicy enforcement code
     },
     guardCancel: function () {
-        // will be supplied later
+        // stub. Will be overridden dynamically by SecurityPolicy enforcement code
     },
 
     /*
-     * Check whether the security policy should be removed because the account that set it
-     * was removed.
+     * Removes a matching, downloaded security policy in cases of account deletion or
+     * canceling out of an account setup.
      */
     removeSecurityPolicies: function (accounts) {
         var that = this;

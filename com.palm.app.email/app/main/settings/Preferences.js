@@ -17,7 +17,8 @@
 // LICENSE@@@
 
 /**
- * Application preferences scene
+ * Application preferences scene.
+ * TODO: Make this work with events instead of this.owner calls
  */
 enyo.kind({
     name: "Preferences",
@@ -135,6 +136,8 @@ enyo.kind({
         enyo.application.accounts.removeListener(this.loadAccounts);
         this.inherited(arguments);
     },
+
+    /** preference toggles */
     toggleConfirmDelete: function () {
         this.setPref('confirmDeleteOnSwipe', this.$.confirmDeletes.getState());
     },
@@ -143,28 +146,48 @@ enyo.kind({
         this.setPref('showAllInboxes', this.$.showAllInboxes.getState());
     },
 
+    /**
+     * Turn on/off display of 'All Flagged' folder
+     */
     toggleAllFlagged: function () {
         this.setPref('showAllFlagged', this.$.showAllFlagged.getState());
     },
 
+    /**
+     * Utility function for setting application preference values.
+     */
     setPref: function (key, val) {
         enyo.application.prefs.set(key, val);
     },
 
+    /**
+     * fire a back action.
+     * TODO: consolidate/remove these
+     */
     doBack: function () {
         enyo.dispatchBack();
     },
 
+    /**
+     * Handler for Add Account button
+     */
     addAccountClick: function () {
         this.owner.showAddAccount(this.templates);
-        //this.owner.showAccountWizard();
     },
 
+    /**
+     * Handler for accountsList entry selection. Displays the config scene for
+     * the selected account.
+     */
     showAccountSettings: function (targetItem, res) {
         // we're dealing with raw acct information from the accounts widget
         this.owner.showAccountSetting(res.account._id); // just pass id
     },
 
+    /**
+     * Load accounts on screen, and display current application preference values
+     * TODO: streamline all of this. Some redundant operations.
+     */
     loadAccounts: function () {
         var accts = enyo.application.accounts;
         if (!accts) {
@@ -203,8 +226,10 @@ enyo.kind({
         }
     },
 
+    /**
+     * Handler for AccountsList load completion.
+     */
     onAccountsAvailable: function (sender, resp) {
-        console.log("### accounts are available");
         this.filteredAccounts = resp.accounts;    // Accounts are returned as an array. Not doing anything with this yet
         this.templates = resp.templates; // The list of account templates that can be added
     },
@@ -228,6 +253,11 @@ enyo.kind({
     getIconPath: function (acctId) {
         return enyo.application.accounts.getIconById(acctId, false);
     },
+
+    /**
+     * Create a list of account choices for the default account dropdown.
+     * Returns array of JSON objects for display in list.
+     */
     makeDefAccountItems: function (accounts) {
         var defItems = [], a = undefined, i = 0, len = accounts.length;
 

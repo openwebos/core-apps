@@ -28,6 +28,8 @@
  Once the purged item has been reloaded, the path property should be updated by the owner to trigger a retry of the pin operation.
  */
 
+// TODO: relocate. This is an enyo component, so technically doesn't belong in utils...
+
 enyo.kind({
     name: "CachedFile",
     kind: "enyo.Component",

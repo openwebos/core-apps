@@ -16,6 +16,11 @@
 //
 // LICENSE@@@
 
+/**
+ * Main Account Settings scene. Controls display of application settings,
+ * accounts preferences, creation, and credentials-editing scenes.
+ * TODO: Make this work with events.
+ */
 enyo.kind({
     name: "MasterSettings",
     width: "100%",
@@ -36,26 +41,48 @@ enyo.kind({
     create: function () {
         this.inherited(arguments);
     },
+    /**
+     * Fire a back-action
+     * TODO: Consolidate these
+     */
     doBack: function () {
         enyo.dispatchBack();
     },
+
+    /**
+     * Display the application preferences scene
+     */
     showPreferences: function () {
         this.$.preferences.loadAccounts(); // leave this in for now
         this.$.settingPane.selectView(this.$.preferences);
     },
+
+    /**
+     * Display the account settings scene
+     * @param {String} accountId -- _id for com.palm.account to display
+     */
     showAccountSetting: function (accountId) {
         this.$.accountSettings.loadAccount(accountId);
         this.$.settingPane.selectView(this.$.accountSettings);
     },
+
+    /**
+     * Display the add-account scene, using the Accounts UI library.
+     */
     showAddAccount: function (filteredTemplates) {
         // in case the user calls this before we can get a filtered list of templates from accounts ui,
         // use the list we've cached
-        filteredTemplates = filteredTemplates || enyo.application.accounts.templateList.filter(function (elem) {
+        filteredTemplates = filteredTemplates || enyo.application.accounts.
+            templateList.filter(function (elem) {
             return !elem.hidden;
         });
         this.$.addAccountView.AddAccount(filteredTemplates);
         this.$.settingPane.selectView(this.$.addAccountView);
     },
+
+    /**
+     * Display the account modification scenes for an existing account.
+     */
     showEditMode: function (accountId) {
         var accts = enyo.application.accounts;
         this.$.crudAccounts.loadAccount(accts.getAccount(accountId));
@@ -85,13 +112,12 @@ enyo.kind({
         return verdict;
     },
 
+    /**
+     * Display the manual config scene, for editing of hostname params, etc.
+     */
     showManualConfig: function () {
         this.$.crudAccounts.loadAccount(this.toEdit);
         this.$.settingPane.selectView(this.$.manualConfig);
-    },
-    showAccountWizard: function () {
-        this.$.crudAccounts.setWizardMode();
-        this.$.settingPane.selectView(this.$.crudAccounts);
     }
 });
 

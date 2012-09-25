@@ -538,7 +538,7 @@ enyo.kind({
      * @param {Object} ignore - true means ignore, false means process new emails normally
      */
     setIgnoreNewEmails: function (ignore) {
-        console.info("DashboardManager.setIgnoreNewEmails = " + ignore);
+        //console.info("DashboardManager.setIgnoreNewEmails = " + ignore);
         this.neverDisplay = ignore;
     },
 
@@ -553,7 +553,12 @@ enyo.kind({
      * @param {String} messageId - the specific message to filter out
      */
     setFilter: function (accountId, folderId, messageId) {
-        console.info("DashboardManager.setFilter(a=" + stringify(accountId) + ", f=" + stringify(folderId) + ", m=" + stringify(messageId) + ")");
+        if (!window) {
+            // whoops, we're probably being unloaded now
+            return;
+        }
+
+        //console.info("DashboardManager.setFilter(a=" + stringify(accountId) + ", f=" + stringify(folderId) + ", m=" + stringify(messageId) + ")");
         if (folderId && folderId === Folder.kAllInboxesFolderID) {
             this.setIgnoreNewEmails(true);
         } else {
@@ -640,7 +645,7 @@ enyo.kind({
         this.newDashboardPowerUser.stop();
     },
 
-    dashboardDeactivated: function (inSender) {
+    dashboardDeactivated: function (sender) {
         this.newDashboardPowerUser.stop();
     },
 
@@ -655,7 +660,7 @@ enyo.kind({
 
         this.clear(layer.accountId);
         console.info("WINLOG: Activating main mail card, db tap");
-        enyo.windows.activate("mail/index.html", "mail", {
+        enyo.application.launcher.openCard("mail", {
             emailId: layer.emailId
         });
     },
@@ -671,7 +676,7 @@ enyo.kind({
 
         this.clear(layer.accountId);
         console.info("WINLOG: Activating main mail card, db icon tap");
-        enyo.windows.activate("mail/index.html", "mail", {
+        enyo.application.launcher.openCard("mail", {
             accountId: layer.accountId,
             folderId: layer.folderId
         });

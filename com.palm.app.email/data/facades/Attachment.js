@@ -22,6 +22,8 @@ if (!window.EmailApp) {
 
 EmailApp.Facades = EmailApp.Facades || {};
 
+// TODO: RENAME component. might be better as something like AttachmentUtils
+// Download code should be moved to a Transport object
 EmailApp.Facades.Attachment = {
     /*** Constants ***/
     kUnnamedAttachmentName: $L("Unnamed Attachment"), // FIXME localize this
