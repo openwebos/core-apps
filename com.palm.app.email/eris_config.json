@@ -1,8 +1,0 @@
-{
-    "localEnyoRoot"   : "../../",
-    "ciEnyoRoot"      : "/usr/palm/frameworks/",
-    "enyoVersion"     : "0.10",
-    "enyoLaunchParams": {
-        "nobridge": true
-    }
-}

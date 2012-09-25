@@ -33,7 +33,6 @@ enyo.depends(
     "source/Folders.js",
     "source/Mail.js",
     "source/MessagePane.js",
-    "source/HtmlView.js",
     "source/MessageDisplay.js",
     "source/MessageLoader.js",
     "source/DarkSwipeable.js",
