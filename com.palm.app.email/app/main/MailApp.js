@@ -16,9 +16,6 @@
 //
 // LICENSE@@@
 
-/*global enyo, console, $L, Folder, EmailApp
- */
-
 // FIXME: temporary navigation aid to synthesize a back gesture
 enyo.dispatchBack = function () {
     enyo.dispatch({type: "back", preventDefault: enyo.nop});

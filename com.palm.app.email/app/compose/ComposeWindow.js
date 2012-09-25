@@ -16,9 +16,6 @@
 //
 // LICENSE@@@
 
-/*global enyo, window, console, mail, EmailApp, Email, EmailRecipient, setTimeout, $L
- */
-
 // FIXME ComposeWindow needs to be refactored to make logic more transparent/maintainable
 
 enyo.string.isBlankRegExp = /^\s*$/;
@@ -82,7 +79,7 @@ enyo.kind({
     kind: "VFlexBox",
     className: "basic-back",
     statics: {
-        kForwardDraftDelimiter: "<span id='FORWARD_DRAFT_TEXT' class='display:none'></span>",
+        kForwardDraftDelimiter: "<span id='FORWARD_DRAFT_TEXT' class='display:none'></span>"
     },
     published: {
         draftIsDirty: false,
@@ -100,7 +97,7 @@ enyo.kind({
                             {name: "otherMenu", kind: "Menu", lazy: false, components: [
                                 {name: "priorityMenuItem", caption: $L("Mark as High Priority"), onclick: "priorityMenuItemClicked"},
                                 {name: "saveAsDraftMenuItem", caption: $L("Save As Draft"), onclick: "saveDraftClicked"},
-                                {name: "discardMessageMenuItem", caption: $L("Discard Message"), onclick: "discardMessage"},
+                                {name: "discardMessageMenuItem", caption: $L("Discard Message"), onclick: "discardMessage"}
                             ]}
                         ]},
                         {name: "attachButton", className: "attachment-button", kind: "CustomButton", onclick: "attachClick", style: "", components: []},
@@ -117,7 +114,7 @@ enyo.kind({
                 {name: "composeScroller", className: "compose-scroller", style: "background-color: white;", kind: "Scroller", accelerated: false, height: "100%", flex: "1", onscroll: "scrollerScroll", components: [
                     {kind: "VFlexBox", components: [
                         {kind: "VFlexBox", className: "compose-header", style: "background-color: #f1f1f1;", components: [
-                            {className: "enyo-row", className: "dotted-bottom", components: [
+                            {className: "enyo-row dotted-bottom", components: [
                                 {kind: "HFlexBox", height: "54px", style: "padding: 0 14px;", components: [
                                     {name: "fromLabel", className: "compose-to-text", style: "line-height:54px;margin-right:4px;", content: $L("from:")},
                                     {name: "from", kind: "ListSelector", style: "font-size:16px;", onChange: "senderAccountChanged", flex: 1, value: 0, items: []}
@@ -138,15 +135,15 @@ enyo.kind({
                                     {name: "subjectInput", style: "font-size:16px;", kind: "Input", className: "enyo-middle", flex: 1, onkeydown: "subjectKeydown", tabIndex: 40, oninput: "changeHandler"},
                                     {name: "priorityFlag", kind: "Image", src: "../images/compose-priority-flag.png", className: "compose-red-flag"}
                                 ]}
-                            ]},
+                            ]}
                         ]},
                         {name: "attachments", kind: "AttachmentsDrawer", className: "compose-attachments-drawer", composeMode: true, collapsible: true, onAttachmentsRemoved: "handleAttachmentsRemoved"},
                         {name: "bodyContainer", style: " background-color: white; ", components: [
                             {name: "bodyInput", kind: "RichText", hint: "", placeholderClassName: "", flex: 1, styled: false, tabIndex: 50, style: "padding:14px 14px 0px 14px; min-height: 75px; background-color: white;font-size:16px;", oninput: "changeHandler"},
-                            {name: "originalMessageBody", kind: "RichText", hint: "", placeholderClassName: "", styled: false, showing: false, flex: 1, style: "padding:0px 14px 14px 14px; background-color: white;", oninput: "changeHandler"},
+                            {name: "originalMessageBody", kind: "RichText", hint: "", placeholderClassName: "", styled: false, showing: false, flex: 1, style: "padding:0px 14px 14px 14px; background-color: white;", oninput: "changeHandler"}
                         ]}
                     ]}
-                ]},
+                ]}
             ]},
             {kind: "FilePicker", allowMultiSelect: true, onPickFile: "attachFiles"}
         ]},
@@ -195,11 +192,13 @@ enyo.kind({
         // Uncomment the ApplicationEvents component when removing this workaround.
         var that = this,
             $$ = this.$;
+            
         var unloadFunc = function (e) {
             console.info("WINLOG: Compose window UNLOAD: " + window.name);
             that.unloadHandler(e);
             window.removeEventListener('unload', unloadFunc);
-        }
+        };
+        
         window.addEventListener('unload', unloadFunc);
 
         this.populateMessage(enyo.windowParams);

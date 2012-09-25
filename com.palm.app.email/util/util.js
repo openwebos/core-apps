@@ -16,10 +16,6 @@
 //
 // LICENSE@@@
 
-/*global  $L,  window, document,
- console, Throttler, $H, $A, Event, $break, Element,
- EmailApp, enyo, Exception, setTimeout */
-
 //TODO: seems like a framework should provide these functions. Putting here for now to unblock progress.
 String.prototype.escapeHTML = function () {
     return this.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

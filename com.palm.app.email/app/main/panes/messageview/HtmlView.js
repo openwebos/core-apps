@@ -44,8 +44,9 @@ enyo.kind({
 
     activate: function () {
     },
+    
     deactivate: function () {
-    },
+    }
 });
 
 enyo.kind({
@@ -115,7 +116,7 @@ enyo.kind({
         viewControl.loadStarted = function () {
             viewControl._pendingUrl = undefined;
             origLoadStarted();
-        }
+        };
 
         this._webviewReady = true;
     },
@@ -168,7 +169,7 @@ enyo.kind({
     webviewTap: function () {
         // TODO
         return true;
-    },
+    }
 });
 
 enyo.kind({
@@ -503,7 +504,7 @@ enyo.kind({
 
     // find link and/or image (may be both)
     findLinkOrImageProperties: function (inNode, inAncestor) {
-        var props = undefined;
+        var props; // undefined
 
         var n = inNode;
         while (n && n != inAncestor) {

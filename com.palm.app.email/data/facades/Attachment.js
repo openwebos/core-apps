@@ -138,9 +138,9 @@ EmailApp.Facades.Attachment = {
         var extensionIndex = name ? name.lastIndexOf('.') : -1;
 
         if (extensionIndex >= 0 && name.length - extensionIndex < 7) {
-            return { name: name.slice(0, extensionIndex), extension: name.slice(extensionIndex) }
+            return { name: name.slice(0, extensionIndex), extension: name.slice(extensionIndex) };
         } else {
-            return { name: name, extension: "" }
+            return { name: name, extension: "" };
         }
     },
 

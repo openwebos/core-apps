@@ -16,9 +16,6 @@
 //
 // LICENSE@@@
 
-/*global enyo, console
- */
-
 /*
  Component which manages the pin operation for a file in the file cache.
  The idea is that you can just set the path to pin, and put all logic to reload the resource in an onReload handler.
@@ -61,7 +58,7 @@ enyo.kind({
             // falsy path? Assume the pin will fail.
             this.pinFail();
         } else {
-            if (window.PalmSystem && newPath.indexOf("/var/file-cache") == 0) {
+            if (window.PalmSystem && newPath.indexOf("/var/file-cache") === 0) {
                 this.$.SubscribeCacheObject.call({pathName: newPath, subscribe: true});
             } else {
                 // either not on device, or path not in filecache

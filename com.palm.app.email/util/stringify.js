@@ -18,8 +18,6 @@
 
 /*jslint white: true, onevar: true, undef: true, eqeqeq: true, plusplus: true, bitwise: true,
  regexp: true, newcap: true, immed: true, nomen: false, maxerr: 500 */
-/*global MojoLoader */
-
 
 //a much better stringify than JSON.stringify, since it doesn't die when given a circular structure.
 //however, it's not guaranteed to produce valid JSON (namely, not when given a circular structure or a structure containing functions)

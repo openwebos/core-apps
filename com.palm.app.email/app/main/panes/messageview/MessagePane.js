@@ -16,9 +16,6 @@
 //
 // LICENSE@@@
 
-/*global console, enyo, $L, Email, EmailApp
- */
-
 enyo.kind({
     name: "MessagePane",
     kind: enyo.VFlexBox,

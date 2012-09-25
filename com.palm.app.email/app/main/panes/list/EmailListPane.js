@@ -16,8 +16,6 @@
 //
 // LICENSE@@@
 
-/*global Folder, EmailApp, AccountPreferences, Email, mail, EmailAccount, enyo, $L */
-
 enyo.VirtualScroller.prototype.accelerated = true;
 
 enyo.kind({

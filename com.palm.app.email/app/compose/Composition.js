@@ -16,9 +16,6 @@
 //
 // LICENSE@@@
 
-/*global enyo, console, mail, EmailApp, EmailRecipient, $L
- */
-
 EmailApp = EmailApp || {};
 
 /*
@@ -849,7 +846,7 @@ EmailApp.Composition.prototype = {
         // NOTE: must not contain any "undefined" fields
         var newPart = {
             type: part.type || "attachment",
-            name: part.name || "",
+            name: part.name || ""
         };
 
         // Copy _id

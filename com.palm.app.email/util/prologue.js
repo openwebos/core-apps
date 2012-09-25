@@ -30,7 +30,7 @@
         window.rb = new enyo.g11n.Resources({root: appPath});
         window.$L = function (s) {
             return (rb.$L)(s);
-        }
+        };
     }
 
     window._prologueLoaded = true;

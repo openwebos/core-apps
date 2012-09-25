@@ -18,14 +18,16 @@
 
 enyo.depends(
     "$enyo-lib/addressing/",
-    "../data/mail.js",
-    "../data/AccountPreferences.js",
-    "../util/Mailto/MailtoURIParser.js",
-    "../util/util.js",
-    "../facades/Email.js",
-    "source/Compose.js",
-    "source/Composition.js",
-    "source/EmailRecipient.js",
-    "../controls/",
-    "../css/compose.css"
+    "$base/data/mail.js",
+    "$base/data/AccountPreferences.js",
+    "$base/data/EmailKinds.js",
+    "$base/util/lib/Mailto/MailtoURIParser.js",
+    "$base/util/util.js",
+    "$base/data/facades/Email.js",
+    "ComposeWindow.js",
+    "Composition.js",
+    "EmailRecipient.js",
+    "$base/app/shared/",
+    "$css/compose.css",
+    "$base/util/sanitizer0.js"
 );

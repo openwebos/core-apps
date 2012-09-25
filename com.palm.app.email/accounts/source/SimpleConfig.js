@@ -74,7 +74,7 @@ enyo.kind({
                 { name: "createButton", kind: "ActivityButton", caption: $L("Sign In"), onclick: "validateAccount", className: "enyo-button-dark"},
                 { name: "manualButton", showing: false, kind: "Button", caption: $L("Manual Setup"), onclick: "manualSetup"},
                 { name: "removeButton", showing: false, kind: "Accounts.RemoveAccount", onAccountsRemove_Done: "doRemovalDone"}
-            ]},
+            ]}
         ]},
         {className: "accounts-footer-shadow"},
         {kind: "Toolbar", className: "enyo-toolbar-light", components: [
@@ -208,7 +208,7 @@ enyo.kind({
                 emailAddress: this.$.email.getValue(),
                 password: this.$.password.getValue(),
                 easUser: ((this.account.getType() === AccountWizard.EAS) ? this.$.username.getValue() : undefined)
-            }
+            };
 
             this.wizard.determineAccountSettings(wizardPkg, this.createSuccess.bind(this), this.createError.bind(this));
             /*

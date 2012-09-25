@@ -740,8 +740,7 @@ AccountWizard.prototype.makeEasUsernameFromEmail = function (email) {
         username = email.replace("@" + domain, ""); // get left side of email address
     }
     return username;
-}
-
+};
 
 /**
  * Special fn for creating palm and related account accounts

@@ -16,12 +16,6 @@
 //
 // LICENSE@@@
 
-/*global Mojo, $L, Class, window, document, PalmSystem, AppAssistant, palmGetResource, Foundations, _,
- App, console, Throttler, $H, $A, Event, $break, Element,
- Poly9, MailtoURIParser,
- EmailFlags, EmailRecipient, EmailAppDepot, AccountpreferencesAssistant, Email, EmailAccount, EmailDecorator,
- AccountWizard, EmailAccountValidation */
-
 /**ProtocolSettings: {
 
  name : accountName

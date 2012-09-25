@@ -75,7 +75,7 @@ if (!window.ContactCache) {
         return {
             lookupContact: getContactInfo,
             clearCache: clearCache
-        }
+        };
     };
 }
 
@@ -223,7 +223,7 @@ if (!window.ContactResult) {
             bumpAccess: bumpAccess,
             getLastAccess: getLastAccess,
             getAccessCount: getAccessCount
-        }
+        };
     };
 }
 

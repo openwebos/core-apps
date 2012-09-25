@@ -16,7 +16,6 @@
 //
 // LICENSE@@@
 
-/*global enyo,$L,AccountPreferences */
 enyo.kind({
     name: "AccountSettings",
     width: "100%",
@@ -58,7 +57,7 @@ enyo.kind({
                             value: "",
                             style: "font-size: 0.8rem;",
                             oninput: "valueChanged"
-                        },
+                        }
                     ]
                 },
                 {
@@ -71,7 +70,7 @@ enyo.kind({
                             kind: "Input",
                             value: "",
                             oninput: "valueChanged"
-                        },
+                        }
                     ]
                 },
                 {
@@ -133,7 +132,7 @@ enyo.kind({
                             kind: "RichText",
                             onkeypress: "valueChanged",
                             onfocus: "checkNoSigPlaceholder"
-                        },
+                        }
                     ]
                 },
                 {
@@ -293,7 +292,7 @@ enyo.kind({
                 toShow.setShowing(true);
             }
             noFolderDiv.setShowing(false);
-        }
+        };
 
         // load folder selections and toggle ui display accordingly
         var listsNStuffs = [
@@ -364,7 +363,7 @@ enyo.kind({
                 "object": {
                     "alias": name
                 }
-            })
+            });
         }
     },
 
@@ -444,7 +443,8 @@ enyo.kind({
             "object": {
                 capabilityProviders: caps
             }
-        }
+        };
+        
         // Remove this capability from the account
         this.$.modifyAccount.call(param);
     },

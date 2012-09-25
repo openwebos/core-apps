@@ -16,8 +16,6 @@
 //
 // LICENSE@@@
 
-
-/*global AccountPreferences:true */
 /**
  * Operations for manipulating email account preferences (ie: sync-frequencies,
  * default signatures,lookback windows, and more.
@@ -101,7 +99,7 @@ AccountPreferences.saveAccountName = function (accountId, accountName) {
             "alias": accountName
         }
     }, function () {
-        console.log("### Name save operation complete, yo.")
+        console.log("### Name save operation complete, yo.");
     });
 };
 

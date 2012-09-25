@@ -16,11 +16,6 @@
 //
 // LICENSE@@@
 
-/*global enyo, console, EmailApp
- */
-
-
-
 // Stores _UniqueAttachment objects which either have listeners or are being downloaded.
 // These are stored globally to maintain downloads when the UI is not displaying the attachment,
 // and because a particular attachment may be simultaneously displayed by the message view and any number of compose views.

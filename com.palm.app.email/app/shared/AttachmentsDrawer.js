@@ -16,8 +16,6 @@
 //
 // LICENSE@@@
 
-/*global enyo, console, EmailApp
- */
 /*
  Attachments list that can display download progress, etc.
 
@@ -237,7 +235,7 @@ enyo.kind({
             var newPath;
 
             // Extractfs and photos app don't support gif
-            var isSupported = (mimeType.toLowerCase() !== "image/gif")
+            var isSupported = (mimeType.toLowerCase() !== "image/gif");
 
             if (isSupported) {
                 newPath = "file:///var/luna/data/extractfs/" + path + ":0:0:600:600:3";
@@ -373,6 +371,8 @@ enyo.kind({
                 enyo.dispatcher.capture(this, true);
             }
         }
+
+        return true; // stop event propagation
     },
 
     setEmail: function (email) {
@@ -736,7 +736,7 @@ enyo.kind({
         if (this.holding) {
             // click will fire as soon as use lifts finger from hold
             this.holding = false;
-            return;
+            return true;
         }
         this._updatePath();
 
@@ -749,6 +749,8 @@ enyo.kind({
         }, function (path) {
             that.download();
         });
+        
+        return true;
     },
 
     download: function () {
@@ -870,14 +872,13 @@ enyo.kind({
                     {name: 'itemLabel', className: "attachment-icon-label", style: "", components: [
                         {name: 'audioName', nodeTag: "span"},
                         {name: 'audioExtension', nodeTag: "span", className: ""}
-                    ]},
-                ]},
+                    ]}
+                ]}
             ]},
 
             //{name: "PlayButton", onclick: "playPause", className: "inline-megaaudio-playbutton" },
 
-
-            {name: "audio", nodeTag: "audio"},
+            {name: "audio", nodeTag: "audio"}
         ]}
     ],
 

@@ -16,15 +16,6 @@
 //
 // LICENSE@@@
 
-/*global Mojo, $L, Class, window, document, PalmSystem, AppAssistant, palmGetResource, Foundations, _,
- App, console, Throttler, $H, $A, Event, $break, Element,
- Poly9, MailtoURIParser,
- EmailFlags, EmailRecipient, EmailAppDepot, AccountpreferencesAssistant, Email, EmailAccount, EmailDecorator,
- ObjCache, NotificationAssistant, LaunchHandler, FirstUseLaunchHandler, FirstUseAssistant, AudioTag,
- Contact, ContactReminder, Attachments, MenuController, ErrorAnalyzer, Folder, FolderFlags, IMName, Message,
- ServiceStrings, ColorPickerDialogAssistant, SecuritypolicyAssistant, EmaillistDataSource, Pseudocard,
- CreateAssistant, ComposeAssistant, ConnectionWidget, EmailApp */
-
 
 /*************************************************
  Monitors changes for all objects in a given kind, passing sets of changes to a processing function.

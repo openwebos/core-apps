@@ -68,7 +68,7 @@ enyo.kind({
                         {name: "folderIcon", kind: "Image", src: "../images/folder-single-open.png", showing: false},
                         {name: "folderName", content: ""}
                     ]}
-                ]},
+                ]}
             ]},
             {name: "cancelButton", kind: "Button", caption: $L("Cancel"), onclick: "cancelClick"}
         ]}
@@ -166,7 +166,7 @@ enyo.kind({
         if (index >= 0 && index < this.folders.length) {
             var folder = this.folders[index];
 
-            if (index == 0) {
+            if (index === 0) {
                 this.$.folderItem.addClass("enyo-first");
             } else if (index == this.folders.length - 1) {
                 this.$.folderItem.addClass("enyo-last");
@@ -212,5 +212,5 @@ enyo.kind({
 
     cancelClick: function () {
         this.close();
-    },
+    }
 });

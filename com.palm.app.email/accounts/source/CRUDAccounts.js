@@ -418,11 +418,11 @@ enyo.kind({
                 useSmtpAuth: true,
                 encryption: "",
                 port: "",
-                server: "",
+                server: ""
             },
             type: (this.wizardTemplate.templateId === "com.palm.eas" ? AccountWizard.EAS : ""),
             templateId: this.wizardTemplate.templateId
-        }
+        };
     },
 
     /**

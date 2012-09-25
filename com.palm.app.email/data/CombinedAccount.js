@@ -42,7 +42,7 @@ var CombinedAccount = function () {
     } else {
         this._directCreate(undefined, undefined); // ensure placeholder objs are there
     }
-}
+};
 
 CombinedAccount.prototype = {
     _loadAccount: function _loadAccount(accountId) {
@@ -59,7 +59,7 @@ CombinedAccount.prototype = {
                         prop: "_id",
                         op: "=",
                         val: accountId
-                    },
+                    }
                 ]
             }
         }, loadHandler.bind(this, "comAccount"));

@@ -27,7 +27,7 @@ enyo.kind({
     statics: {
         _displayMailDialog: function (owner, kind, params) {
             var props = { kind: kind, owner: owner, destroyOnClose: true };
-            var params = enyo.mixin(props, params);
+            enyo.mixin(props, params);
 
             var dialog = owner.createComponent(props);
             dialog.openAtCenter();
@@ -44,7 +44,7 @@ enyo.kind({
         if (this.destroyOnClose && !this.destroyed) {
             this.destroy();
         }
-    },
+    }
 });
 
 enyo.kind({
@@ -109,7 +109,7 @@ enyo.kind({
         }
 
         this.close();
-    },
+    }
 });
 
 enyo.kind({
@@ -171,7 +171,7 @@ enyo.kind({
     cancelClick: function () {
         this.doCancel();
         this.close();
-    },
+    }
 });
 
 enyo.kind({
@@ -187,7 +187,7 @@ enyo.kind({
         {name: "detailsExpander", className: "error-details-toggle", content: $L("Show error details"), onclick: "detailsClick", showing: false},
         {name: "detailsDrawer", kind: "Drawer", open: false, components: [
             {name: "details", className: "error-details-text", content: ""},
-            {name: "rawError", className: "error-details-raw", content: ""},
+            {name: "rawError", className: "error-details-raw", content: ""}
         ]}
     ],
 
@@ -208,12 +208,13 @@ enyo.kind({
     updateDetails: function () {
         if (this.error && this.error.errorCode) {
             var errorDesc = "";
+            var template;
 
             if (this.error.errorText) {
-                var template = new enyo.g11n.Template($L("Error code #{errorCode}: #{errorText}"));
+                template = new enyo.g11n.Template($L("Error code #{errorCode}: #{errorText}"));
                 errorDesc = template.evaluate({errorCode: this.error.errorCode || "", errorText: this.error.errorText || ""});
             } else {
-                var template = new enyo.g11n.Template($L("Error code #{errorCode}"));
+                template = new enyo.g11n.Template($L("Error code #{errorCode}"));
                 errorDesc = template.evaluate({errorCode: this.error.errorCode || "", errorText: this.error.errorText || ""});
             }
 
@@ -259,8 +260,8 @@ enyo.kind({
             {name: "detailsExpander", className: "error-details-toggle", content: $L("Show error details"), onclick: "detailsClick", showing: false},
             {name: "detailsDrawer", kind: "Drawer", open: false, components: [
                 {name: "details", className: "error-details-text", content: ""},
-                {name: "rawError", className: "error-details-raw", content: ""},
-            ]},
+                {name: "rawError", className: "error-details-raw", content: ""}
+            ]}
         ]},
         {name: "confirmButton", kind: "Button", caption: $L("OK"), onclick: "okClick"}
     ],
@@ -280,12 +281,13 @@ enyo.kind({
 
         if (this.error && this.error.errorCode) {
             var errorDesc = "";
+            var template;
 
             if (this.error.errorText) {
-                var template = new enyo.g11n.Template($L("Error code #{errorCode}: #{errorText}"));
+                template = new enyo.g11n.Template($L("Error code #{errorCode}: #{errorText}"));
                 errorDesc = template.evaluate({errorCode: this.error.errorCode || "", errorText: this.error.errorText || ""});
             } else {
-                var template = new enyo.g11n.Template($L("Error code #{errorCode}"));
+                template = new enyo.g11n.Template($L("Error code #{errorCode}"));
                 errorDesc = template.evaluate({errorCode: this.error.errorCode || "", errorText: this.error.errorText || ""});
             }
 
@@ -341,7 +343,7 @@ enyo.kind({
         {name: "errorMessage", className: "enyo-paragraph", style: "color: red"},
         {name: "serverMessageBlock", className: "enyo-paragraph", components: [
             {content: $L("The mail server responded:")},
-            {name: "serverMessage", className: "server-message"},
+            {name: "serverMessage", className: "server-message"}
         ]},
         {name: "followupHtml", allowHtml: true, className: "enyo-paragraph"},
         {name: "errorDetails", "kind": "ErrorDetails", className: "enyo-paragraph"}

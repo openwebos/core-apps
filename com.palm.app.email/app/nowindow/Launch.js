@@ -217,21 +217,21 @@ enyo.kind({
         // Check if this is a launch using the legacy API. This should be deprecated
         // in favor of the "newEmail": {...} property (webOS 3.0+ only)
         var isLegacyComposeLaunch = function (params) {
-            return (params.account || params.attachments || params.recipients !== undefined
-                || params.summary !== undefined || params.text !== undefined);
-        }
+            return (params.account || params.attachments || params.recipients !== undefined ||
+                params.summary !== undefined || params.text !== undefined);
+        };
 
         // Figure out which window to launch
         if (params.target || params.uri) {
             var target = params.target || params.uri;
             var targetLower = target.toLowerCase();
 
-            if (targetLower.indexOf("mailto:") == 0) {
+            if (targetLower.indexOf("mailto:") === 0) {
                 this.launchCompose({
                     mailToURL: target,
                     accountId: params.accountId
                 });
-            } else if (targetLower.indexOf("file:") == 0) {
+            } else if (targetLower.indexOf("file:") === 0) {
                 this.launchEmailViewer({
                     target: target,
                     accountId: params.accountId

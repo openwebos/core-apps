@@ -16,7 +16,6 @@
 //
 // LICENSE@@@
 
-/*global enyo, EmailApp, console, $L, EmailAccount, Folder*/
 enyo.kind({
     name: "DashboardManager",
     kind: enyo.Component,

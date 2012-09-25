@@ -55,8 +55,8 @@ enyo.kind({
                         onChange: "accountTypeChanged",
                         items: [
                             {caption: $L("IMAP"), value: AccountWizard.IMAP},
-                            {caption: $L("POP"), value: AccountWizard.POP}
-                           /* {caption: $L("EAS"), value: AccountWizard.EAS} /* , showing: false */
+                            {caption: $L("POP"), value: AccountWizard.POP},
+                            {caption: $L("EAS"), value: AccountWizard.EAS, showing: false}
                         ]
                     }
                 ]},
@@ -66,7 +66,7 @@ enyo.kind({
                     className: "accounts-group",
                     caption: $L("EMAIL ADDRESS"),
                     components: [
-                        {name: "email", kind: "Input", inputType: "email", value: "", onkeypress: "isFormComplete", onkeydown: "checkEnter", onkeydown: "checkEnter", spellcheck: false, autocorrect: false, className: "babelfish", onblur: "isFormComplete", autoCapitalize: "lowercase"}
+                        {name: "email", kind: "Input", inputType: "email", value: "", onkeypress: "isFormComplete", onkeydown: "checkEnter", spellcheck: false, autocorrect: false, className: "babelfish", onblur: "isFormComplete", autoCapitalize: "lowercase"}
                     ]
                 },
                 {
@@ -75,27 +75,27 @@ enyo.kind({
                     caption: $L("INCOMING MAIL SERVER"),
                     components: [
                         {kind: "InputBox", components: [
-                            {name: "inHost", kind: "Input", className: "enyo-first", flex: 1, value: "", hint: $L("Server"), spellcheck: false, autocorrect: false, className: "babelfish", autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
+                            {name: "inHost", kind: "Input", className: "enyo-first babelfish", flex: 1, value: "", hint: $L("Server"), spellcheck: false, autocorrect: false, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
                                 {content: $L("Server")}
-                            ]},
+                            ]}
                         ]},
 
                         {name: "inEas", components: [
                             {kind: "InputBox", components: [
-                                {name: "domain", kind: "Input", className: "enyo-middle", flex: 1, value: "", hint: $L("Domain"), spellcheck: false, autocorrect: false, className: "babelfish", autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
+                                {name: "domain", kind: "Input", className: "enyo-middle babelfish", flex: 1, value: "", hint: $L("Domain"), spellcheck: false, autocorrect: false, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
                                     {content: $L("Domain")}
-                                ]},
+                                ]}
                             ]}
                         ]},
                         {kind: "InputBox", components: [
-                            {name: "inUser", kind: "Input", className: "enyo-middle", flex: 1, value: "", hint: $L("Username"), spellcheck: false, autocorrect: false, className: "babelfish", autoCapitalize: "lowercase", onblur: "copyUserToOut", onkeypress: "isFormComplete", onkeydown: "checkEnter", components: [
+                            {name: "inUser", kind: "Input", className: "enyo-middle babelfish", flex: 1, value: "", hint: $L("Username"), spellcheck: false, autocorrect: false, autoCapitalize: "lowercase", onblur: "copyUserToOut", onkeypress: "isFormComplete", onkeydown: "checkEnter", components: [
                                 {content: $L("Username")}
-                            ]},
+                            ]}
                         ]},
                         {kind: "InputBox", components: [
-                            {name: "inPassword", kind: "Input", className: "enyo-middle", flex: 1, inputType: "password", value: "", hint: $L("Password"), spellcheck: false, autocorrect: false, className: "babelfish", autoCapitalize: "lowercase", onblur: "copyPassToOut", onkeypress: "isFormComplete", onkeydown: "checkEnter", onfocus: "checkInPass", components: [
+                            {name: "inPassword", kind: "Input", className: "enyo-middle babelfish", flex: 1, inputType: "password", value: "", hint: $L("Password"), spellcheck: false, autocorrect: false, autoCapitalize: "lowercase", onblur: "copyPassToOut", onkeypress: "isFormComplete", onkeydown: "checkEnter", onfocus: "checkInPass", components: [
                                 {content: $L("Password")}
-                            ]},
+                            ]}
                         ]},
                         {name: "popImapIncoming", components: [
                             {
@@ -113,9 +113,9 @@ enyo.kind({
 
                         ]},
                         {kind: "InputBox", name: "inPortWrapper", components: [
-                            {name: "inPort", kind: "Input", className: "enyo-last", inputType: "number", value: "", hint: $L("Port"), spellcheck: false, autocorrect: false, className: "babelfish", flex: 1, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
+                            {name: "inPort", kind: "Input", className: "enyo-last babelfish", inputType: "number", value: "", hint: $L("Port"), spellcheck: false, autocorrect: false, flex: 1, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
                                 {content: $L("Port")}
-                            ]},
+                            ]}
                         ]}
 
                     ]
@@ -127,9 +127,9 @@ enyo.kind({
                     caption: $L("OUTGOING MAIL SERVER"),
                     components: [
                         {kind: "InputBox", components: [
-                            {name: "outHost", kind: "Input", className: "enyo-first", flex: 1, value: "", hint: $L("Server"), spellcheck: false, autocorrect: false, className: "babelfish", autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
+                            {name: "outHost", kind: "Input", className: "enyo-first babelfish", flex: 1, value: "", hint: $L("Server"), spellcheck: false, autocorrect: false, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
                                 {content: $L("Server")}
-                            ]},
+                            ]}
                         ]},
                         {kind: "HFlexBox", align: "center", components: [
                             {flex: 1, content: $L("Use Authentication")},
@@ -138,17 +138,17 @@ enyo.kind({
                         {name: "outAuthBlock", kind: "Drawer", style: "margin:-10px;", open: false, components: [
                             {kind: "enyo.RowItem", components: [
                                 {kind: "InputBox", components: [
-                                    {name: "outUser", kind: "Input", className: "enyo-middle", flex: 1, value: "", className: "babelfish", hint: $L("Username"), spellcheck: false, autocorrect: false, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
+                                    {name: "outUser", kind: "Input", className: "enyo-middle babelfish", flex: 1, value: "", hint: $L("Username"), spellcheck: false, autocorrect: false, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
                                         {content: $L("Username")}
-                                    ]},
-                                ]},
+                                    ]}
+                                ]}
                             ]},
                             {kind: "enyo.RowItem", components: [
                                 {kind: "InputBox", components: [
-                                    {name: "outPassword", kind: "Input", className: "enyo-middle", flex: 1, inputType: "password", value: "", className: "babelfish", hint: $L("Password"), spellcheck: false, autocorrect: false, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", onfocus: "checkOutPass", components: [
+                                    {name: "outPassword", kind: "Input", className: "enyo-middle babelfish", flex: 1, inputType: "password", value: "", hint: $L("Password"), spellcheck: false, autocorrect: false, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", onfocus: "checkOutPass", components: [
                                         {content: $L("Password")}
-                                    ]},
-                                ]},
+                                    ]}
+                                ]}
                             ]},
                             {kind: "enyo.RowItem", components: [
                                 {
@@ -162,15 +162,15 @@ enyo.kind({
                                         {caption: $L("SSL"), value: ProtocolSettings.SSL},
                                         {caption: $L("TLS"), value: ProtocolSettings.TLS}
                                     ]
-                                },
+                                }
                             ]},
                             {kind: "enyo.RowItem", className: "enyo-last", components: [
                                 {kind: "InputBox", components: [
-                                    {name: "outPort", kind: "Input", className: "enyo-last", inputType: "number", value: "", hint: $L("Port"), spellcheck: false, autocorrect: false, flex: 1, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", className: "babelfish", onblur: "isFormComplete", components: [
+                                    {name: "outPort", kind: "Input", className: "enyo-last babelfish", inputType: "number", value: "", hint: $L("Port"), spellcheck: false, autocorrect: false, flex: 1, autoCapitalize: "lowercase", onkeypress: "isFormComplete", onkeydown: "checkEnter", onblur: "isFormComplete", components: [
                                         {content: $L("Port")}
-                                    ]},
+                                    ]}
                                 ]}
-                            ]},
+                            ]}
                         ]}
 
                     ]
@@ -281,7 +281,7 @@ enyo.kind({
             }
 
             if (acctType === AccountWizard.POP) {
-                this.$.inPort.setValue((inEncryption === ProtocolSettings.SSL) ? 995 : 110)
+                this.$.inPort.setValue((inEncryption === ProtocolSettings.SSL) ? 995 : 110);
                 return;
             }
         }
@@ -376,7 +376,7 @@ enyo.kind({
             return false;
         }
 
-        var outPort = this.$.outPort.getValue()
+        var outPort = this.$.outPort.getValue();
         if (outPort < 1 || outPort > 65535) {
             //		console.log("### invalid out ports");
             return false;
@@ -441,7 +441,7 @@ enyo.kind({
         }
         this.$.createButton.setActive(true);
         var toUse = this.makeAccountJson();
-        toUse.dontValidate = dontValidate // used for forcing account creation
+        toUse.dontValidate = dontValidate; // used for forcing account creation
         var successCall = !!this.isEditMode ? this.handleSaveAccount : this.createSuccess;
         var failCall = this.createError;
         this.wizard.accountValidateManual(toUse, successCall, failCall);
@@ -470,10 +470,10 @@ enyo.kind({
                     port: this.$.outPort.getValue(),
                     server: this.$.outHost.getValue(),
                     password: this.$.outPassword.getValue(),
-                    username: this.$.outUser.getValue(),
+                    username: this.$.outUser.getValue()
                 }
             }
-        }
+        };
 
         // Add protocol-specific stuff
         if (this.account.getType() === AccountWizard.IMAP && this.isEditMode) {

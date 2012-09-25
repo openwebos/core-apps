@@ -17,8 +17,6 @@
 // LICENSE@@@
 
 
-/*global Folder:true, EmailApp */
-
 if (!window.Folder) {
     Folder = {};
 }

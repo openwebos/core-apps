@@ -16,9 +16,6 @@
 //
 // LICENSE@@@
 
-/*global console, enyo, Folder, EmailApp, mail, cacheMail
- */
-
 /**
  * UI Widget for displaying a group of folders for an account.
  */
@@ -531,12 +528,12 @@ enyo.kind({
     },
 
     favoriteStarClickHandler: function (inSender, inEvent) {
-        var folder = this.getCurFolder();
+        var folder = this.getCurrentFolder();
         Folder.setFavorite(folder._id, inSender.getDepressed());
         return true;
     },
 
-    getCurFolder: function () {
+    getCurrentFolder: function () {
         return this._displayedFolders[this.$.list.fetchRowIndex()];
     },
 
@@ -547,7 +544,7 @@ enyo.kind({
     },
 
     itemClick: function (inSender, inEvent) {
-        var f = this.getCurFolder();
+        var f = this.getCurrentFolder();
         this.$.selection.select(f._id);
         this.doSelect(f);
         return true;
