@@ -170,6 +170,11 @@
     margin-top: 8px;
 }
 
+.box-center {
+    width: inherit;
+    max-width: 500px;
+}
+
 /* hiDPI support */
 .enyo-tool-button.enyo-hi-res .enyo-button-icon {
     -webkit-background-size: 100% auto;

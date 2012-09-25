@@ -31,18 +31,5 @@
             "delete": "allow",
             "extend": "allow"
         } 
-    },
-    
-    {
-        "type": "db.kind",
-        "object": "com.palm.app.email.carrier_defaults:1",
-        "caller": "com.palm.mail.*",
-        "operations": {
-            "create": "allow",
-            "read": "allow",
-            "update": "allow",
-            "delete": "allow",
-            "extend": "allow"
-        } 
     }
 ]

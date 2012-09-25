@@ -7,7 +7,7 @@
             "read": "allow" 
         } 
     },
-    {
+        {
         "type": "db.kind",
         "object": "com.palm.mail.account:1",
         "caller": "com.palm.mail.*",

@@ -89,6 +89,14 @@ CombinedAccount.prototype = {
             }
         }
     },
+    
+    hasAnyError: function () {
+        return !!this.getAnyError();
+    },
+    
+    getAnyError: function () {
+        return this.getError() || this.getOutError();
+    },
 
     getError: function () {
         return this.mailAccount.error; // will be undefined if no error
@@ -249,6 +257,17 @@ CombinedAccount.prototype = {
     getInboxFolderId: function () {
         return this.mailAccount.inboxFolderId;
     },
+    getArchiveFolderId: function () {
+        // For compatibility with transports that don't clear this field
+        // on account enable/disable we need to check if the folder actually exists.
+        var folderId = this.mailAccount.archiveFolderId;
+    
+        if (folderId && enyo.application.folderProcessor.getFolder(folderId)) {
+            return folderId;
+        } else {
+            return undefined;
+        }
+    },
     getSentFolderId: function () {
         return this.mailAccount.sentFolderId;
     },
@@ -258,12 +277,25 @@ CombinedAccount.prototype = {
     getDraftsFolderId: function () {
         return this.mailAccount.draftsFolderId;
     },
-
     getJunkFolderId: function () {
-        return this.mailAccount.junkFolderId;
+        // For compatibility with transports that don't clear this field
+        // on account enable/disable we need to check if the folder actually exists.
+        var folderId = this.mailAccount.junkFolderId;
+    
+        if (folderId && enyo.application.folderProcessor.getFolder(folderId)) {
+            return folderId;
+        } else {
+            return undefined;
+        }
     },
     getOutboxFolderId: function () {
         return this.mailAccount.outboxFolderId;
+    },
+    
+    isOutgoingFolderId: function (folderId) {
+        return folderId === this.getSentFolderId() ||
+            folderId === this.getDraftsFolderId() ||
+            folderId === this.getOutboxFolderId();
     },
 
     getSyncLookback: function () {

@@ -40,7 +40,7 @@ EmailApp.FolderProcessor = function (onReady) {
     this._recalcSpecialFolders(); // Build hash of _id -> icon class for special folders.
 
     // Reprocess all folders when accounts change.
-    enyo.application.accounts.addListener(this._accountsChanged.bind(this));
+    enyo.application.accounts.addListener("change", this._accountsChanged, this);
 
     // Save initial set of mail accounts:
 
@@ -130,6 +130,7 @@ EmailApp.FolderProcessor.prototype._accountsChanged = function () {
 
             if (!oldAcct || !newAcct ||
                 oldAcct.getInboxFolderId() !== newAcct.getInboxFolderId() ||
+                oldAcct.getArchiveFolderId() !== newAcct.getArchiveFolderId() ||
                 oldAcct.getDraftsFolderId() !== newAcct.getDraftsFolderId() ||
                 oldAcct.getSentFolderId() !== newAcct.getSentFolderId() ||
                 oldAcct.getOutboxFolderId() !== newAcct.getOutboxFolderId() ||

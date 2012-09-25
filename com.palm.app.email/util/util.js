@@ -16,6 +16,7 @@
 //
 // LICENSE@@@
 
+
 //TODO: seems like a framework should provide these functions. Putting here for now to unblock progress.
 String.prototype.escapeHTML = function () {
     return this.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -87,10 +88,22 @@ EmailApp.Util.onDevice = function () {
     return !window.fauxMail && window.PalmSystem;
 };
 
+EmailApp.Util.useSinglePanelMode = function() {
+    var deviceInfo = enyo.fetchDeviceInfo();
+    
+    return deviceInfo ? deviceInfo.maximumCardWidth < 500 : window.innerWidth < 500;
+};
+
+EmailApp.Util.getWebOSMajorVersion = function() {
+    var deviceInfo = enyo.fetchDeviceInfo();
+    
+    return (deviceInfo && deviceInfo.platformVersionMajor) || 0;
+};
+
 // FIXME move this someplace better
 EmailApp.Util.generateUnreadCountQuery = function (folderId) {
     var query = {
-        from: "com.palm.email:1",
+        from : "com.palm.email:1",
         limit: 0
     };
 
@@ -238,7 +251,7 @@ EmailApp.Util.enterAsTab = function (setup, target, event) {
         onFormComplete = setup.onFormComplete;
     var nodes = document.querySelectorAll(className);
     var isDomNodeReallyVisible = EmailApp.Util.isDomNodeReallyVisible;
-    var i = 0, num = nodes.length, aNode = undefined, match = false, next = undefined, idElems = undefined, enyoName = undefined;
+    var i = 0, num = nodes.length, aNode, match = false, next, idElems, enyoName;
     var looped = 0;
     while (!next && looped < 2) {
         aNode = nodes[i];
@@ -261,14 +274,18 @@ EmailApp.Util.enterAsTab = function (setup, target, event) {
             // if this is the last field, and enter was pressed
             if (match && event.keyCode === 13 && completionChecker()) {
                 onFormComplete();
-                this.$[enyoName].forceBlur && this.$[enyoName].forceBlur();
+                if (this.$[enyoName].forceBlur) {
+                    this.$[enyoName].forceBlur();
+                }
                 return;
             }
             ++looped;
         }
     }
 
-    next && next.forceFocus();
+    if (next) {
+        next.forceFocus();
+    }
 };
 
 /**
@@ -328,58 +345,9 @@ EmailApp.Util._ServiceRequest.prototype = {
         }
     },
 
-    _requestCache: {},
+    _requestCache  : {},
     _requestGlobals: {value: 0}
 };
-
-
-/*
- Utility function to extend an object with listener/broadcaster functionality.
- It adds three methods to the given object:
- addListener(func) -- adds the given function to the list of listeners.
- removeListener(func) -- removes the given function from the list of listeners.
- _dbgGetListeners(func) -- Returns the listeners array.  For debugging purposes only, don't be naughty.
- broadcast(...) -- Calls all listener functions with the given arguments.
- */
-EmailApp.Util.mixInBroadcaster = function (obj, description) {
-    var listeners = [];
-    var name = description;
-
-    if (obj.addListener || obj.removeListener || obj.broadcast || obj._dbgGetListeners) {
-        throw new Exception("mixInBroadcaster: obj already has these methods defined!");
-    }
-
-    obj.addListener = function (callback) {
-        if (callback) {
-            listeners.push(callback);
-        }
-    };
-
-    obj.removeListener = function (callback) {
-        var i = listeners.indexOf(callback);
-        if (i !== -1) {
-            listeners.splice(i, 1);
-        } else {
-            // NOTE: this seems to be happening due to destroy() getting called twice on some controls, see DFISH-6711
-            console.log("removeListener: Cannot find callback to remove for " + description + " " + EmailApp.Util.getStackTrace());
-        }
-    };
-
-    obj._dbgGetListeners = function () {
-        return listeners;
-    };
-
-    obj.broadcast = function () {
-        // Call all listeners with whatever arguments we were passed.
-        var argsArray = Array.prototype.slice.call(arguments, 0);
-        listeners.forEach(function (lis) {
-            lis.apply(undefined, argsArray);
-        });
-    };
-
-    return obj;
-};
-
 
 // Reimplementation of Prototype's interpolate(), since it's easier to read than instantiating templates directly.
 EmailApp.Util.interpolate = function (str, model) {
@@ -412,8 +380,8 @@ EmailApp.Util.MojoDBAutoFinder = function (query, onChange, watchFirst, useTempD
     //TODO: Make this work with the central callback
     this._params = {
         parameters: {query: query, watch: !watchFirst},
-        onSuccess: this._handleResult,
-        onFailure: this._fail
+        onSuccess : this._handleResult,
+        onFailure : this._fail
     };
 
     if (count) {
@@ -442,23 +410,26 @@ EmailApp.Util.callbackRouter = function (onSuccess, onFailure, resp) {
     }
 };
 
+// Deep copy
 EmailApp.Util.clone = function (obj) {
     var clone = EmailApp.Util.clone;
+    var copy;
+    
     // Handle the 3 simple types, and null or undefined
-    if (null == obj || "object" != typeof obj) {
+    if (null === obj || "object" != typeof obj) {
         return obj;
     }
 
     // Handle Date
     if (obj instanceof Date) {
-        var copy = new Date();
+        copy = new Date();
         copy.setTime(obj.getTime());
         return copy;
     }
 
     // Handle Array
     if (obj instanceof Array) {
-        var copy = [];
+        copy = [];
         for (var i = 0, len = obj.length; i < len; ++i) {
             copy[i] = clone(obj[i]);
         }
@@ -467,7 +438,7 @@ EmailApp.Util.clone = function (obj) {
 
     // Handle Object
     if (obj instanceof Object) {
-        var copy = {};
+        copy = {};
         for (var attr in obj) {
             if (obj.hasOwnProperty(attr)) {
                 copy[attr] = clone(obj[attr]);
@@ -610,7 +581,7 @@ EmailApp.Util.MojoDBPrefs = function (kind, defaults, onReady) {
     this._onReady = onReady;
     this._handleResult = this._handleResult.bind(this);
 
-    EmailApp.Util.mixInBroadcaster(this, "EmailApp.Util.MojoDBPrefs");
+    enyo.mixin(this, EmailApp.Broadcaster);
 
     this._doQuery();
 
@@ -721,7 +692,7 @@ EmailApp.Util.MojoDBPrefs.prototype._maxRevIdFinder = function (maxRevRec, curr)
         if (!maxRevRec) {
             maxRevRec = {
                 rev: curr._rev,
-                id: curr._id
+                id : curr._id
             };
             console.log("First prefs to keep: " + JSON.stringify(curr));
         } else if (curr._rev > maxRevRec.rev) {
@@ -743,6 +714,7 @@ EmailApp.Util.MojoDBPrefs.prototype._isDefaults = function (result) {
     return defaults.showAllInboxes === result.showAllInboxes &&
         defaults.showAllFlagged === result.showAllFlagged &&
         defaults.confirmDeleteOnSwipe === result.confirmDeleteOnSwipe &&
+        defaults.emailThreading === result.emailThreading &&
         defaults.defaultAccountId === result.defaultAccountId &&
         !result.syntheticFolderData[Folder.kAllFlaggedFolderID] &&
         !result.syntheticFolderData[Folder.kAllInboxesFolderID];
@@ -817,7 +789,7 @@ EmailApp.Util.MojoDBPrefs.prototype.set = function (propName, value) {
 
     EmailApp.Util.callService('palm://com.palm.db/merge', {objects: [mergeObj]}, undefined);
 
-    this.broadcast(propName, value);
+    this.broadcast("change", propName, value);
 
     return;
 };
@@ -836,7 +808,7 @@ EmailApp.Util.CookiePrefs = function (cookieName, defaults) {
     this._cookieName = cookieName;
     this._defaults = defaults;
 
-    EmailApp.Util.mixInBroadcaster(this, "EmailApp.Util.CookiePrefs");
+    enyo.mixin(this, EmailApp.Broadcaster);
 
     var cookieStr = enyo.getCookie(this._cookieName);
     if (cookieStr) {
@@ -898,7 +870,7 @@ EmailApp.Util.CookiePrefs.prototype.set = function (propName, value) {
 
     enyo.setCookie(this._cookieName, JSON.stringify(this._prefs));
 
-    this.broadcast(propName, value);
+    this.broadcast("change", propName, value);
 };
 
 /**
@@ -928,114 +900,6 @@ EmailApp.Util.printObj = function (title, obj) {
         }
     }
 };
-
-
-/**
- Class to manage a queue of objects which may need to be dealt with after some timeout.
- Email uses this to make sure the initialRev property is set on new emails, if the body hasn't been downloaded after a minute or so.
-
- options: {
- timeout: Required. Duration in seconds of the timeout.  Objects will actually be timed out somewhere between N and 2*N seconds.
- onTimeout: Required. Function to be called on each object as it times out.
- uniquenessProperty: Optional property name to use to identify objects.  Defaults to "_id".
- onComplete: Optional. Function called after a batch of objects have been timed out.
- }
-
- Methods:
- add(obj) - Adds an object to the timeout queue.  The onTimeout function will be called with this object in [N,2*N] seconds, if it is not removed.
- Adding an object already in the queue has no affect.
- remove(obj) - Removes the given object from the timeout queue, matching by uniqueness property rather than using object identity.
-
- */
-EmailApp.Util.TimeoutQueue = function (options) {
-    this.uniquenessProperty = options.uniquenessProperty || "_id";
-    this.timeout = options.timeout;
-    this._onTimeout = options.onTimeout;
-    this._onComplete = options.onComplete;
-
-    this._inputGroup = {}; // Collection to hold incoming objects, becomes the new waiting group after timeout seconds.
-    this._waitingGroup = {}; // Collection waiting to be timed out after timeout seconds.
-
-    this._handleTimeout = this._handleTimeout.bind(this);
-};
-
-EmailApp.Util.TimeoutQueue.prototype.add = function (obj) {
-    var prop = obj[this.uniquenessProperty];
-
-    // If object is not in either group already,
-    if (this._inputGroup[prop] === undefined && this._waitingGroup[prop] === undefined) {
-        this._inputGroup[prop] = obj;
-    }
-
-    this._checkTimeouts();
-};
-
-EmailApp.Util.TimeoutQueue.prototype.remove = function (obj) {
-    var prop = obj[this.uniquenessProperty];
-    delete this._inputGroup[prop];
-    delete this._waitingGroup[prop];
-
-    this._checkTimeouts();
-};
-
-// Examines whether or not we currently have a timeout set, and sets/clears it appropriately.
-EmailApp.Util.TimeoutQueue.prototype._checkTimeouts = function () {
-
-    if (this._timeoutId) {
-        if (this._isEmpty(this._inputGroup) && this._isEmpty(this._waitingGroup)) {
-            window.clearTimeout(this._timeoutId);
-        }
-    } else if (!this._isEmpty(this._inputGroup) || !this._isEmpty(this._waitingGroup)) {
-        this._timeoutId = window.setTimeout(this._handleTimeout, this.timeout * 1000);
-    }
-
-};
-
-
-EmailApp.Util.TimeoutQueue.prototype._isEmpty = function (obj) {
-    var prop;
-    if (obj) {
-        for (prop in obj) {
-            if (obj.hasOwnProperty(prop)) {
-                return false;
-            }
-        }
-    }
-    return true;
-};
-
-// Timeout happened -- process any remaining objs in the waiting group, and swap with the input group.
-EmailApp.Util.TimeoutQueue.prototype._handleTimeout = function () {
-    var prop, waitGroup, obj, count;
-
-    this._timeoutId = undefined;
-
-    // Process any objs remaining in the waiting group by calling onTimeout on each of them in turn.
-    count = 0;
-    waitGroup = this._waitingGroup;
-    for (prop in waitGroup) {
-        if (waitGroup.hasOwnProperty(prop)) {
-            obj = waitGroup[prop];
-            if (obj) {
-                this._onTimeout(obj);
-                count++;
-            }
-        }
-    }
-
-    // Call the timeoutComplete function if there is one.
-    if (count > 0 && this._onComplete) {
-        this._onComplete();
-    }
-
-    // Move the current inputGroup to the waiting stage, and make a new inputGroup.
-    this._waitingGroup = this._inputGroup;
-    this._inputGroup = {};
-
-    // Set up next timeout, if needed.
-    this._checkTimeouts();
-};
-
 
 EmailApp.Util.PerfLogger = function (label) {
     this._reset();
@@ -1133,98 +997,98 @@ EmailApp.Util.finagleMimeType = function (filepath, originalMimetype) {
 
 
 EmailApp.Util.mimeTypeTable = {
-    '.aif': 'audio/aiff',
-    '.aifc': 'audio/aiff',
-    '.aiff': 'audio/aiff',
-    '.art': 'image/x-jg',
-    '.asf': 'video/x-ms-asf',
-    '.au': 'audio/basic',
-    '.avi': 'video/avi',
-    '.avs': 'video/avs-video',
-    '.bin': 'application/octet-stream',
-    '.bm': 'image/bmp',
-    '.bmp': 'image/bmp',
-    '.doc': 'application/msword',
-    '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    '.dot': 'application/msword',
-    '.dv': 'video/x-dv',
-    '.dvi': 'application/x-dvi',
-    '.exe': 'application/octet-stream',
-    '.gif': 'image/gif',
-    '.gl': 'video/gl',
-    '.gz': 'application/x-compressed',
-    '.htm': 'text/html',
-    '.html': 'text/html',
-    '.ico': 'image/x-icon',
-    '.jam': 'audio/x-jam',
-    '.jfif': 'image/jpeg',
+    '.aif'      : 'audio/aiff',
+    '.aifc'     : 'audio/aiff',
+    '.aiff'     : 'audio/aiff',
+    '.art'      : 'image/x-jg',
+    '.asf'      : 'video/x-ms-asf',
+    '.au'       : 'audio/basic',
+    '.avi'      : 'video/avi',
+    '.avs'      : 'video/avs-video',
+    '.bin'      : 'application/octet-stream',
+    '.bm'       : 'image/bmp',
+    '.bmp'      : 'image/bmp',
+    '.doc'      : 'application/msword',
+    '.docx'     : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    '.dot'      : 'application/msword',
+    '.dv'       : 'video/x-dv',
+    '.dvi'      : 'application/x-dvi',
+    '.exe'      : 'application/octet-stream',
+    '.gif'      : 'image/gif',
+    '.gl'       : 'video/gl',
+    '.gz'       : 'application/x-compressed',
+    '.htm'      : 'text/html',
+    '.html'     : 'text/html',
+    '.ico'      : 'image/x-icon',
+    '.jam'      : 'audio/x-jam',
+    '.jfif'     : 'image/jpeg',
     '.jfif-tbnl': 'image/jpeg',
-    '.jpe': 'image/jpeg',
-    '.jpeg': 'image/jpeg',
-    '.jpg': 'image/jpeg',
-    '.kar': 'audio/midi',
-    '.la': 'audio/nspaudio',
-    '.log': 'text/plain',
-    '.m1v': 'video/mpeg',
-    '.m2a': 'audio/mpeg',
-    '.m2v': 'video/mpeg',
-    '.mid': 'audio/midi',
-    '.midi': 'audio/midi',
-    '.mjpg': 'video/x-motion-jpeg',
-    '.mov': 'video/quicktime',
-    '.movie': 'video/x-sgi-movie',
-    '.mp2': 'audio/mpeg',
-    '.mp3': 'audio/mpeg3',
-    '.mpa': 'video/mpeg',
-    '.mpe': 'video/mpeg',
-    '.mpeg': 'video/mpeg',
-    '.mpg': 'video/mpeg',
-    '.mpga': 'audio/mpeg',
-    '.mpp': 'application/vnd.ms-project',
-    '.mv': 'video/x-sgi-movie',
-    '.pct': 'image/x-pict',
-    '.pcx': 'image/x-pcx',
-    '.pdf': 'application/pdf',
-    '.png': 'image/png',
-    '.pot': 'application/vnd.ms-powerpoint',
-    '.ppa': 'application/vnd.ms-powerpoint',
-    '.pps': 'application/vnd.ms-powerpoint',
-    '.ppt': 'application/vnd.ms-powerpoint',
-    '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-    '.ppz': 'application/mspowerpoint',
-    '.pwz': 'application/vnd.ms-powerpoint',
-    '.rmi': 'audio/mid',
-    '.rpm': 'audio/x-pn-realaudio-plugin',
-    '.snd': 'audio/basic',
-    '.text': 'text/plain',
+    '.jpe'      : 'image/jpeg',
+    '.jpeg'     : 'image/jpeg',
+    '.jpg'      : 'image/jpeg',
+    '.kar'      : 'audio/midi',
+    '.la'       : 'audio/nspaudio',
+    '.log'      : 'text/plain',
+    '.m1v'      : 'video/mpeg',
+    '.m2a'      : 'audio/mpeg',
+    '.m2v'      : 'video/mpeg',
+    '.mid'      : 'audio/midi',
+    '.midi'     : 'audio/midi',
+    '.mjpg'     : 'video/x-motion-jpeg',
+    '.mov'      : 'video/quicktime',
+    '.movie'    : 'video/x-sgi-movie',
+    '.mp2'      : 'audio/mpeg',
+    '.mp3'      : 'audio/mpeg3',
+    '.mpa'      : 'video/mpeg',
+    '.mpe'      : 'video/mpeg',
+    '.mpeg'     : 'video/mpeg',
+    '.mpg'      : 'video/mpeg',
+    '.mpga'     : 'audio/mpeg',
+    '.mpp'      : 'application/vnd.ms-project',
+    '.mv'       : 'video/x-sgi-movie',
+    '.pct'      : 'image/x-pict',
+    '.pcx'      : 'image/x-pcx',
+    '.pdf'      : 'application/pdf',
+    '.png'      : 'image/png',
+    '.pot'      : 'application/vnd.ms-powerpoint',
+    '.ppa'      : 'application/vnd.ms-powerpoint',
+    '.pps'      : 'application/vnd.ms-powerpoint',
+    '.ppt'      : 'application/vnd.ms-powerpoint',
+    '.pptx'     : 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    '.ppz'      : 'application/mspowerpoint',
+    '.pwz'      : 'application/vnd.ms-powerpoint',
+    '.rmi'      : 'audio/mid',
+    '.rpm'      : 'audio/x-pn-realaudio-plugin',
+    '.snd'      : 'audio/basic',
+    '.text'     : 'text/plain',
     //'.tif':	'image/tiff',
     //'.tiff':	'image/tiff',
-    '.txt': 'text/plain',
-    '.uu': 'text/x-uuencode',
-    '.uue': 'text/x-uuencode',
-    '.vcf': 'text/x-vcard',
-    '.vcs': 'text/x-vcalendar',
-    '.vdo': 'video/vdo',
-    '.viv': 'video/vivo',
-    '.vivo': 'video/vivo',
-    '.w6w': 'application/msword',
-    '.wav': 'audio/wav',
-    '.wiz': 'application/msword',
-    '.word': 'application/msword',
-    '.xlb': 'application/vnd.ms-excel',
-    '.xlc': 'application/vnd.ms-excel',
-    '.xll': 'application/vnd.ms-excel',
-    '.xlm': 'application/vnd.ms-excel',
-    '.xls': 'application/vnd.ms-excel',
-    '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    '.xlw': 'application/vnd.ms-excel',
-    '.xm': 'audio/xm',
-    '.xml': 'text/xml',
-    '.xmz': 'xgl/movie',
+    '.txt'      : 'text/plain',
+    '.uu'       : 'text/x-uuencode',
+    '.uue'      : 'text/x-uuencode',
+    '.vcf'      : 'text/x-vcard',
+    '.vcs'      : 'text/x-vcalendar',
+    '.vdo'      : 'video/vdo',
+    '.viv'      : 'video/vivo',
+    '.vivo'     : 'video/vivo',
+    '.w6w'      : 'application/msword',
+    '.wav'      : 'audio/wav',
+    '.wiz'      : 'application/msword',
+    '.word'     : 'application/msword',
+    '.xlb'      : 'application/vnd.ms-excel',
+    '.xlc'      : 'application/vnd.ms-excel',
+    '.xll'      : 'application/vnd.ms-excel',
+    '.xlm'      : 'application/vnd.ms-excel',
+    '.xls'      : 'application/vnd.ms-excel',
+    '.xlsx'     : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    '.xlw'      : 'application/vnd.ms-excel',
+    '.xm'       : 'audio/xm',
+    '.xml'      : 'text/xml',
+    '.xmz'      : 'xgl/movie',
 //		'.xpm':	'image/x-xpixmap',
-    '.xpm': 'image/xpm',
-    '.x-png': 'image/png',
-    '.zip': 'application/zip'
+    '.xpm'      : 'image/xpm',
+    '.x-png'    : 'image/png',
+    '.zip'      : 'application/zip'
 };
 //application/x-binary
 
@@ -1233,7 +1097,6 @@ EmailApp.Util.getStackTrace = function (limit) {
     var stack = "";
 
     try {
-
         if (Error.captureStackTrace) {
             var e = {};
 
@@ -1250,8 +1113,8 @@ EmailApp.Util.getStackTrace = function (limit) {
         } else {
             try {
                 throw Error();
-            } catch (e) {
-                stack = e.stack || e.toString();
+            } catch (err) {
+                stack = err.stack || err.toString();
             }
         }
 
@@ -1314,4 +1177,16 @@ EmailApp.Util.checkListItemUpdates = function (listA, listB, key, props) {
     } else {
         return updates;
     }
+};
+
+EmailApp.Util.isThreadingEnabled = function () {
+    return enyo.application.prefs.get("emailThreading") !== false;
+};
+
+EmailApp.Util.convertTextToHtml = function (unsafeText) {
+    var text = enyo.string.escapeHtml(unsafeText);
+    text = text.replace(/\r\n|\n|\r/g, "<br>");
+
+    // TODO: more sophisticated text formatting
+    return text;
 };

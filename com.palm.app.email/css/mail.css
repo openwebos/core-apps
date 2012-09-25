@@ -16,7 +16,7 @@
 *
 * LICENSE@@@ */
 
-﻿html {
+html {
     margin: 0;
     height: 100%;
 }
@@ -31,6 +31,14 @@ body {
 
 img {
     vertical-align: middle;
+}
+
+.unclickable {
+    pointer-events: none;
+}
+
+.clickable {
+    pointer-events: auto;
 }
 
 .ellipsis {
@@ -724,6 +732,14 @@ img.floatRight {
     opacity: 0.5;
 }
 
+.enyo-button.enyo-button-disabled {
+    opacity: 0.5;
+}
+
+.enyo-custom-button.enyo-button-disabled {
+    opacity: 0.5;
+}
+
 /*
 .disabled-toolbar .enyo-tool-button {
 	opacity:0.5;
@@ -940,4 +956,8 @@ img.floatRight {
 
 .enyo-modaldialog .palm-paragraph {
     margin: 0 5px 10px 5px;
+}
+
+.accel {
+    -webkit-transform-style: preserve-3d;
 }

@@ -19,6 +19,7 @@ limitations under the License.
 <html>
 <head>
     <title>enyo Mail</title>
+    <meta name="viewport" content="height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script type="text/javascript">
         function timeSince(start) {
             return start ? ((Date.now() - start) + " ms") : "(unknown)";
@@ -28,11 +29,13 @@ limitations under the License.
         fauxMail = window.opener ? window.opener.fauxMail : false;
     </script>
     <!--<script src="/usr/palm/frameworks/enyo/0.10/framework/enyo.js" launch="debug" type="text/javascript"></script> -->
-    <script src="/usr/palm/frameworks/enyo/0.10/framework/enyo.js" launch="nobridge" type="text/javascript"></script>
+    <script src="/usr/palm/frameworks/enyo/0.10/framework/enyo.js" type="text/javascript"></script>
+    <script type="text/javascript">console.log("framework loaded at " + timeSince(window.windowLaunchTime));</script>
+    <script type="text/javascript">enyo.depends("main/")</script>
 </head>
 <body>
 <script type="text/javascript">
-    console.log("sources loaded and framework initialized at " + timeSince(window.windowLaunchTime));
+    console.log("sources loaded at " + timeSince(window.windowLaunchTime));
 
     enyo.application.mailApp = new MailApp(enyo.windowParams); // Storing this facilitates testing. Not otherwise used. (Keep this comment current!)
     enyo.application.mailApp.renderInto(document.body);

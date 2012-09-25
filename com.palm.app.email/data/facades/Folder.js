@@ -194,38 +194,10 @@ Folder.loadIndentedFolderItems = function (accountId, callingWidget, initialVal,
     }
 };
 
-// TODO: rename to something like setSpecialFolder
-Folder.setImapServerFolder = function (emailAccountId, folderId, type, callback) {
-    var toSave = {
-        _id: emailAccountId
-    };
-    if (type === "sent") {
-        toSave.sentFolderId = folderId;
-    } else if (type === "trash") {
-        toSave.trashFolderId = folderId;
-    } else if (type === "drafts") {
-        toSave.draftsFolderId = folderId;
-    }
-    //this could get dropped on the floor if you don't hold onto it
-    return EmailApp.Util.callService('palm://com.palm.db/merge', {objects: [toSave]}, callback);
-};
-
 Folder.setFavorite = function (folderId, favorite) {
     var toSave = {
         _id: folderId,
         favorite: !!favorite
     };
     return EmailApp.Util.callService('palm://com.palm.db/merge', {objects: [toSave]});
-};
-
-// TODO: abstract into some kind of Transport object
-Folder.syncFolder = function (transportUrl, accountId, folderId, force) {
-    if (!transportUrl) {
-        return undefined;
-    }
-    if (transportUrl.lastIndexOf("/") !== transportUrl.length - 1) {
-        transportUrl += "/";
-    }
-    transportUrl += 'syncFolder';
-    return EmailApp.Util.callService(transportUrl, {'accountId': accountId, 'folderId': folderId, 'force': force});
 };

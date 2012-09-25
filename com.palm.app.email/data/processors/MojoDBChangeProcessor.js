@@ -32,6 +32,8 @@
  }
  *************************************************/
 
+// FIXME Remove dead Processor code, redundant methods
+
 EmailApp.MojoDBChangeProcessor = function (options) {
 
     this._kind = options.kind;
@@ -219,7 +221,6 @@ EmailApp.MojoDBChangeProcessor.prototype._someLoaded = function (reply) {
     var len = reply.responses[0];
     len = len && len.results;
     len = len && len.length;
-    console.log("   _someLoaded: got " + len + " changed " + this._kind);
     var deletedReply, nextPage, nextDeletedPage;
 
     this._request.cancel();
@@ -444,10 +445,9 @@ EmailApp.MojoDBChangeProcessor.prototype.commitBatchedWrites = function (callbac
     var startTime = Date.now();
     EmailApp.Util.callService('palm://com.palm.db/merge', {
         objects: objList,
-        ignoreMissing: true
+        ignoreMissing: (EmailApp.Util.getWebOSMajorVersion() >= 3 ? true : undefined)
     }, function (resp) {
         // TODO: Remove this after performance enhancements
-        var time = Date.now() - startTime;
         //var time = Date.now() - startTime;
         //console.log("##commitBatchedWrites Merge call took " + time + " milliseconds");
         callback();

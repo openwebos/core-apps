@@ -18,12 +18,12 @@
 
 enyo.depends
     (
-        "../data/EmailAccount.js",
-        "../data/AttachmentManager.js",
-        "../facades/Attachment.js",
+        "$base/data/EmailAccount.js",
+        "$base/data/AttachmentManager.js",
+        "$base/data/facades/Attachment.js",
         "AttachmentsDrawer.js",
         "FolderListPopup.js",
         "BasicFadeScroller.js",
         "Dialogs.js",
-        "../css/controls.css"
+        "$css/controls.css"
     );

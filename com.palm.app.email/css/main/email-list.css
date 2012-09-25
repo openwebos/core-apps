@@ -1,0 +1,85 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+.truncated-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.emailItem {
+}
+
+.emailItem-line1 {
+    font-size: 18px;
+    color: #333333;
+}
+
+.emailItem-line2 {
+    font-size: 14px;
+}
+
+/*
+.emailItem-from {
+    font-size: 14px;
+}
+
+.emailItem-subject {
+    font-size: 18px;
+    color: #333333;
+}
+*/
+
+.emailItem-text {
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+
+.emailItem-when {
+    padding-top: 4px;
+    font-size: 12px;
+    color: #828282;
+}
+
+.emailItem-blurb {
+    font-size: 14px;
+    color: #828282;
+}
+
+.emailItem-attach-icon {
+    vertical-align: middle;
+    padding: 0px;
+    margin: -4px 8px 0px 8px;
+}
+
+.divider-bg {
+    background: #E6E6E6
+}
+
+.emailList-no-emails-notice {
+    width: 100%;
+    text-align: center;
+    margin-top: 1em;
+}
+
+/* spinner */
+.emailList-spinner {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}

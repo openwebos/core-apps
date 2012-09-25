@@ -60,8 +60,14 @@ enyo.kind({
                 collapsedAccounts: {}
             });
 
-            enyo.application.emailProcessor = new EmailApp.EmailProcessor();
+            //enyo.application.emailProcessor = new EmailApp.EmailProcessor();
+            enyo.application.threader = new EmailProcessor2();
             enyo.application.dashboardManager = new DashboardManager();
+
+            // Start threader
+            if (window.PalmSystem) {
+                enyo.application.threader.run();
+            }
 
             var paramString = window.PalmSystem && PalmSystem.launchParams || "{}";
             var params = JSON.parse(paramString);
@@ -84,6 +90,7 @@ enyo.kind({
                     showAllFlagged: false,
                     defaultAccountId: '',
                     confirmDeleteOnSwipe: true,
+                    emailThreading: true,
                     syntheticFolderData: {}
                 },
                 loadFolders);
@@ -127,13 +134,12 @@ enyo.kind({
         var name, path, basePath, existingWin;
 
         name = type;
-        console.log(arguments);
         basePath = enyo.fetchAppRootPath() + "/";
         var search = typeof location !== undefined ? location.search : "";
         if (type === "mail") {
-            path = basePath + "mail/index.html" + search;
+            path = basePath + "app/mail-window.html" + search;
         } else if (type === "compose") {
-            path = basePath + "compose/index.html" + search;
+            path = basePath + "app/compose-window.html" + search;
 
             // Use message ID in compose window name so we don't open multiple windows for the same draft.
             if (windowParams.edit && windowParams.edit._id) {
@@ -141,9 +147,9 @@ enyo.kind({
                 forceNewCard = false;
             }
         } else if (type === "emailviewer") {
-            path = basePath + "emailviewer/index.html" + search;
+            path = basePath + "app/emailviewer-window.html" + search;
         } else if (type === "spawn") {
-            path = basePath + "spawn/index.html"
+            path = basePath + "app/spawn/index.html";
         } else {
             console.error("unknown launch type " + type);
             return; // bail out

@@ -1,15 +1,60 @@
-# Email application
+Email application
+=================
+
+Summary
+-------
 
 Email application for webOS. Written using enyo 1.0.
 
-# Limitations and Known Issues
+Unstable branch
+------------------
 
-## User Credentials will be stored in clear format in the db8. Secure storing support will be added later.
+NOTE: This branch is experimental and may have bugs, missing features,
+and performance regressions not present in the mainline source code.
+Key changes from master branch:
 
-## HTML Sanitizer function used in the Email display message view, is limited to remove only certain tags such as Script, iframe, object, embed. More generic solution is planned for post beta release.
+* Refactored app structure and cleaner separation of components/views.
 
+* Experimental support for displaying emails in threaded view. Emails are
+  processed in the EmailProcessor and assigned to threads based on (in order
+  of preference): server thread id, message-id/in-reply-to, similar subjects.
+  
+  An updated version of the sync transports may be needed for these fields,
+  and for staged deletion/purge of emails so that the processor is notified
+  of the deletion (typically in the case of mass-deletes such as account/folder
+  deletion). NOTE: Server thread id is not implemented yet.
+  
+* There are new as well as updated db kinds which must be installed. Make sure
+  to install and register the latest db kind/permission configs from the
+  configuration directory and reboot the system.
 
-# App launch lifecycle
+* If the thread index is in a bad state, rebuild it by going to
+  Preferences & Accounts -> (menu) -> Debug: Rebuild thread index
+  
+Known issues
+============
+
+* Limited design/styling aka "programmer art".
+* No printing support.
+* Reply collapsing needs to handle more common reply formats.
+* Thread grouping by subject needs logic to avoid merging unrelated emails.
+* No support for cross-folder (sent emails, etc) threading.
+* Need to add more options to the message footer "more" menu.
+* Automatic email account setup may not work for some accounts.
+  
+How to Run on Ubuntu Linux
+==========================
+
+1. Clone https://github.com/openwebos/core-apps.git
+2. cd core-apps; git checkout unstable
+3. Copy com.palm.app.email into ${LUNA\_STAGING}/rootfs/usr/palm/applications/
+4. Copy ${LUNA\_STAGING}/rootfs/usr/palm/applications/com.palm.app.email/db/kinds/* ${LUNA\_STAGING}/rootfs/etc/palm/db/kinds/
+5. Copy ${LUNA\_STAGING}/rootfs/usr/palm/applications/com.palm.app.email/db/permissions/* ${LUNA\_STAGING}/rootfs/etc/palm/db/permissions/
+6. Stop LunaSysMgr and all services (./service-bus.sh stop)
+7. Re-run service setup described in https://github.com/openwebos/build-desktop including ./service-bus.sh init
+
+App launch lifecycle
+====================
 
 The email app is launched automatically at boot. There is a headless window,
 index.html, which handles background tasks like triggering notifications for
@@ -22,7 +67,7 @@ Windows (cards) include:
   basic initialization, relaunch, and runs the email processor and dashboard
   manager.
 
-  See nowindow/source/Launch.js.
+  See app/nowindow/Launch.js.
 
 * Main window: Run from mail/index.html. There is only one of these windows
   open at any given time. On webOS 3.x, after launching the main window it is
@@ -32,18 +77,18 @@ Windows (cards) include:
   
   Can be launched with folderId or emailId to open a specific folder or email.
   
-  See mail/source/MailApp.js.
+  See app/main/MailApp.js.
   
 * Compose window: Run from compose/index.html. Opened by passing either
   the newEmail: {...} parameter or one of the legacy parameters.
   
-  See compose/source/Compose.js.
+  See app/compose/ComposeWindow.js.
   
 * Email Viewer window: Opened if the email app is launched using a target/uri
   parameter. This is used to display RFC 822 (.eml) files. It can also be used
   to display emails in a separate window.
   
-  See emailviewer/source/EmailViewerWindow.js.
+  See app/emailviewer/EmailViewerWindow.js.
   
 * Accounts iframe: Special window used to provide a custom validator and
   login settings UI for email accounts. The Accounts app uses cross-app launch

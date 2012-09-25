@@ -20,7 +20,7 @@
  * UI Widget for displaying a group of folders for an account.
  */
 enyo.kind({
-    name: "Folders",
+    name: "FolderGroup",
     kind: "Control",
     published: {
         account: ""
@@ -30,6 +30,9 @@ enyo.kind({
         onLoaded: ""
     },
     components: [
+        {kind: "EmailApp.BroadcastSubscriber", target: "enyo.application.accounts", onChange: "accountsListChangedCallback"},
+        {kind: "EmailApp.BroadcastSubscriber", target: "enyo.application.prefs", onChange: "prefsChangedCallback"},
+    
         {name: "header", kind: "enyo.DividerDrawer", style: "min-height: 56px", onclick: "drawerClickHandler", className: "", components: [
             {name: "list", className: "folder-list", kind: "VirtualRepeater", onSetupRow: "getFolderItem", components: [
                 {name: "item", kind: "Item", height: "60px", tapHighlight: true, layoutKind: enyo.HFlexLayout, align: "center", onclick: "itemClick", components: [
@@ -46,7 +49,7 @@ enyo.kind({
                 ]}
             ]}
         ]},
-        {kind: "Selection", onChange: "selectionChanged"}
+        {name: "selection", kind: "CustomSelection", onChange: "selectionChanged"}
     ],
 
     folderImages: {
@@ -79,19 +82,9 @@ enyo.kind({
         if (!this.isFavorites() && !opened) {
             this.$.header.close();
         }
-
-        // bind and add listeners
-        this.prefsChangedCallbackBound = this.prefsChangedCallback.bind(this);
-        enyo.application.prefs.addListener(this.prefsChangedCallbackBound);
-
-        this.accountsListChangedCallbackBound = this.accountsListChangedCallback.bind(this);
-        enyo.application.accounts.addListener(this.accountsListChangedCallbackBound);
     },
 
     destroy: function () {
-        enyo.application.prefs.removeListener(this.prefsChangedCallbackBound);
-        enyo.application.accounts.removeListener(this.accountsListChangedCallbackBound);
-
         this.cancelFolderFetchAutoFinders();
         this.cancelUnreadCountAutoFinders();
 
@@ -107,7 +100,7 @@ enyo.kind({
     cancelUnreadCountAutoFinders: function () {
         if (this._unreadCountAutoFinders) {
             this._unreadCountAutoFinders.forEach(function (unreadCountAutoFinder) {
-                unreadCountAutoFinder.cancel();
+                unreadCountAutoFinder.destroy();
             });
             this._unreadCountAutoFinders.length = 0;
         }
@@ -152,7 +145,7 @@ enyo.kind({
     /**
      * Handler for application preference changes
      */
-    prefsChangedCallback: function (propName, newValue) {
+    prefsChangedCallback: function (sender, prefs, propName, newValue) {
         //we only care about the synthetic folder prefs, so if we're not the favorites folders list, ignore any prefs changes
         if (!this.isFavorites()) {
             return;
@@ -163,7 +156,6 @@ enyo.kind({
             return !Folder.isSynthetic(item);
         });
 
-        var prefs = enyo.application.prefs;
         var index = 0;
 
         //only show all inboxes if there's more than one account
@@ -306,15 +298,14 @@ enyo.kind({
         this.cancelUnreadCountAutoFinders();
 
         this._unreadCountAutoFinders = [];
-        var onDevice = EmailApp.Util.onDevice();
-        for (var i = 0, f; !!(f = folders[i]); i++) {
-            var callback = enyo.hitch(this, "gotUnread", f);
-            if (onDevice) {
-                //we pass true as the fifth param so that we get a count
-                this._unreadCountAutoFinders[i] = new EmailApp.Util.MojoDBAutoFinder(EmailApp.Util.generateUnreadCountQuery(f._id), callback, undefined, undefined, true);
-            } else {
-                setTimeout(callback("unusedParam", 99), 50);
-            }
+        for (var i = 0; i < folders.length; i++) {
+            var folder = folders[i];
+        
+            this._unreadCountAutoFinders[i] = this.createComponent({
+                kind: "UnreadCountWatcher",
+                folderId: folder._id,
+                onUnreadCountChanged: "gotUnread"
+            });
         }
 
         //filter the folders list and (re-)render the list
@@ -322,16 +313,15 @@ enyo.kind({
     },
 
     // FIXME: factor this better.
-    gotUnread: function (inFolder, ignored, inCount) {
-        //console.log("in Folders.gotUnread.  isFavorites(): " + stringify(this.isFavorites()) + " inCount: " + stringify(inCount) + " inFolder: " + stringify(inFolder));
-
-        inFolder.unreadCount = inCount;
+    gotUnread: function (sender, folderId, count) {
+        //console.log("in Folders.gotUnread.  isFavorites(): " + stringify(this.isFavorites()) + " count: " + stringify(count) + " folderId: " + folderId);
 
         // FIXME: It's unclear if it's better to just render the folder list or update the specific row.
-        var that = this;
-        this._displayedFolders.forEach(function (folder, index) {
-            if (folder && inFolder._id === folder._id) {
-                that.$.list.renderRow(index);
+        var list = this.$.list;
+        this._displayedFolders.forEach(function (f, index) {
+            if (f && f._id === folderId) {
+                f.unreadCount = count;
+                list.renderRow(index);
             }
         });
         // fire loaded event

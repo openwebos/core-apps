@@ -7,10 +7,10 @@
             "read": "allow" 
         } 
     }, 
-        {
+    {
         "type": "db.kind",
         "object": "com.palm.app.email.prefs:1",
-        "caller": "com.palm.mail.*",
+        "caller": "com.palm.pop",
         "operations": {
             "create": "allow",
             "read": "allow",
@@ -18,10 +18,10 @@
             "delete": "allow"
         } 
     },
-    {
+        {
         "type": "db.kind",
         "object": "com.palm.app.email.prefs:1",
-        "caller": "com.palm.pop",
+        "caller": "com.palm.mail.*",
         "operations": {
             "create": "allow",
             "read": "allow",

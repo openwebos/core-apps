@@ -16,90 +16,133 @@
 //
 // LICENSE@@@
 
-/*
- Mail was ahead of the framework on selection, so this
- selection component was constructed as a work-around.
- It overrides the Selection component in the framework.
- Framework evolved and the Selection component was
- modified, and the APIs diverged.
-
- Specifically, the override component below expects
- the onChange event to trigger a list refresh, but
- the new framework API updates individual rows instead
- of refreshing the entire list.
-
- As a fix, we patch VirtualList to expose customSelectionChange
- method and delegate to that method by default from Selection's
- onChange.
-
- This should restore the functionality without
- disturbing the new API.
+/* This is a copy of enyo.Selection from enyo, with the following changes:
+ *  - selected is now an object/hash, instead of a list
+ *  - on clear(), deselect each item so that the owner knows that it needs to re-render
+ *  - add getSelectedKeys() and getSelectedValues()
  */
 
-enyo.VirtualList.prototype.customSelectionChange = function () {
-    this.refresh();
-};
-
+/** This is used to manage row selection state for lists. */
 enyo.kind({
-    name: "enyo.Selection",
-    kind: "Component",
+    name: "CustomSelection",
+    kind: enyo.Component,
     published: {
+        //* if true, allow multiple selections
         multi: false
     },
     events: {
-        // by default, delegate to the customSelectionChange we
-        // inserted into VirtualList prototype (see above)
-        onChange: "customSelectionChange"
+        /**
+         Fires when an item is selected.
+
+         {kind: "Selection", onSelect: "selectRow"...
+         ...
+         selectRow: function(inSender, inKey, inPrivateData) {
+         ...
+
+         _inKey_ is whatever key was used to register
+         the selection, usually a row index.
+
+         _inPrivateData_ references data registered
+         with this key by the code that made the selection.
+         */
+        onSelect: "",
+        /**
+         Fires when an items is  deselected.
+
+         {kind: "Selection", onSelect: "deselectRow"...
+         ...
+         deselectRow: function(inSender, inKey, inPrivateData)
+         ...
+
+         _inKey_ is whatever key was used to request
+         the deselection, usually a row index.
+
+         _inPrivateData_ references data registered
+         with this key by the code that made the original
+         selection.
+         */
+        onDeselect: "",
+        //* Sent when selection changes (but not when the selection is cleared).
+        onChange: ""
     },
+    //* @protected
     create: function () {
         this.selected = {};
+        this.clear();
         this.inherited(arguments);
     },
-    clear: function () {
-        if (this.getSelectedKeys().length) {
-            this.selected = {};
-            this.doChange();
-        }
-    },
-    multiChanged: function (old) {
-        if (!this.multi !== old) {
+    multiChanged: function () {
+        if (!this.multi) {
             this.clear();
         }
-    },
-    /** Returns true if item with given key is in the selection. */
-    isSelected: function (inKey) {
-        return !!this.selected[inKey];
-    },
-    /** Sets selection state of given key. */
-    setByKey: function (inKey, inSelected) {
-        if (inSelected) {
-            this.selected[inKey] = true;
-        } else {
-            delete this.selected[inKey];
-        }
-    },
-    /** Deselect item with given key, if it is selected.
-     Sends onChange event to broadcast the new selection. */
-    deselect: function (inKey) {
-        this.setByKey(inKey, false);
         this.doChange();
     },
-    /** Select the item with the given key (or possibly deselect it if multiselect is on).
-     Sends onChange event to broadcast the new selection. */
-    select: function (inKey) {
-        var state = this.isSelected(inKey);
+    highlander: function (inKey) {
         if (!this.multi) {
-            // Nothing to do if it's already selected.
-            if (state) {
-                return;
-            }
-            this.selected = {}; // clear selection, but don't broadcast change yet.
+            this.deselect(this.lastSelected);
         }
-        this.setByKey(inKey, !state);
+    },
+    //* @public
+    //* remove all selections
+    clear: function () {
+        // deselect anything currently selected
+        var keys = Object.keys(this.selected);
+        for (var i = 0; i < keys.length; i++) {
+            this.deselect(keys[i]);
+        }
+
+        this.selected = {};
+    },
+    //* returns true if the inKey row is selected
+    isSelected: function (inKey) {
+        return this.selected[inKey];
+    },
+    //* manually set a row to selected or unselected
+    setByKey: function (inKey, inSelected, inData) {
+        if (inSelected) {
+            this.selected[inKey] = (inData || true);
+            this.lastSelected = inKey;
+            this.doSelect(inKey, this.selected[inKey]);
+        } else {
+            var was = this.isSelected(inKey);
+            delete this.selected[inKey];
+            this.doDeselect(inKey, was);
+        }
         this.doChange();
     },
-    /** Returns an array of key values for items which are currently selected. */
+    //* deselect a row
+    deselect: function (inKey) {
+        if (this.isSelected(inKey)) {
+            this.setByKey(inKey, false);
+        }
+    },
+    //* select a row. If the selection has the multi property set to false, it will also deselect the previous selection.
+    select: function (inKey, inData) {
+        if (this.multi) {
+            this.setByKey(inKey, !this.isSelected(inKey), inData);
+        } else if (!this.isSelected(inKey)) {
+            this.highlander();
+            this.setByKey(inKey, true, inData);
+        }
+    },
+    //* toggle selection for a row. If the multi is false, toggling a selection on will deselect the previous selection
+    toggle: function (inKey, inData) {
+        if (!this.multi && this.lastSelected != inKey) {
+            this.deselect(this.lastSelected);
+        }
+        this.setByKey(inKey, !this.isSelected(inKey), inData);
+    },
     getSelectedKeys: function () {
         return Object.keys(this.selected);
+    },
+    getSelectedValues: function () {
+        var values = [];
+
+        var keys = Object.keys(this.selected);
+        for (var i = 0; i < keys.length; i++) {
+            values.push(this.selected[keys[i]]);
+        }
+
+        return values;
     }
 });

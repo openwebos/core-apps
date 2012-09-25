@@ -239,6 +239,7 @@ enyo.kind({
                         {kind: "ListSelector", name: "defSent", label: $L("Sent"), onChange: "valueChanged"},
                         {kind: "ListSelector", name: "defDraft", label: $L("Drafts"), onChange: "valueChanged"},
                         {kind: "ListSelector", name: "defTrash", label: $L("Trash"), onChange: "valueChanged"},
+                        {kind: "ListSelector", name: "defArchive", label: $L("Archive"), onChange: "valueChanged"},
                         {name: "foldersNotAvailable", content: $L("Not yet available")}
                     ]
                 },
@@ -279,9 +280,9 @@ enyo.kind({
             return;
         }
         var accountId = account.getId();
-        var defSent = this.$.defSent, defDraft = this.$.defDraft, defTrash = this.$.defTrash, folderGroup = this.$.folderGroup;
-        [defSent, defDraft, defTrash].forEach(function (row) {
-            row.setShowing(false)
+        var defSent = this.$.defSent, defDraft = this.$.defDraft, defTrash = this.$.defTrash, defArchive = this.$.defArchive, folderGroup = this.$.folderGroup;
+        [defArchive, defSent, defDraft, defTrash].forEach(function (row) {
+            row.setShowing(false);
         });
 
         var noFolderDiv = this.$.foldersNotAvailable;
@@ -296,6 +297,7 @@ enyo.kind({
 
         // load folder selections and toggle ui display accordingly
         var listsNStuffs = [
+            {selector: defArchive, defValue: account.getArchiveFolderId()},
             {selector: defSent, defValue: account.getSentFolderId()},
             {selector: defDraft, defValue: account.getDraftsFolderId()},
             {selector: defTrash, defValue: account.getTrashFolderId()}
@@ -399,6 +401,7 @@ enyo.kind({
             },
             deleteFromServer: this.$.syncDeleteToServer.getState(),
             deleteOnDevice: this.$.syncServerDelete.getState(),
+            archiveFolderId: this.$.defArchive.getValue(),
             sentFolderId: this.$.defSent.getValue(),
             trashFolderId: this.$.defTrash.getValue(),
             draftsFolderId: this.$.defDraft.getValue()

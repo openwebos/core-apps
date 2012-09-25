@@ -47,6 +47,7 @@ AccountPreferences.getPrefsByAccountId = function (accountId) {
  },
  deleteFromServer: boolean
  deleteOnDevice: boolean
+ archiveFolderid: string folder id
  sentFolderId: string folder id
  trashFolderId: string folder id
  draftsFolderId: string folder id
@@ -71,7 +72,8 @@ AccountPreferences.saveAccountPreferences = function (params) {
     // copy out only the variables that should be saved to the database
     ["realName", "_id", "syncFrequencyMins", "syncWindowDays", "replyTo",
      "deleteFromServer", "deleteOnDevice", "inboxFolderId", "outboxFolderId",
-     "notifications", "draftsFolderId", "trashFolderId"].forEach(
+     "notifications", "archiveFolderId", "sentFolderId", "draftsFolderId",
+     "trashFolderId"].forEach(
         function (key) {
             var val = params[key];
             toSave[key] = (typeof val === "string") ? sanitizeStr(val) : val;
@@ -215,4 +217,9 @@ AccountPreferences.NOTIFICATION_SYSTEM = "system";
 AccountPreferences.NOTIFICATION_VIBRATE = "vibrate";
 AccountPreferences.NOTIFICATION_RINGTONE = "ringtone";
 
+AccountPreferences.LOAD_REMOTE_ALWAYS = "always";
+AccountPreferences.LOAD_REMOTE_NEVER = "never";
+AccountPreferences.LOAD_REMOTE_ASK = "ask";
 
+AccountPreferences.REPLY_STYLE_BRIEF = "brief";
+AccountPreferences.REPLY_STYLE_HEADERS = "headers";

@@ -1,0 +1,7 @@
+{
+    "id":"com.palm.email.processorstate:1",
+    "owner":"com.palm.app.email",
+    "indexes":[
+        {"name": "Processor", "props": [{"name": "name"}]}
+    ]
+}

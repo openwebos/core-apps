@@ -43,7 +43,7 @@ EmailApp.AccountList = function (onReady) {
     // We used to create an autofinder for mail accounts here too, but now we defer this until the list of regular accounts comes in.
     setupTemplateList();
 
-    EmailApp.Util.mixInBroadcaster(this, "EmailApp.AccountList");
+    enyo.mixin(this, EmailApp.Broadcaster);
 
     // On desktop, fake some data & call through.
     if (!EmailApp.Util.hasServiceCallbacks()) {
@@ -212,7 +212,7 @@ EmailApp.AccountList = function (onReady) {
             }
 
             // Notify listeners that accounts have changed.
-            that.broadcast();
+            that.broadcast("change");
 
             _maybeCallOnReady(true, false);
         } catch (e) {
@@ -271,7 +271,7 @@ EmailApp.AccountList = function (onReady) {
 
         // Notify listeners that accounts have changed, since a change to a mailAccount may also result in needing to refresh the UI
         // (for example, when the mailAccount object is added and gets the xxxFolderId properties set, etc.)
-        that.broadcast();
+        that.broadcast("change");
 
         _maybeCallOnReady(false, true);
     }
@@ -292,8 +292,6 @@ EmailApp.AccountList = function (onReady) {
             onReady = undefined;
         }
     }
-
-    ;
 
     // Adds default properties for mail accounts, in the case that they are undefined.
     // Watches for new errors, and notifies the user when appropriate.
@@ -451,6 +449,15 @@ EmailApp.AccountList.prototype = {
         return undefined;
     },
 
+    /**
+     * Returns an email transport instance for a given accountId
+     */
+    getTransport: function (accountId) {
+        // TODO cache transport object
+        var provider = this.getProvider(accountId);
+        return new PalmEmailTransport(provider.implementation);
+    },
+
 
     /**
      * Retrieve a transport type string for an provided account id.
@@ -490,7 +497,7 @@ EmailApp.AccountList.prototype = {
                 sortKey: i
             });
         }
-        throw "saveAccountOrder not yet implemented"
+        throw "saveAccountOrder not yet implemented";
     },
 
     /**

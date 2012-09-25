@@ -1,0 +1,76 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+.thread-header {
+    padding-left: 10px;
+    padding-right: 1em;
+    padding-top: 0.4em;
+    padding-bottom: 0.5em;
+    background-color: #FDFDFD;
+    color: #333333;
+    height: 48px;
+}
+
+.thread-header-shadow {
+    //margin-bottom: -5px;
+    position: absolute;
+    z-index: 100;
+    height: 5px;
+    width: 100%;
+    background: transparent url('../../images/light_chrome_drop_shadow_header.png') repeat-x;
+}
+
+.thread-subject-text {
+    color: black;
+    font-size: 24px;
+    font-family: Prelude Medium;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.thread-unread-count {
+    font-size: 18px;
+    color: #828282;
+    background-color: #e5e5e5;
+    font-weight: bold;
+    
+    -webkit-border-radius: 10px;
+    padding: 2px 12px 2px 12px;
+    margin: 4px 0px -4px 0px; 
+}
+
+.body-wrapper {
+}
+
+.body-wrapper.body-hidden {
+}
+
+.message-body {
+    -webkit-transition: opacity 0.3s;
+}
+
+.message-body.body-hidden {
+    opacity: 0;
+}
+
+.body-wrapper > .footer {
+    background-color: blue;
+    -webkit-transition: opacity 0.5s ease 0.5s;
+}

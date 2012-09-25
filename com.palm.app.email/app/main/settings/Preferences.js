@@ -53,6 +53,20 @@ enyo.kind({
             {kind: "VFlexBox", className: "box-center", components: [
                 {
                     kind: "RowGroup",
+                    caption: $L("ACCOUNTS"),
+                    name: "accountsGroup",
+                    components: [
+                        {
+                            kind: "Accounts.accountsList",
+                            name: "accountsList",
+                            onAccountsList_AddAccountTemplates: "onAccountsAvailable",
+                            onAccountsList_AccountSelected: "showAccountSettings"
+                        }
+                    ]
+                },
+                { kind: "ActivityButton", caption: $L("Add Account"), onclick: "addAccountClick", className: "enyo-button-light"},
+                {
+                    kind: "RowGroup",
                     caption: $L("SMART FOLDERS"),
                     components: [
                         {
@@ -86,6 +100,22 @@ enyo.kind({
                     kind: "RowGroup", caption: $L("MESSAGE LIST"), components: [
                     {
                         kind: "LabeledContainer",
+                        caption: $L("Email Threading"),
+                        components: [
+                            {style: "display: inline-block; position: relative; top: 12px; height: 32px", components: [
+                                { kind: "Spinner", name: "rebuildSpinner", style: "display: inline-block" }
+                            ]},
+                            {
+                                kind: "ToggleButton",
+                                name: "emailThreading",
+                                state: true,
+                                onChange: "toggleEmailThreading",
+                                style: "display: inline-block"
+                            }
+                        ]
+                    },
+                    {
+                        kind: "LabeledContainer",
                         caption: $L("Delete Confirmation"),
                         components: [
                             {
@@ -95,46 +125,143 @@ enyo.kind({
                                 onChange: "toggleConfirmDelete"
                             }
                         ]
+                    },
+                    {
+                        kind: "LabeledContainer",
+                        caption: $L("Hide Folder List When Viewing Email"),
+                        components: [
+                            {
+                                kind: "ToggleButton",
+                                name: "hideAccountsOnViewEmail",
+                                state: false,
+                                onChange: "toggleHideAccountsOnViewEmail"
+                            }
+                        ]
                     }
                 ]
                 },
                 {
-                    kind: "RowGroup",
-                    caption: $L("ACCOUNTS"),
-                    name: "accountsGroup",
-                    components: [
-                        {
-                            kind: "Accounts.accountsList",
-                            name: "accountsList",
-                            onAccountsList_AddAccountTemplates: "onAccountsAvailable",
-                            onAccountsList_AccountSelected: "showAccountSettings"
-                        }
-                    ]
-                },
-                { kind: "ActivityButton", caption: $L("Add Account"), onclick: "addAccountClick", className: "enyo-button-light"},
-                {
-                    kind: "RowGroup", caption: $L("DEFAULT ACCOUNT"), name: "defAccountGroup", components: [
-                    {name: "selList", kind: "ListSelector", value: 0, onChange: "defaultAccountChange"}
+                    kind: "RowGroup", caption: $L("MESSAGE VIEW"), components: [
+                    {
+                        kind: "LabeledContainer",
+                        caption: $L("Load Images From Remote Servers"),
+                        components: [
+                            {
+                                kind: "ListSelector",
+                                name: "loadRemoteContent",
+                                value: AccountPreferences.LOAD_REMOTE_ALWAYS,
+                                onChange: "toggleLoadRemoteContent",
+                                
+                                items: [
+                                    {caption: $L("Always"), value: AccountPreferences.LOAD_REMOTE_ALWAYS},
+                                    {caption: $L("Never"), value: AccountPreferences.LOAD_REMOTE_NEVER},
+                                    {caption: $L("Ask"), value: AccountPreferences.LOAD_REMOTE_ASK}
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        kind: "LabeledContainer",
+                        name: "threadViewOldestFirstBlock",
+                        showing: false,
+                        caption: $L("Show Older Emails In Thread First"),
+                        components: [
+                            {
+                                kind: "ToggleButton",
+                                name: "threadViewOldestFirst",
+                                state: true,
+                                onChange: "toggleThreadViewOldestFirst",
+                                style: "display: inline-block"
+                            }
+                        ]
+                    }
                 ]
                 },
-                {className: "enyo-paragraph enyo-subtext preferences-info-text", content: $L("New emails created in the \"All Inboxes\" view will default to this account.")},
+                {kind: "RowGroup", caption: $L("COMPOSE EMAIL"), components: [
+                    {
+                        kind: "LabeledContainer",
+                        caption: $L("Font"),
+                        components: [
+                            {
+                                kind: "FontListSelector",
+                                name: "defaultFont",
+                                value: "",
+                                styleProp: "font-family",
+                                onChange: "changeDefaultFont",
+                                
+                                items: [
+                                    {caption: $L("Default Font"), value: ""},
+                                    {caption: $L("Default serif font"), value: "serif"},
+                                    {caption: $L("Default sans-serif font"), value: "sans-serif"},
+                                    {caption: $L("Default monospace font"), value: "monospace"},
+                                    {caption: $L("Courier"), value: "Courier,monospace"},
+                                    {caption: $L("Prelude"), value: "Prelude,Verdana,sans-serif"},
+                                    {caption: $L("Times"), value: "Times,serif"},
+                                    {caption: $L("Verdana"), value: "Verdana,sans-serif"}
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        kind: "LabeledContainer",
+                        caption: $L("Font Size"),
+                        components: [
+                            {
+                                kind: "FontListSelector",
+                                name: "defaultFontSize",
+                                value: "",
+                                styleProp: "font-size",
+                                onChange: "changeDefaultFontSize",
+                                
+                                items: [
+                                    {caption: $L("Normal"), value: ""},
+                                    {caption: $L("10 pt"), value: "10pt"},
+                                    {caption: $L("12 pt"), value: "12pt"},
+                                    {caption: $L("14 pt"), value: "14pt"},
+                                    {caption: $L("16 pt"), value: "16pt"}
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        kind: "LabeledContainer",
+                        caption: $L("Reply Header Style"),
+                        components: [
+                            {
+                                kind: "ListSelector",
+                                name: "replyStyle",
+                                value: "",
+                                onChange: "changeReplyStyle",
+                                
+                                items: [
+                                    {caption: $L("Brief"), value: AccountPreferences.REPLY_STYLE_BRIEF},
+                                    {caption: $L("Include Headers"), value: AccountPreferences.REPLY_STYLE_HEADERS}
+                                ]
+                            }
+                        ]
+                    }
+                ]},
+                { kind: "RowGroup", caption: $L("DEFAULT ACCOUNT"), name: "defAccountGroup", components: [
+                    {name: "defaultAccountList", kind: "ListSelector", value: 0, onChange: "defaultAccountChange"}
+                ]},
+                {className: "enyo-paragraph enyo-subtext preferences-info-text", content: $L("New emails created in the \"All Inboxes\" view will default to this account.")}
             ]}
         ]},
         {className: "accounts-footer-shadow"},
         {kind: "Toolbar", className: "enyo-toolbar-light", components: [
             {kind: "Button", caption: $L("Done"), className: "enyo-button-dark", width: "300px", onclick: "doBack"}
-        ]}
+        ]},
+        {name: "threaderWatch", kind: "EmailApp.BroadcastSubscriber", onRebuildIndexUpdate: "rebuildIndexUpdate"},
+        {kind: "EmailApp.BroadcastSubscriber", target: "enyo.application.accounts", onChange: "loadAccounts"}
     ],
+    
     create: function () {
         this.inherited(arguments);
-        // Make sure we're notified when accounts change.
-        this.loadAccounts = this.loadAccounts.bind(this);
-        enyo.application.accounts.addListener(this.loadAccounts);
-        this.loadAccounts(); // force a change notification to set up initial list
-    },
-    destroy: function () {
-        enyo.application.accounts.removeListener(this.loadAccounts);
-        this.inherited(arguments);
+
+        // force a change notification to set up initial list
+        this.loadAccounts();
+        
+        this.$.threaderWatch.subscribe(enyo.application.threader);
     },
 
     /** preference toggles */
@@ -142,6 +269,49 @@ enyo.kind({
         this.setPref('confirmDeleteOnSwipe', this.$.confirmDeletes.getState());
     },
 
+    /**
+     * Turn on/off email threading functionality
+     */
+    toggleEmailThreading: function () {
+        var wasEnabled = EmailApp.Util.isThreadingEnabled();
+        var enabled = this.$.emailThreading.getState();
+    
+        this.setPref('emailThreading', this.$.emailThreading.getState());
+        
+        this.$.threadViewOldestFirstBlock.setShowing(enabled);
+        
+        if (enabled && !wasEnabled) {
+            // need to build thread index
+            enyo.application.threader.rebuildIndex();
+        } else if (!enabled && wasEnabled) {
+            // need to wipe thread index
+            enyo.application.threader.disableThreading();
+        }
+    },
+    
+    /**
+     * Change order that messages in a thread are diplayed
+     */
+    
+    toggleThreadViewOldestFirst: function () {
+        this.setPref('threadViewOldestFirst', this.$.threadViewOldestFirst.getState());
+    },
+    
+    /* Change setting for hiding the account list when viewing an email */
+    toggleHideAccountsOnViewEmail: function () {
+        this.setPref('hideAccountsOnViewEmail', this.$.hideAccountsOnViewEmail.getState());
+    },
+    
+    /**
+     * Change setting to block remote content
+     */
+    toggleLoadRemoteContent: function() {
+        this.setPref('loadRemoteContent', this.$.loadRemoteContent.getValue());
+    },
+
+    /**
+     * Turn on/off display of 'All Inboxes' folder
+     */
     toggleAllInboxes: function () {
         this.setPref('showAllInboxes', this.$.showAllInboxes.getState());
     },
@@ -151,6 +321,18 @@ enyo.kind({
      */
     toggleAllFlagged: function () {
         this.setPref('showAllFlagged', this.$.showAllFlagged.getState());
+    },
+    
+    changeDefaultFont: function () {
+        this.setPref('defaultFont', this.$.defaultFont.getValue());
+    },
+    
+    changeDefaultFontSize: function () {
+        this.setPref('defaultFontSize', this.$.defaultFontSize.getValue());
+    },
+    
+    changeReplyStyle: function () {
+        this.setPref('replyStyle', this.$.replyStyle.getValue());
     },
 
     /**
@@ -203,27 +385,34 @@ enyo.kind({
         }
 
         this.defaultAccount = accts.getDefaultAccount();
-        //this.setSelectedAccount(this.defaultAccount);
         this.sortedAccounts = accts.getSortedList();
         this.$.accountsList.getAccountsList('MAIL');
-        this.$.selList.setItems(this.makeDefAccountItems(this.sortedAccounts));
+        this.$.defaultAccountList.setItems(this.makeDefAccountItems(this.sortedAccounts));
 
-        // update account settings
+        // display app preference settings
         var prefs = enyo.application.prefs;
         this.$.showAllInboxes.setState(!!prefs.get('showAllInboxes'));
         this.$.showAllFlagged.setState(!!prefs.get('showAllFlagged'));
         this.$.confirmDeletes.setState(!!prefs.get('confirmDeleteOnSwipe'));
-        var accountId = prefs.get("defaultAccountId");
-        var items = this.$.selList.items;
-        var i;
-        if (accountId) {
-            for (i = 0; i < items.length; i++) {
-                if (items[i].accountId === accountId) {
-                    this.$.selList.setValue(items[i].value);
-                    break;
-                }
-            }
-        }
+        
+        var threadingEnabled = prefs.get('emailThreading') !== false;
+        
+        this.$.emailThreading.setState(threadingEnabled);
+        
+        // Message view options
+        this.$.threadViewOldestFirstBlock.setShowing(threadingEnabled);
+        this.$.threadViewOldestFirst.setState(prefs.get('threadViewOldestFirst') || false);
+        
+        this.$.hideAccountsOnViewEmail.setState(prefs.get('hideAccountsOnViewEmail') || false);
+        this.$.loadRemoteContent.setValue(prefs.get('loadRemoteContent') || AccountPreferences.LOAD_REMOTE_ALWAYS);
+        
+        // Compose options
+        this.$.defaultFont.setValue(prefs.get('defaultFont') || "");
+        this.$.defaultFontSize.setValue(prefs.get('defaultFontSize') || "");
+        this.$.replyStyle.setValue(prefs.get('replyStyle') || AccountPreferences.REPLY_STYLE_BRIEF);
+        
+        var defAccountId = enyo.application.accounts.getDefaultAccountId();
+        this.$.defaultAccountList.setValue(defAccountId);
     },
 
     /**
@@ -233,23 +422,15 @@ enyo.kind({
         this.filteredAccounts = resp.accounts;    // Accounts are returned as an array. Not doing anything with this yet
         this.templates = resp.templates; // The list of account templates that can be added
     },
-    getAccountItem: function (inSender, inIndex) {
-        var a = this.sortedAccounts[inIndex];
-        if (!a) {
-            return false;
-        }
-
-        this.$.itemName.setContent(a.getAlias());
-        this.$.itemImage.setSrc(this.getIconPath(a.getId()));
-        this.$.address.setContent(a.getEmailAddress());
-
-        return true;
+    
+    rebuildIndexUpdate: function () {
+        console.log("rebuild state changed");
+        this.$.rebuildSpinner.setShowing(enyo.application.threader.isRebuilding());
     },
-    getDefAccountItem: function (inSender, inData, inIndex) {
-        var a = inData;// this.sortedAccounts[inIndex];
-        this.$.defItemName.setContent(a.getAlias());
-        this.$.defAddress.setContent(a.getEmailAddress());
-    },
+
+    /**
+     * Wrapper for accounts getIconById method
+     */
     getIconPath: function (acctId) {
         return enyo.application.accounts.getIconById(acctId, false);
     },
@@ -259,7 +440,7 @@ enyo.kind({
      * Returns array of JSON objects for display in list.
      */
     makeDefAccountItems: function (accounts) {
-        var defItems = [], a = undefined, i = 0, len = accounts.length;
+        var defItems = [], a, i = 0, len = accounts.length;
 
         for (; i < len; ++i) {
             a = accounts[i];
@@ -267,9 +448,27 @@ enyo.kind({
         }
         return defItems;
     },
-    defaultAccountChange: function (selList) {
-        var target = selList.items[selList.value - 1];
+
+    /**
+     * Handler for default account selection changes.
+     */
+    defaultAccountChange: function (defaultAccountList) {
+        var target = defaultAccountList.items[defaultAccountList.value - 1];
         // not dealing with an account here. Dealing with dropdown json from makeDefAccountItems
         enyo.application.prefs.set('defaultAccountId', target.accountId);
+    }
+});
+
+enyo.kind({
+    name: "FontListSelector",
+    kind: "enyo.ListSelector",
+    
+    styleProp: "font-family",
+    
+    popupSetupItem: function(inSender, inItem, inRowIndex, inRowItem) {
+        this.inherited(arguments);
+        
+        // FIXME private
+        inItem.$.item.applyStyle(this.styleProp, inRowItem.value || "");
     }
 });

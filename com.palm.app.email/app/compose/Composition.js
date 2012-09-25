@@ -16,6 +16,8 @@
 //
 // LICENSE@@@
 
+// FIXME Composition needs to be refactored to make logic more transparent/maintainable
+
 EmailApp = EmailApp || {};
 
 /*
@@ -38,6 +40,32 @@ EmailApp = EmailApp || {};
  }
 
  */
+ 
+// FIXME move this somewhere else
+EmailApp.getDefaultComposeStyle = function () {
+    var fontStyle = "";
+    
+    var defaultFont = enyo.application.prefs.get('defaultFont');
+    var defaultFontSize = enyo.application.prefs.get('defaultFontSize');
+    
+    if (defaultFont) {
+        fontStyle += "font-family: " + defaultFont;
+    }
+    
+    if (defaultFontSize) {
+        fontStyle += (fontStyle ? "; font-size: " : "font-size: ") + defaultFontSize;
+    }
+    
+    return fontStyle;
+};
+
+EmailApp.getDefaultBodyText = function (initialHtml, signature) {
+    var fontStyle = EmailApp.getDefaultComposeStyle();
+    
+    return (fontStyle ? "<span style='" + fontStyle + "'>" : "<span>") +
+        (initialHtml || "") + "<br><br></span><span id='signature'>" + (signature || "") + "</span>";
+};
+ 
 EmailApp.Composition = function (options) {
     // Start with a new blank message.
     this.originalText = "";
@@ -51,7 +79,8 @@ EmailApp.Composition = function (options) {
     // TODO: Refactor this. it's hella ugly.
     var targetAcctId = options && options.accountId || enyo.application.accounts.getDefaultAccountId();
     var signature = AccountPreferences.getSignature(targetAcctId);
-    var defaultBodyText = "<span style='font-family:Prelude, Verdana, san-serif;'><br><br></span><span id='signature'>" + signature + "</span>";
+    
+    var defaultBodyText = EmailApp.getDefaultBodyText("", signature);
 
     this.draftEmail.setBodyContent(defaultBodyText);
 
@@ -94,17 +123,10 @@ EmailApp.Composition = function (options) {
     this._setSender(targetAcctId);
 };
 
-// Need to break this out of the regular prototype assignment, since it's used in the def'n of REPLY_FWD_HTML
-EmailApp.Composition.prototype.SIGNATURE_PLACEHOLDER = "<span style='font-family:Prelude, Verdana, san-serif;'><br><br></span><span id='signature'></span>";
-
 EmailApp.Composition.prototype = {
-
-    SIGNATURE_PLACEHOLDER: EmailApp.Composition.prototype.SIGNATURE_PLACEHOLDER,
-    REPLY_FWD_HTML: "<br><br>" + EmailApp.Composition.prototype.SIGNATURE_PLACEHOLDER + "<br><span style='color:navy; font-family:Prelude, Verdana, san-serif; '><hr align='left' style='width:75%'/>",
-
     SUBJECT_PREFIX_RE: $L("Re: "),
     SUBJECT_PREFIX_FW: $L("Fw: "),
-
+    
     isForward: function () {
         return (this.action === "forward");
     },
@@ -176,7 +198,8 @@ EmailApp.Composition.prototype = {
 
         // TODO: we should really make a copy of the object, pulling only the properties we need to write to the database
         // this will prevent dbrev mismatch errors and the like
-        mail.sendMail(this.email, acct, this._handleSuccess.bind(this, onSuccess));
+        var transport = enyo.application.accounts.getTransport(this.accountId);
+        transport.sendMail(this.accountId, this.email, this._handleSuccess.bind(this, onSuccess));
 
         return true;
     },
@@ -200,8 +223,8 @@ EmailApp.Composition.prototype = {
         // Set editedDraft so the transport can decide to upload it to the server
         outgoingData.flags.editedDraft = true;
 
-        var account = enyo.application.accounts.getAccount(this.accountId);
-        mail.saveDraft(outgoingData, account, this._handleSuccess.bind(this, onSuccess));
+        var transport = enyo.application.accounts.getTransport(this.accountId);
+        transport.saveDraft(this.accountId, outgoingData, this._handleSuccess.bind(this, onSuccess));
     },
 
     replaceURIs: function (originalText) {
@@ -341,7 +364,7 @@ EmailApp.Composition.prototype = {
         var recipients;
         var parser = new MailtoURIParser(url);
         this._setSubject(parser.getDecodedSubject());
-        this._setContent(parser.getDecodedBody() + this.SIGNATURE_PLACEHOLDER);
+        this._setContent(parser.getDecodedBody() + EmailApp.getDefaultBodyText());
 
         var convertAddress = function (addr) {
             return {addr: addr, name: addr};
@@ -444,7 +467,7 @@ EmailApp.Composition.prototype = {
                 text = text.escapeHTML().replace(/\n/g, "<br>");
             }
 
-            this._setContent(text + this.SIGNATURE_PLACEHOLDER);
+            this._setContent(text + EmailApp.getDefaultBodyText());
         }
 
         // TODO: this should perform validation/fixup on the recipients
@@ -597,15 +620,29 @@ EmailApp.Composition.prototype = {
         // It would be more robust to read the message body ourselves, and modify the message scene not to modify the object.
         // So let's change this at some point.
         if (original.text && original.text.length > 0) {
-            text = this.REPLY_FWD_HTML;
+            text = EmailApp.getDefaultBodyText();
             var fromObj = original.from;
             var dateFormatter = new enyo.g11n.DateFmt({
                 date: 'medium',
                 time: 'short'
             });
+            
+            console.log("initial text: " + text);
 
-
+            var d;
+            
+            var replyFwdStyle;
+            
             if (this.action === "forward") {
+                replyFwdStyle = AccountPreferences.REPLY_STYLE_HEADERS;
+            } else {
+                replyFwdStyle = enyo.application.prefs.get("replyStyle") || AccountPreferences.REPLY_STYLE_BRIEF;
+            }
+
+            text += "<br /><hr align='left' style='width:75%' />";
+            text += "<div class='webos_quote_prefix' style='color: navy;" + EmailApp.getDefaultComposeStyle() + "'>";
+
+            if (replyFwdStyle === AccountPreferences.REPLY_STYLE_HEADERS) {
                 var toAddressList = [];
                 var ccAddressList = [];
                 if (original.to) { // sometimes to is null. ie: in case of all bcc recips
@@ -644,7 +681,7 @@ EmailApp.Composition.prototype = {
                 else {
                     text += $L("<b>From:</b> ") + (EmailApp.Util.interpolate("#{name} <#{addr}>", fromObj)).escapeHTML() + "<br/>";
                 }
-                var d = parseInt(original.timestamp, 10);
+                d = parseInt(original.timestamp, 10);
                 text += $L("<b>Date:</b> ") + dateFormatter.format(new Date(d)) + "<br/>";
                 text += $L("<b>Subject:</b> ") + original.subject.escapeHTML() + "<br/>";
                 if (toAddressList.length > 0) {
@@ -664,21 +701,21 @@ EmailApp.Composition.prototype = {
                 };
                 if (original.timestamp) {
                     //<Month (short version)> <Day>,<Year> at <time>
-                    var d = parseInt(original.timestamp, 10);
+                    d = parseInt(original.timestamp, 10);
                     strArgs.monthDate = dateFormatter.format(new Date(d));
                     text += EmailApp.Util.interpolate($L("On #{monthDate}, #{name} <#{addr}> wrote: "), strArgs).escapeHTML();
                 } else {
                     text += EmailApp.Util.interpolate($L("#{name} <#{addr}> wrote: "), strArgs).escapeHTML();
                 }
             }
-
-            // Add a newline after header info
-            text += "<br/>";
+            
+            // Add newline and close span and add spacing
+            text += "</div><br />";
 
             originalText = original.text;
         } else {
             console.log("ERROR: Composition._createCommon: couldn't find original message text.");
-            text = this.SIGNATURE_PLACEHOLDER;
+            text = EmailApp.getDefaultBodyText();
             originalText = "";
         }
 

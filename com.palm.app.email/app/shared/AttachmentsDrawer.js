@@ -33,7 +33,8 @@
  *********************/
 enyo.kind({
     name: "AttachmentsDrawer",
-    kind: "Control",
+    kind: "LazyControl",
+
     published: {
         attachments: null,
         collapsible: false,
@@ -377,13 +378,17 @@ enyo.kind({
 
     setEmail: function (email) {
         this.email = email;
-        this.message = email && email.data;
 
         if (!email) {
             this.attachments = [];
-            this.$.list.destroyControls();
+
+            if (!this.lazy) {
+                this.$.list.destroyControls();
+            }
             return;
         }
+
+        this.message = this.email.data;
 
         var attachments = email.getAttachments();
 
@@ -501,6 +506,8 @@ enyo.kind({
         if (this.attachments.length < 1) {
             this.setShowing(false);
         } else {
+            this.validateComponents();
+
             // trigger is visible only if >1 attachment
             if (this.attachments.length > 1 && this.collapsible) {
                 this.$.summaryBlock.setShowing(true);
@@ -516,10 +523,12 @@ enyo.kind({
             this.setShowing(true);
         }
 
-        // Set count
-        this.$.count.setContent(this.attachments.length > 1 ? this.attachments.length : "");
+        if (!this.lazy) {
+            // Set count
+            this.$.count.setContent(this.attachments.length > 1 ? this.attachments.length : "");
 
-        this.$.list.render();
+            this.$.list.render();
+        }
     },
 
     getAttachmentItem: function (inSender, inIndex) {
@@ -643,7 +652,7 @@ enyo.kind({
             {name: 'itemLabel', className: "attachment-icon-label", height: "48px", style: "overflow:hidden;", components: [
                 {name: 'itemName', nodeTag: "span"},
                 {name: 'itemExtension', nodeTag: "span", className: "grayed-out"}
-            ]},
+            ]}
         ]}
     ],
 
@@ -742,9 +751,10 @@ enyo.kind({
 
         // Download if needed.
         var that = this;
+        var pwnr = this.owner;
         EmailApp.Util.checkFilePath(this.part.path, function (path) {
             if (!that.showAttachmentRequested) {
-                that.owner.showAttachment(that.part, that);
+                pwnr.showAttachment(that.part, that);
             }
         }, function (path) {
             that.download();

@@ -1,6 +1,6 @@
 // @@@LICENSE
 //
-//      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+//      Copyright (c) 2012 Hewlett-Packard Development Company, L.P.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,8 +16,10 @@
 //
 // LICENSE@@@
 
-/* THIS FILE IS DEPRECATED. USE Email.js INSTEAD. */
-
-var Message = {};
-
-
+enyo.depends(
+    "CustomSelection.js",
+    "DarkSwipeable.js",
+    "EmailList.js",
+    "EmailListPane.js",
+    "FolderInfoPopup.js"
+);

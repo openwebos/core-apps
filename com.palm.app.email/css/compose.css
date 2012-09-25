@@ -147,6 +147,10 @@ img {
     color: black;
 }
 
+.compose-attachments-drawer {
+    border-bottom: 1px #ccc solid;
+}
+
 .compose-header {
     background: transparent url(../images/paper_page_texture.png) repeat;
 }

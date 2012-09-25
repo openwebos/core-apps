@@ -36,38 +36,42 @@ enyo.kind({
         {kind: "ApplicationEvents", onOpenAppMenu: "openAppMenu", onBack: "backHandler", onWindowParamsChange: "windowParamsChanged",
             onResize: "resizeHandler", /*onUnload:"unloadHandler", */onWindowHidden: "windowHiddenHandler", onWindowShown: "windowShownHandler",
             onWindowActivated: "windowActivatedHandler"},
+            
+        {kind: "EmailApp.BroadcastSubscriber", target: "enyo.application.accounts", onChange: "accountsChanged"},  
 
         {name: "checkFirstLaunch", kind: "Accounts.checkFirstLaunch", onCheckFirstLaunchResult: "_firstLaunchResponder", appId: "com.palm.app.email"},
-        // TODO: replace SlidingPane style below with this, once animations are added back in:  style: "background: url(../images/Mail-2-1a-256.png) center center no-repeat, url(../images/loading-bg.png) top left repeat-x;"
 
         {name: "slidingPane", kind: "SlidingPane", style: "background: url(../images/loading-bg.png) top left repeat-x;", flex: 1, components: [
             {width: "320px", name: "folderSliding", dragAnywhere: false, fixedWidth: true, components: [
-                {name: "accounts", kind: "FolderListPane", flex: 1,
+                {
+                    name: "folderPane",
+                    kind: "FolderListPane",
+                    flex: 1,
                     onSelectFolder: "folderChosen",
                     onComposeMessage: "composeMessage",
-                    onFoldersLoaded: "foldersLoaded",
+                    onFoldersLoaded: "foldersLoaded"
                 }
             ]},
-            {width: "320px", name: "mailSliding", dragAnywhere: false, fixedWidth: true, showing: true, components: [
+            {width: "320px", name: "listSliding", dragAnywhere: false, fixedWidth: true, showing: true, components: [
                 {
-                    name: "mail",
-                    kind: "Mail",
+                    name: "listPane",
+                    kind: "EmailListPane",
                     flex: 1,
-                    onSelect: "selectMessage",
-                    onMessageDeleted: "messageDeletedFromList",
+                    onListLoaded: "conversationListLoaded",
+                    onConversationSelected: "conversationSelected",
                     onComposeMessage: "composeMessage",
                     onHeaderTap: "headerTap"
                 }
             ]},
-            {flex: 1, name: "bodySliding", dragAnywhere: false, onResize: "resizeBody", showing: true, components: [
+            {flex: 1, name: "messageSliding", dragAnywhere: false, onResize: "resizeMessagePane", showing: true, components: [
                 {
-                    name: "body",
-                    kind: "MessagePane",
+                    name: "messagePane",
+                    kind: "MessageViewPane",
                     flex: 1,
-                    onSelectionUpdated: "updateSelection", // used for updating list selection after next/prev
-                    onMessageDeleted: "messageDeleted",
+                    onConversationDeleted: "conversationDeleted",
                     onComposeMessage: "composeMessage",
-                    onOpenNewCard: "openNewCard"
+                    onNext: "displayNextOrPreviousConversation",
+                    onPrevious: "displayNextOrPreviousConversation"
                 }
             ]}
         ]},
@@ -84,14 +88,17 @@ enyo.kind({
         // Preferences pane
         {name: "masterSettings", kind: "MasterSettings", lazy: true},
 
-        {name: "messageDisplayFetcher", kind: "DbService", method: "get", dbKind: "com.palm.email:1", onSuccess: "displayMessage"},
+        {name: "messageDisplayFetcher", kind: "DbService", method: "get", dbKind: "com.palm.email:1", onSuccess: "gotMessageForDisplay"},
+        {name: "conversationDisplayFetcher", kind: "DbService", method: "get", dbKind: "com.palm.email.conversation:1", onSuccess: "gotConversationForDisplay"},
 
+        // This is the master menu for the main email app
+        // Event handlers and hiding/disabling are configured in configureAppMenu()
         {name: "appMenu", kind: "AppMenu", components: [
             {name: "markAllReadItem", caption: $L("Mark All As Read")},
             {name: "emptyTrashItem", caption: $L("Empty Trash")},
             {name: "aboutThisFolder", caption: $L("About This Folder")},
-            {name: "openNewCard", caption: $L("Open Email in New Card")},
-            /* for testing */
+            {name: "rebuildThreadIndex", caption: $L("Debug: Rebuild thread index")},
+            {name: "fastToggleThreading", caption: $L("Debug: Fast toggle threading")},
             {name: "prefs", caption: $L("Preferences & Accounts")},
             {name: "printMenuItem", caption: $L("Print")},
             {name: "help", caption: $L("Help")}
@@ -109,29 +116,37 @@ enyo.kind({
             console.info("WINLOG: UNLOAD main mail card");
             that.unloadHandler(e);
             window.removeEventListener('unload', unloadFunc);
-        }
+        };
         window.addEventListener('unload', unloadFunc);
 
         // Mark main card as cachable off-screen.
         // This means it will usually not be closed when the user throws it away.
+        // Instead, we'll get the windowHidden event
         if (window.PalmSystem && PalmSystem.keepAlive) {
             PalmSystem.keepAlive(true);
         }
 
+        this.initLastEmailHash();
+
         enyo.application.contactCache = new ContactCache(300); // THIS IS SPARTA!
 
-        enyo.application.composeCount = enyo.application.composeCount || 1;
-
-        this.accountsChangedBound = this.accountsChanged.bind(this);
-        enyo.application.accounts.addListener(this.accountsChangedBound, "MailApp");
-
-        if (EmailApp.Util.onDevice()) {
+        if (EmailApp.Util.onDevice() && !EmailApp.Util.useSinglePanelMode()) {
             this.$.checkFirstLaunch.shouldFirstLaunchBeShown();
         } else {
             // Never run first-use when off of the device.
             // TODO(AK): revisit this, we'll want to test the first use somehow
             this._unhideMainApp();
         }
+        
+        if (EmailApp.Util.useSinglePanelMode()) {
+            enyo.setAllowedOrientation('up');
+            //this.$.slidingPane.setMultiView(false);
+        }
+    },
+
+    // reset hash of recently viewed email/conversation ids
+    initLastEmailHash: function () {
+        this.lastEmailHash = {};
     },
 
     // All launches get passed through here if we are uncertain about showing
@@ -146,31 +161,13 @@ enyo.kind({
 
     // code to unhide the main app. (Launches have it hidden by default)
     _unhideMainApp: function () {
-        var $$ = this.$;
-        $$.body.reinitializeWebView();
-
-        $$.mail.resetList();
-        $$.body.showPlaceholder(true); // force placeholder (immediately) so it doesn't wait for animation
-        $$.body.setMessage(undefined);
+        // Make sure the main view is showing (i.e. hide preferences view)
         this.selectViewByName("slidingPane", true);
-        $$.slidingPane.selectViewImmediate($$.folderSliding); // FIXME(AK): causes wrong pane to be selected sometimes
-
-        // XXX(AK): this line causes flicker after firstLaunchDone
-        //this.selectView($$.slidingPane);
-
-        if (this.disregardKeepAlive) {
-            this.disregardKeepAlive = false;
-        }
     },
 
     firstLaunchDone: function () {
         this.$.checkFirstLaunch.firstLaunchHasBeenShown();
         this._unhideMainApp();
-    },
-
-    destroy: function () {
-        enyo.application.accounts.removeListener(this.accountsChangedBound);
-        this.inherited(arguments);
     },
 
     unloadHandler: function () {
@@ -180,14 +177,26 @@ enyo.kind({
         // Destroy component tree on window unload, so we can rely on destructors for cleanup.
         this.destroy();
     },
+
     windowHiddenHandler: function () {
         this._appActivated = false;
-        var $$ = this.$;
-        $$.body.disconnectWebView();
-        $$.mail.blurSearchBox();
-        $$.mail.setFolder(undefined); // clear list pane, so we don't do useless updates while hidden.
-        $$.body.setMessage(undefined);
-        $$.mail.initLastEmailHash(); // Forget selected messages hash, as if we were actually closed.
+
+        // Switch back to three-panel mode
+        this.$.slidingPane.selectViewImmediate(this.$.folderSliding);
+
+        // Deactivate webview and clear message view
+        this.$.messagePane.setConversation(null);
+
+        // Clear folder view and state
+        this.$.listPane.blurSearchBox();
+        this.$.listPane.setFolder(undefined); // clear list pane, so we don't do useless updates while hidden.
+
+        // Deselect folder
+        this.$.folderPane.renderFolderSelection(null);
+
+        // Reset hash of recently viewed email/conversation ids
+        this.initLastEmailHash();
+
         if (enyo.application.contactCache) {
             enyo.application.contactCache.clearCache();
         }
@@ -212,38 +221,25 @@ enyo.kind({
             this._launchParams = undefined;
         }
 
-        var $$ = this.$;
-
-        // recreate the timeFormatter so that we notice 12/24 hour changes
-        // also update the body timeFormatter and the messages time
-        $$.mail.setUpTimeFormatter();
-        $$.body.tryUpdateHeaderTime();
-
-        var currentFolder = $$.mail.getFolder();
+        var currentFolder = this.$.listPane.getFolder();
         if (currentFolder) {
             var accountId = currentFolder.accountId;
             enyo.application.dashboardManager.setFilter(accountId, currentFolder._id);
         }
 
-        if ($$.body) {
-            $$.body.activate();
-        }
-
         this._appActivated = true;
     },
 
-    resizeBody: function () {
+    resizeMessagePane: function () {
         this.optimizeSpace();
-        if (this.$.slidingPane.view === this.$.bodySliding) {
+        if (this.$.slidingPane.view === this.$.messageSliding) {
             enyo.application.dashboardManager.setFilter();
-            this.$.body.exposeNextPrev();
         } else {
-            var currentFolder = this.$.mail.getFolder();
+            var currentFolder = this.$.listPane.getFolder();
             if (currentFolder) {
                 var accountId = currentFolder.accountId;
                 enyo.application.dashboardManager.setFilter(accountId, currentFolder._id);
             }
-            this.$.body.hideNextPrev();
         }
     },
 
@@ -259,10 +255,22 @@ enyo.kind({
         return this.getViewName() === "slidingPane";
     },
 
+    isPrefsView: function () {
+        return this.getViewName() === "masterSettings";
+    },
+
     getAppMenuConfigs: function () {
         return {
             prefs: {onclick: "showPreferences", showing: this.isMainView()},
             help: {onclick: "showHelp"},
+            rebuildThreadIndex: {
+                onclick: "rebuildThreadIndex",
+                showing: this.isPrefsView() && EmailApp.Util.isThreadingEnabled()
+            },
+            fastToggleThreading: {
+                onclick: "fastToggleThreading",
+                showing: this.isPrefsView() && enyo.application.threader.useThreading()
+            },
             edit: {}
         };
     },
@@ -304,9 +312,9 @@ enyo.kind({
             // Give each view a chance to configure the menu and take ownership of menu items
             // Second parameter is whether the view is hidden/off-screen
             // FIXME: needs to be revised to work properly in single-view sliding mode (i.e. on phones)
-            this.configureAppMenu(this.$.accounts, slidingViewName !== "folderSliding");
-            this.configureAppMenu(this.$.mail, slidingViewName === "bodySliding");
-            this.configureAppMenu(this.$.body, false);
+            this.configureAppMenu(this.$.folderPane, slidingViewName !== "folderSliding");
+            this.configureAppMenu(this.$.listPane, slidingViewName === "messageSliding");
+            this.configureAppMenu(this.$.messagePane, false);
         }
 
         // Workaround to remove Pane view styling
@@ -323,10 +331,6 @@ enyo.kind({
     handleLaunches: function (launchParams, isRelaunch) {
         var launchHandled = false;
         if (!launchHandled) {
-            if (launchParams.folderId === undefined) {
-                this.displayAllInboxesFolder = true;
-            }
-            this.disregardKeepAlive = true;
             this.waitingForFolders = false;
 
             launchHandled = this.handleDisplayMessageLaunch(launchParams, isRelaunch);
@@ -356,7 +360,7 @@ enyo.kind({
 
     displayFirstFolder: function () {
         //get the first folders object
-        var foldersObj = this.$.accounts.getFoldersObjByIndex(0);
+        var foldersObj = this.$.folderPane.getFoldersObjByIndex(0);
         if (!foldersObj) {
             this.waitingForFolders = true;
             return false;
@@ -371,7 +375,19 @@ enyo.kind({
 
         //select that folder
         this.displayFolder(folder);
-        this.$.body.setMessage(undefined);
+        this.$.messagePane.setConversation(null);
+    },
+
+    getFolderById: function (folderId) {
+        if (folderId === Folder.kAllInboxesFolderID) {
+            return Folder.kAllInboxesFolder;
+        } else if (folderId === Folder.kAllFlaggedFolderID) {
+            return Folder.kAllFlaggedFolder;
+        } else if (folderId === Folder.kAllUnreadFolderID) {
+            return Folder.kAllUnreadFolder;
+        } else {
+            return enyo.application.folderProcessor.getFolder(folderId);
+        }
     },
 
     /*
@@ -386,18 +402,13 @@ enyo.kind({
         }
 
         var folderId = launchParams.folderId;
-        var folder;
-        if (folderId === Folder.kAllInboxesFolderID) {
-            folder = Folder.kAllInboxesFolder;
-        } else if (folderId === Folder.kAllFlaggedFolderID) {
-            folder = Folder.kAllFlaggedFolder;
-        } else if (folderId === Folder.kAllUnreadFolderID) {
-            folder = Folder.kAllUnreadFolder;
-        } else {
-            folder = enyo.application.folderProcessor.getFolder(folderId);
-        }
+        var folder = this.getFolderById(folderId);
 
         this.displayFolder(folder);
+        
+        if (EmailApp.Util.useSinglePanelMode()) {
+            this.$.slidingPane.selectViewImmediate(this.$.listSliding);
+        }
 
         return true;
     },
@@ -411,26 +422,115 @@ enyo.kind({
             return false;
         }
 
-        this.changingFolders = true;
-        this.$.slidingPane.selectViewImmediate(this.$.mailSliding);
-        this.handleDisplayMessage(launchParams.emailId);
+        var customFolderId;
+
+        if (launchParams.folderId) {
+            customFolderId = launchParams.customFolderId;
+        } else if (enyo.application.prefs.get("showAllInboxes")) {
+            var accts = enyo.application.accounts;
+            if (accts.hasAccounts() && accts.getAccounts().length > 1) {
+                customFolderId = Folder.kAllInboxesFolderId;
+            }
+        }
+
+        // Switch to one or two-panel view
+        // FIXME: don't change if the email app is already open
+        if (EmailApp.Util.useSinglePanelMode()) {
+            this.$.slidingPane.selectViewImmediate(this.$.messageSliding);
+        } else {
+            this.$.slidingPane.selectViewImmediate(this.$.listSliding);
+        }
+
+        // Load the email from the database
+        this.fetchAndDisplayMessage(launchParams.emailId, customFolderId, true);
 
         return true;
     },
 
-    handleDisplayMessage: function (msgId, folder) {
-        this.lastFolder = folder;
+    /* get an email or conversation from the database and display it */
+    fetchAndDisplayMessage: function (msgId, customFolderId, userActivated) {
         if (!msgId) {
-            // TODO uncomment if we bring back animations
-            //this.$.bodySliding.hide();
             return;
         }
-        if (enyo.application.dbServiceHook) {
-            enyo.application.dbServiceHook(this.$.messageDisplayFetcher);
-        }
-        this.$.messageDisplayFetcher.call({
+
+        // Find email
+        var request = this.$.messageDisplayFetcher.call({
             ids: [msgId]
         });
+
+        // Used to request displaying "all inboxes", etc, instead of the normal folder
+        request.customFolderId = customFolderId;
+        request.userActivated = userActivated;
+    },
+
+    gotMessageForDisplay: function (sender, response, request) {
+        if (response && response.results && response.results.length == 1) {
+            var emailData = response.results[0];
+
+            if (emailData.conversationId && EmailApp.Util.isThreadingEnabled()) {
+                // Lookup conversation (if any)
+                var convRequest = this.$.conversationDisplayFetcher.call({
+                    ids: [emailData.conversationId]
+                });
+
+                // Copy over custom folder id from request
+                convRequest.customFolderId = request.customFolderId;
+                convRequest.userActivated = request.userActivated;
+            } else {
+                var folderId = request.customFolderId;
+                this.displayFolderAndConversation(new VirtualConversation(emailData), folderId, request.userActivated);
+            }
+        } else {
+            this.error("couldn't find email to display");
+            this.displayConversation(null);
+        }
+    },
+
+    gotConversationForDisplay: function (sender, response, request) {
+        if (response && response.results && response.results.length == 1) {
+            var convData = response.results[0];
+
+            var folderId = request.customFolderId;
+            this.displayFolderAndConversation(new VirtualConversation(convData), folderId, request.userActivated);
+        } else {
+            this.error("couldn't find conversation to display");
+            this.displayConversation(null);
+        }
+    },
+
+    cancelPendingLoad: function () {
+        this.$.messageDisplayFetcher.cancel();
+        this.$.conversationDisplayFetcher.cancel();
+    },
+
+    /* display a conversation
+     * virtualConv: a VirtualConversation
+     * folderId: (optional) folder to select and display in list view
+     */
+    displayFolderAndConversation: function (virtualConv, folderId, userActivated) {
+        var folder;
+
+        folderId = folderId || virtualConv.getFolderId();
+        folder = this.getFolderById(folderId);
+        
+        if (folder) {
+            this.displayFolder(folder);
+
+            // Select conversation in email list
+            this.$.listPane.selectConversationById(virtualConv.getId());
+        }
+
+        // Display conversation
+        this.displayConversation(virtualConv, userActivated);
+    },
+    
+    displayNextOrPreviousConversation: function (sender, virtualConv) {
+        if (virtualConv) {
+            // Select conversation in email list
+            this.$.listPane.selectConversationById(virtualConv.getId());
+        
+            this.displayConversation(virtualConv, false);
+        }
     },
 
     showFirstLaunch: function (inSender, event) {
@@ -454,11 +554,11 @@ enyo.kind({
 
     // Need to use "doSelectView" because events are normally only sent to owners
     doSelectView: function () {
-        this.log("selected mail app view " + this.getViewName());
+        //this.log("selected mail app view " + this.getViewName());
 
         if (this.getView() == this.$.slidingPane) {
-            this.$.mail.reset(); // hack to reset scroll position
-            this.$.mail.resized();
+            this.$.listPane.reset(); // hack to reset scroll position
+            this.$.listPane.resized();
 
             // Check if the last account has been deleted
             this.checkAccounts();
@@ -469,6 +569,7 @@ enyo.kind({
 
     windowParamsChanged: function (inSender, event) {
         if (this._appActivated) {
+            // Main window already open/visible
             this.handleLaunches(event && event.params, true);
             this._launchParams = undefined;
         } else {
@@ -477,58 +578,46 @@ enyo.kind({
         }
     },
 
-    displayMessage: function (inSender, result) {
-        var msg = result.results && result.results[0];
-
-        if (msg === undefined) {
-            // TODO uncomment if we bring back animations
-            //this.$.bodySliding.hide();
-            return;
-        }
-
-        // FIXME: If launched from an "all inboxes" notification, display the "all inboxes" folder.
-        // FIXME: Need to highlight the selected message, and scroll list so that it's visible.
-
-        var folder;
-
-        var accts = enyo.application.accounts;
-        if (this.displayAllInboxesFolder && enyo.application.prefs.get("showAllInboxes") && accts.hasAccounts() && accts.getAccounts().length > 1) {
-            folder = Folder.kAllInboxesFolder;
-            this.displayAllInboxesFolder = false;
-        } else {
-            if (this.lastFolder) {
-                folder = this.lastFolder;
-            } else {
-                folder = msg && msg.folderId && enyo.application.folderProcessor.getFolder(msg.folderId);
-            }
-        }
-
-        if (folder) {
-            this.displayFolder(folder);
-        }
-
-        if (msg) {
-            this.$.mail.selectMessage(msg._id);
-            this.$.body.setMessage(msg, this.$.mail.getLastQuery());
-        }
-
-        //this.$.bodySliding.setShowing(!!msg);
-    },
-
     displayFolder: function (folder) {
-        this.$.mail.setFolder(folder);
-        this.$.accounts.selectFolder(folder._id);
+        this.$.listPane.setFolder(folder);
+        this.$.folderPane.renderFolderSelection(folder._id);
         // don't do any toggling of show/hidden state here
     },
 
-    folderChosen: function (inSender, inFolder) {
+    folderChosen: function (sender, folder) {
 //		console.log("### FOLDER CHOSEN");
-        enyo.application.dashboardManager.setFilter(inFolder.accountId, inFolder._id);
-        this.$.mail.setFolder(inFolder);
-        if (!this.$.mail.getLastEmail(inFolder._id)) {
-            this.$.body.setMessage(undefined);
+
+        if (folder) {
+            // indicate that we're waiting for the email list to render
+            this.waitingForConversationList = true;
         }
-        this.slideInMessageListPane();
+
+        enyo.application.dashboardManager.setFilter(folder.accountId, folder._id);
+        this.$.listPane.setFolder(folder);
+
+        // Cancel any pending asynchronous message load requests
+        this.cancelPendingLoad();
+
+        // If we've viewed the folder before recently, re-select the last email viewed
+        var lastEmailId = this.lastEmailHash[folder._id];
+
+        if (lastEmailId) {
+            // load email
+            this.fetchAndDisplayMessage(lastEmailId, folder._id, false);
+        } else {
+            this.$.messagePane.setConversation(null);
+        }
+
+        // Autosync folder
+        this.$.listPane.autoSyncFolder();
+    },
+    
+    conversationListLoaded: function() {
+        if (this.waitingForConversationList && EmailApp.Util.useSinglePanelMode()) {
+            this.$.slidingPane.selectView(this.$.listSliding);
+        }
+        
+        this.waitingForConversationList = false;
     },
 
     foldersLoaded: function () {
@@ -538,57 +627,60 @@ enyo.kind({
         }
     },
 
-    /** note that this selectMessage takes a full message. mail.selectMessage takes a messageId */
-    selectMessage: function (inSender, message, userActivated) {
-        if (userActivated && (window.innerWidth < 900) && (this.$.slidingPane.view === this.$.folderSliding)) {
-            this.$.slidingPane.selectView(this.$.mailSliding);
-        }
+    conversationSelected: function (sender, virtualConv) {
+        // Cancel any pending asynchronous message load requests
+        this.cancelPendingLoad();
 
-        if (message) {
-            enyo.application.dashboardManager.setFilter(message.accountId, message.folderId, message._id);
-        } else {
-            enyo.application.dashboardManager.setFilter();
-        }
-
-        this.$.body.setMessage(message, this.$.mail.getLastQuery());
-
-        if (message) {
-            // Select in list of messages
-            this.$.mail.selectMessage(message._id);
-        }
-
-        //this.$.bodySliding.setShowing(!!message);
+        this.displayConversation(virtualConv, true);
     },
 
-    messageDeleted: function (inSender, inMessage) {
-        // ToDo: Select another message after the selected message gets deleted (https://jira.palm.com/browse/DFISH-1376)
-        this.selectMessage(inSender, inMessage && inMessage.next || this.$.body.getNextFocusableMessage(true));
+    displayConversation: function (virtualConv, userActivated) {
+        // TODO: update dashboard
+
+        // Check if we should hide the accounts and/or email list
+        if (virtualConv && userActivated) {
+            if (EmailApp.Util.useSinglePanelMode()) {
+                this.$.slidingPane.selectView(this.$.messageSliding);
+            } else if (window.innerWidth < 900 && this.$.slidingPane.view === this.$.folderSliding) {
+                this.$.slidingPane.selectView(this.$.listSliding);
+            } else if (enyo.application.prefs.get("hideAccountsOnViewEmail")) {
+                this.$.slidingPane.selectView(this.$.listSliding);
+            }
+        }
+
+        // Cache email/conversation so that if we return to this folder it loads it again
+        if (virtualConv && this.$.listPane.getFolder()) {
+            this.lastEmailHash[this.$.listPane.getFolder()._id] = virtualConv.getId();
+        }
+
+        // Set message pane to display conversation
+        this.$.messagePane.setConversation(virtualConv);
+        
+        // Set next/previous info on message pane
+        this.$.messagePane.setNextPrevQueryInfo(this.$.listPane.getQueryInfo());
     },
 
-    messageDeletedFromList: function (inSender, inMessage) {
-        if (inMessage.deleted && inMessage.deleted._id !== this.$.body.getMessage()._id) {
-            return;
-        }
-        this.messageDeleted(inSender, inMessage);
+    conversationDeleted: function (inSender) {
+        // FIXME
     },
 
     optimizeSpace: function () {
-        var node = this.$.bodySliding.hasNode();
+        var node = this.$.messageSliding.hasNode();
         if (!node) {
             return;
         }
         if (window.innerWidth < window.innerHeight && this.$.slidingPane.view === this.$.folderSliding) {
             if (!this.ismin) {
                 this.ismin = true;
-                this.$.bodySliding.setMinWidth("448px");
+                this.$.messageSliding.setMinWidth(EmailApp.Util.useSinglePanelMode() ? "320px" : "448px");
             }
         } else {
             if (this.ismin) {
                 this.ismin = false;
-                this.$.bodySliding.setMinWidth("");
+                this.$.messageSliding.setMinWidth("");
             }
         }
-        this.$.body.$.messageLoader.resize();
+        this.$.messagePane.resized();
     },
 
     showPreferences: function () {
@@ -607,14 +699,15 @@ enyo.kind({
     },
 
     headerTap: function () {
-        if (this.$.slidingPane.view === this.$.mailSliding) {
+        if (this.$.slidingPane.view === this.$.listSliding) {
             this.$.slidingPane.selectView(this.$.folderSliding);
         } else {
-            this.$.slidingPane.selectView(this.$.mailSliding);
+            this.$.slidingPane.selectView(this.$.listSliding);
         }
     },
+
     composeMessage: function (inSender, inParams) {
-        var account = this.$.accounts.getSelectedAccount();
+        var account = this.$.folderPane.getSelectedAccount();
         var params = {};
         var folderId;
         enyo.mixin(params, inParams);
@@ -625,9 +718,11 @@ enyo.kind({
             if (params.originalMessage) {
                 folderId = params.originalMessage.folderId;
             } else {
-                folderId = inSender.folder._id;
+                // FIXME this looks like a hack
+                folderId = inSender.folder && inSender.folder._id;
             }
-            var folder = enyo.application.folderProcessor.getFolder(folderId);
+            
+            var folder = folderId && enyo.application.folderProcessor.getFolder(folderId);
             if (folder) {
                 params.accountId = folder.accountId;
             } else {
@@ -635,42 +730,49 @@ enyo.kind({
             }
         }
 
+        if (params.originalMessage) {
+            // Load body text from original email
+            var body = params.originalMessage.parts.filter(function (part) {
+                return part.type === 'body';
+            })[0];
+            
+            if (body) {
+                var data = window.palmGetResource(body.path);
+                
+                if (!body.mimeType || body.mimeType !== "text/html") {
+                    data = EmailApp.Util.convertTextToHtml(data);
+                }
+                
+                params.bodyHTML = data;
+            }
+        }
+
         enyo.application.launcher.launchCompose(params);
     },
 
-    slideInMessageListPane: function () {
-        this._arisePanelArise(this.$.mailSliding);
-    },
-    slideInBodyPane: function () {
-        this._arisePanelArise(this.$.bodySliding);
-    },
-    _arisePanelArise: function (toSlide) {
-        if (toSlide.showing) {
-            return;
-        }
-        //toSlide.setShowing(true);
-    },
-    openNewCard: function (inSender, type, params) {
-        if (type === "email") {
-            enyo.application.emailViewerCount = enyo.application.emailViewerCount || 0;
-            enyo.application.emailViewerCount++;
-
-            console.info("WINLOG: Opening new  " + "emailviewer-" + enyo.application.emailViewerCount);
-            enyo.windows.activate("../emailviewer/index.html", "emailviewer-" + enyo.application.emailViewerCount, params);
-        }
-    },
-
-    updateSelection: function (inSender, messageId) {
-        this.$.mail.selectMessage(messageId);
-    },
-
     backHandler: function (inSender, e) {
-        if (this.view == this.$.slidingPane) {
-            this.$.slidingPane.back(e);
+        console.log("current pane: " + this.getView().name);
+    
+        if (this.getView() === this.$.slidingPane) {
+            console.log("backpedalling");
+            var slidingView = this.$.slidingPane.getView();
+            
+            if (slidingView === this.$.messageSliding) {
+                this.$.slidingPane.selectView(this.$.listSliding);
+            } else if (slidingView === this.$.listSliding) {
+                this.$.slidingPane.selectView(this.$.folderSliding);
+            } else {
+                // call default handler and return
+                return this.inherited(arguments);
+            }
+            
+            e.preventDefault();
+            return true;
         } else {
-            this.inherited(arguments);
+            return this.inherited(arguments);
         }
     },
+
     resizeHandler: function () {
         this.optimizeSpace();
         this.inherited(arguments);
@@ -690,4 +792,18 @@ enyo.kind({
             this.checkAccounts();
         }
     },
+
+    rebuildThreadIndex: function () {
+        enyo.application.threader.rebuildIndex();
+        enyo.application.dashboardManager.generalNotification("Rebuilding thread index");
+    },
+    
+    // Toggle thread view in UI without affecting thread indexing
+    fastToggleThreading: function () {
+        var enable = !EmailApp.Util.isThreadingEnabled();
+        enyo.application.prefs.set('emailThreading', enable);
+        enyo.application.dashboardManager.generalNotification(
+            enable ? "Enabling threading without reindex" : "Disabling threading without cleanup");
+        this.selectViewByName("slidingPane");
+    }
 });

@@ -150,6 +150,8 @@ enyo.kind({
         {name: "appMenu", kind: "AppMenu", components: [
             {name: "help", caption: $L("Help")}
         ]},
+
+        // alerts for various compose issues
         {name: "missingAttachmentsAlert", kind: "ModalDialog", dismissWithClick: true, onClose: "dialogClosed", caption: $L("Downloading Attachments"), components: [
             {className: "enyo-dialog-prompt-content", components: [
                 {className: "enyo-dialog-prompt-message", content: $L("Sending now will only send the attachments that have finished downloading. All other attachments will not be sent.")},
@@ -325,12 +327,8 @@ enyo.kind({
         if (this.composition.originalText) {
             this.$.originalMessageBody.show();
 
-           /* var sanitized = html_sanitize(this.composition.sanitizeOriginalText(), function (url) {
-                return url;
-            }, function (id) {
-                return id;
-            });*/
-            var sanitized = this.sanitizeHtml(this.composition.sanitizeOriginalText());
+            var sanitized = SimpleHtmlParser.parseHtml(this.composition.sanitizeOriginalText());
+            
             this.$.originalMessageBody.setValue(sanitized);
         }
 
@@ -461,7 +459,7 @@ enyo.kind({
         return recipients;
     },
        
-    _formatPlainText: function(text, newline) {
+    _formatPlainTextNewlines: function(text, newline) {
         return text.replace("\u00A0", " ").replace(/\r\n|\n/g, newline);
     },
 
@@ -531,7 +529,11 @@ enyo.kind({
             msgText += Email.kForwardDraftDelimeter;
         }
 
-        msgText += originalText;
+        if (originalText && ! /^\s*$/.test(originalText)) { // not all spaces
+            msgText += "<div class='webos_quote'>";
+            msgText += originalText;
+            msgText += "</div>";
+        }
 
         // Need to replace the local file locations back to original 'cid:' string
         msgText = this.composition.replaceURIs(msgText);
@@ -542,12 +544,15 @@ enyo.kind({
         // Plain text version of body
         var plainText;
         try {
-            plainText = this._formatPlainText(this.$.bodyInput.getText(), "\r\n");
+            plainText = this._formatPlainTextNewlines(this.$.bodyInput.getText(), "\r\n");
             
             var plainOriginalText = this.$.originalMessageBody.getText();
             
             if (plainOriginalText && plainOriginalText.length > 0) {
-                plainText += "\r\n> " + this._formatPlainText(plainOriginalText, "\r\n> ");
+                if (plainText && plainText[plainText.length - 1] !== '\n') {
+                    plainText += "\r\n"; // ensure newline
+                }
+                plainText += "> " + this._formatPlainTextNewlines(plainOriginalText, "\r\n> ");
             }
         } catch (e) {
             console.error("unable to generate plain text version of body: " + e);
@@ -593,7 +598,7 @@ enyo.kind({
 
     isValidEmail: function (email) {
         // Regex from regular-expressions.info
-        return email && email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i);
+        return email && email.match(/^[A-Z0-9._%+\-]+@[A-Z0-9.\-]+\.[A-Z]{2,6}$/i);
     },
 
     checkValidRecipients: function () {
@@ -929,10 +934,5 @@ enyo.kind({
         this.$.missingRecipientsAlert.close();
         this.$.badRecipientsAlert.close();
         this.$.toInput.forceFocus();
-    },
-    sanitizeHtml: function (unsafeHtml) {
- 	   var rEx = new RegExp("<(script|object|embed|iframe)[^>]*>([\\S\\s]*?)<\/(script|object|embed|iframe)>", "gim");
- 	   
- 	   return unsafeHtml.replace(rEx,"");
     }
 });

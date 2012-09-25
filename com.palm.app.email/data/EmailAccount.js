@@ -255,78 +255,6 @@ EmailAccount.SMTP_CONFIG_UNAVAILABLE = 9830;	// No outgoing (SMTP) server config
 // Generic Errors
 EmailAccount.INTERNAL_ERROR = 10000;       // generic internal error
 
-
-EmailAccount.getAccounts = function (sceneController, callback, failCallback) {
-    sceneController.serviceRequest(Email.identifier, {
-        method: 'accountList', // another example, if not done in the URL
-        onSuccess: callback,
-        onFailure: failCallback
-    });
-};
-
-EmailAccount.subscribeAccounts = function (callback, failCallback) {
-    var request = new Mojo.Service.Request(Email.identifier, {
-        method: 'accountList',
-        parameters: {'subscribe': true},
-        onSuccess: callback,
-        onFailure: failCallback
-    });
-    return request;
-};
-
-/**
- * Get the mail account settings from a mail account json object
- * @param {Object} mailAccount
- */
-/* Not useful at the moment. Could become useful later
- EmailAccount.getAccountDetails = function(mailAccount, callback) {
- ////Mojo.Log.error("### Making call to MojoDB for kind %s", mailAccount._kind);
- Foundations.Comms.PalmCall.call('palm://com.palm.db/', 'find', {
- "query": {
- "from": mailAccount._kind,
- "where": [{
- "prop": "accountId",
- "op": "=",
- "val": mailAccount.accountId
- }]
- }
- }).then(function(future) {
- callback(future.result);
- });
- };
- */
-
-/* Keep around?
- EmailAccount.getAccountPassword = function(accountId, callback) {
- Foundations.Comms.PalmCall.call('palm://com.palm.db/', 'find', {
- "query": {
- "from": "com.palm.account.credentials:1",
- "where": [{
- "prop": "key",
- "op": "=",
- "val": accountId + ":common"
- }]
- }
- }).then(function(future) {
- callback(future.result);
- });
- };
- */
-
-
-EmailAccount.getAccountPreferences = function (sceneController, account, callback, failCallback) {
-    callback(account);
-    // TODO: Reworkd this once we know were all the account stuff is stored
-    /*
-     sceneController.serviceRequest(Email.identifier, {
-     method: 'accountPreferences',
-     parameters: {'account': accountId},
-     onSuccess: callback,
-     onFailure: failCallback
-     });
-     */
-};
-
 EmailAccount.saveAccountDetails = function (params, onSuccess, onFail) {
 // TODO: Simplify this function sig
     var config = params.config || params;
@@ -343,7 +271,7 @@ EmailAccount.saveAccountDetails = function (params, onSuccess, onFail) {
     }
 
     var reqHandler = enyo.bind(this, EmailApp.Util.callbackRouter, onSuccess, (onFail || function () {
-        console.log("--- failed to save object")
+        console.log("--- failed to save object");
     }));
     EmailApp.Util.callService('palm://com.palm.db/merge', {objects: [toSave]}, reqHandler);
 };
@@ -361,7 +289,7 @@ EmailAccount.__cleanParams = function (params) {
     var combined = accts && accts.getAccount(mailAcct.accountId);
     var base = (combined) ? combined.getPrefsData() : {};
 
-    var toSave = {}
+    var toSave = {};
     var updated = false, updatedSmtp = false;
     var key;
 
@@ -390,18 +318,6 @@ EmailAccount.__cleanParams = function (params) {
     }
     return toSave;
 };
-
-EmailAccount.savePassword = function (accountId, password, key) {
-    if (!accountId) {
-        return;
-    }
-
-    var creds = {};
-    creds[key] = {"password": password};
-
-    EmailAccount.saveCredentials(accountId, creds);
-};
-
 
 EmailAccount.saveCredentials = function (accountId, credentials) {
     if (!accountId) {
@@ -432,95 +348,6 @@ EmailAccount.getCredentials = function (accountId, key, callback) {
         "name": key
     }, success);
 };
-
-EmailAccount.saveAccountPreferences = function (sceneController, params, callback, failCallback) {
-    // This is needed to convert the 'useHTML' property to a boolean because the ListSelector only
-    // uses numeric values in its choices, but the service interface is booleans.
-    if (params.useHTML !== undefined) {
-        params.useHTML = (params.useHTML > 0);
-    }
-    sceneController.serviceRequest(Email.identifier, {
-        method: 'setAccountPreferences',
-        parameters: params,
-        onSuccess: callback,
-        onFailure: failCallback
-    });
-};
-
-
-/**
- * Disable email for the provided account. Note that this will only delete the account if
- * MAIL is the last capability enabled on the account. In all other cases it will just prevent
- * the account from displaying in the email app.
- * @param {Object} accountId
- * @param {Object} callback
- */
-EmailAccount.removeAccount = function (accountId, callback) {
-
-    var account = EmailApp.accounts.getAccount(accountId);
-    if (!account) {
-        return;
-    }
-    var capsToSave = [];
-    var currentCaps = account.getAccountData().capabilityProviders;
-    var cap;
-
-    for (var i = 0, len = currentCaps.length; i < len; ++i) {
-        cap = currentCaps[i];
-        // remove the mail capability. Accounts is the only place to delete the account.
-        if (cap.capability !== "MAIL") {
-            capsToSave.push(cap);
-        }
-    }
-
-    var method = 'modifyAccount';
-    var args = {
-        'accountId': accountId,
-        'object': {
-            'capabilityProviders': capsToSave
-        }
-    };
-    if (capsToSave.length === 0) {
-        method = 'deleteAccount';
-        args.object = undefined;
-    }
-
-    Foundations.Comms.PalmCall.call('palm://com.palm.service.accounts/', method, args).then(
-        function (future) {
-            callback();
-        });
-};
-
-EmailAccount.setAccountsOrder = function (sceneController, accountList, callback, failCallback) {
-    sceneController.serviceRequest(Email.identifier, {
-        method: 'accountOrderSet', // another example, if not done in the URL
-        parameters: {'accounts': accountList},
-        onSuccess: callback,
-        onFailure: failCallback
-    });
-};
-
-EmailAccount.getFullName = function (sceneController, callback) {
-    sceneController.serviceRequest('palm://com.palm.systemservice', {
-        method: 'getPreferences',
-        parameters: {'keys': ['deviceName']},
-        onSuccess: callback
-    });
-};
-
-EmailAccount.getFirstUseEmailAddress = function (callback) {
-    var request = new Mojo.Service.Request('palm://com.palm.accountservices', {
-        method: 'getAccountToken',
-        onSuccess: callback,
-        onFailure: callback
-    });
-    return request;
-};
-
-EmailAccount.isNotSmartFolders = function (account) {
-    return (account.originalLogin && account.originalLogin.length > 0);
-};
-
 
 // We store error strings in a hash for easy lookup:
 EmailAccount._errorStrings = {};
@@ -602,7 +429,7 @@ EmailAccount.getDashboardErrorString = function (errorCode, errorMessage) {
     }
 
     return EmailAccount.getErrorString(errorCode, errorMessage);
-}
+};
 
 // Determine the error associated with this mailAccount, considering both the overall account error, and potential smtpConfig error.
 EmailAccount.getErrorCode = function (mailAccount) {
@@ -694,7 +521,7 @@ EmailAccount.getSetupFailureInfo = function (error, isManualSetup, isEAS, isOutb
     case EmailAccount.BAD_USERNAME_OR_PASSWORD:    // Manual setup login error
     case EmailAccountValidation.BAD_EMAIL_OR_PASSWORD:    // Wizard setup login error
     case EmailAccount.ACCOUNT_WEB_LOGIN_REQUIRED: // captcha problem
-    case EmailAccount.ACCOUNT_LOCKED = 1100: // account locked
+    case EmailAccount.ACCOUNT_LOCKED: // account locked
     case EmailAccount.LOGIN_TIMEOUT: // login timed out, possibly due to bad password
         // Only show the server error message for manual setup
         if (isManualSetup && !isEAS) {
@@ -760,7 +587,7 @@ EmailAccount.getSetupFailureInfo = function (error, isManualSetup, isEAS, isOutb
         genericError: genericError,
         connectionError: connectionError
     };
-}
+};
 
 EmailAccount.HandleWifiEnableResponse = function (controller, response) {
     // If the user didn't turn on WiFi then show the Network Unavailable Dialog.
@@ -794,85 +621,4 @@ EmailAccount.HandleWifiEnableResponse = function (controller, response) {
     });
 };
 
-
-EmailAccount.localizeAccountName = function (accountName) {
-    accountName = accountName || "";
-    if (!EmailAccount.DO_ACCOUNT_NAME_LOC) {
-        return accountName;
-    }
-    return accountName.replace(/Gmail/g, EmailAccount.GMAIL);
-};
-
-
-/**
- * Method to create an EmailAccount js object from a com.palm.email.account
- * record
- * @param {Object} data
- * @param {function} passwordCallback -- optional callback for handling an updated password
- */
-EmailAccount.createFromDbRecord = function (data, passwordCallback) {
-    if (!data) {
-        return undefined;
-    }
-
-    var toRet = new EmailAccount();
-    toRet.type = undefined;
-    var keys = Object.keys(data);
-    // copy over all values
-    keys.forEach(function (key) {
-        toRet[key] = data[key];
-    });
-
-    if (toRet.accountId) {
-        // TODO: Update gui to get rid of this.account
-        toRet.account = this.accountId;
-        toRet.address = data.username;
-    }
-
-    var checkCredentials = function (credentials) {
-        return credentials && (credentials.password || credentials.securityToken || credentials.authToken) ? EmailAccount.PLACEHOLDER_PASS : "";
-    };
-    var inCheck = function (credentials) {
-        toRet.password = checkCredentials(credentials);
-        if (passwordCallback) {
-            passwordCallback();
-        }
-    };
-    EmailAccount.getCredentials(data.accountId, "common", inCheck);
-
-    if (data.smtpConfig) {
-        var smtpConfig = data.smtpConfig;
-        toRet.smtpPort = smtpConfig.port;
-        toRet.useSmtpAuthentication = !!smtpConfig.useSmtpAuth;
-        toRet.smtpHost = smtpConfig.server;
-        toRet.smtpEncryption = smtpConfig.encryption;
-        toRet.smtpLogin = smtpConfig.username || toRet.username;
-        toRet.smtpPassword = "";
-
-        var outCheck = function (credentials) {
-            toRet.smtpPassword = checkCredentials(credentials);
-            if (toRet.smtpPassword === "") {
-                toRet.useSmtpAuthentication = false;
-            }
-            if (passwordCallback) {
-                passwordCallback();
-            }
-        };
-        EmailAccount.getCredentials(data.accountId, "smtp", outCheck);
-    }
-
-    toRet.type = EmailApp.accounts.getAccountType(data.accountId);
-
-
-    return toRet;
-};
-
-
-EmailAccount.createFromAccountId = function (id, passwordCallback) {
-    return EmailAccount.createFromDbRecord(enyo.application.accounts.getAccount(id).getPrefsData(), passwordCallback);
-};
-
-// German Google Localization
-EmailAccount.GMAIL = $L("Gmail");
-EmailAccount.DO_ACCOUNT_NAME_LOC = EmailAccount.GMAIL !== 'Gmail';
 EmailAccount.PLACEHOLDER_PASS = "******";

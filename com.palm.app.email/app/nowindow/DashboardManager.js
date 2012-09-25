@@ -20,6 +20,9 @@ enyo.kind({
     name: "DashboardManager",
     kind: enyo.Component,
     components: [
+        {kind: "EmailApp.BroadcastSubscriber", target: "enyo.application.accounts", onChange: "accountsChangedCallback"},
+        {kind: "EmailApp.BroadcastSubscriber", target: "enyo.application.prefs", onChange: "prefsChangedCallback"},
+    
         {
             name: "screenState",
             kind: "enyo.PalmService",
@@ -101,12 +104,7 @@ enyo.kind({
             this.$.screenState.call();
         }
 
-        this.prefsChangedCallbackBound = this.prefsChangedCallback.bind(this);
-        enyo.application.prefs.addListener(this.prefsChangedCallbackBound);
-        this.accountsChangedCallback = this.accountsChangedCallback.bind(this);
-        this._checkAccountError = this._checkAccountError.bind(this);
         this.accountsChangedCallback();
-        enyo.application.accounts.addListener(this.accountsChangedCallback);
 
         this.watchPowerUser = new PowerUser("dashboardManager.watch");
         this.newDashboardPowerUser = new PowerUser("dashboardManager.newDashboard");
@@ -114,15 +112,12 @@ enyo.kind({
 
 
     destroy: function () {
-        enyo.application.prefs.removeListener(this.prefsChangedCallbackBound);
-        enyo.application.accounts.removeListener(this.accountsChangedCallback);
-
         this._autoFinder.cancel();
 
         this.inherited(arguments);
     },
 
-    prefsChangedCallback: function (propName, newValue) {
+    prefsChangedCallback: function (sender, prefs, propName, newValue) {
         if (propName === "showAllInboxes") {
             //FIXME: adjust any existing dashboards based on the new value of showAllInboxes!
         }
@@ -145,7 +140,7 @@ enyo.kind({
 
     accountsChangedCallback: function () {
         var accts = enyo.application.accounts;
-        accts.getSortedList().forEach(this._checkAccountError);
+        accts.getSortedList().forEach(this._checkAccountError, this);
     },
 
     beginMessageWatch: function (result) {
@@ -640,7 +635,8 @@ enyo.kind({
         this._updateDirtyDashboards();
     },
 
-    dashboardActivated: function (inSender) {
+    dashboardActivated: function (sender) {
+        // Stop power activity now that the dashboard is visible
         this.newDashboardPowerUser.stop();
     },
 
@@ -784,11 +780,12 @@ enyo.kind({
     },
     // Ugh. This doesn't really belong here, but needs to be in a component accessible from enyo.application, and that's available when no cards are open
     // https://jira.palm.com/browse/DFISH-6123
-    saveDraft: function (inEmail, inAccount, inCallback) {
-        var args = {accountId: inAccount.getId(), email: inEmail};
+    saveDraft: function (inEmail, accountId, inCallback) {
+        var args = {accountId: accountId, email: inEmail};
         EmailApp.Util.callService('palm://com.palm.smtp/saveDraft',
             args,
             inCallback
         );
     }
 });
+

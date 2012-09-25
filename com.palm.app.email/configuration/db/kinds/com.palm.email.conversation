@@ -1,0 +1,24 @@
+{
+    "id": "com.palm.email.conversation:1",
+    "owner": "com.palm.app.email",
+
+    "indexes": [
+        {"name": "byAccount", "props": [{"name": "accountId"}]},
+        {"name": "folderKeys", "props": [{"name": "folderKeys"}, {"name": "timestamp"}] },
+
+        {"name": "unread", "props": [{"name": "folderKeys"}, {"name": "flags.read"}]},
+        
+        {"name": "threadTopics", "props": [{"name": "threadTopics"}]},
+        {"name": "messageIds", "props": [{"name": "messageIds"}]},
+        {"name": "serverConversationIds", "props": [{"name": "serverConversationIds"}]},
+        {"name": "timestamp", "props": [{"name": "timestamp"}]},
+        
+        {"name": "UI_Typedown_UniversalSearch", "props": [ 
+            {"name": "folderKeys"},
+            {"name":"searchText", "type":"multi", "collate":"primary", "include":[
+                {"name":"subject","tokenize":"default"},
+                {"name":"senders.name","tokenize":"all"}
+            ]}
+        ]}, 
+    ]
+}

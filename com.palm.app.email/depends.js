@@ -16,6 +16,13 @@
 //
 // LICENSE@@@
 
+/* These are the depends for the headless window portion of the email app */
+enyo.paths({
+    "base": ".",
+    "css": "css",
+    "images": "images"
+});
+
 enyo.depends(
-    "nowindow/"
+    "app/nowindow/"
 );

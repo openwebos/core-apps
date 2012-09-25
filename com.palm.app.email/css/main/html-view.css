@@ -1,0 +1,25 @@
+
+.divhtmlview {
+    margin: 0px;
+    overflow: visible;
+    -webkit-user-select: text;
+}
+
+.divhtmlview-clipbox {
+    position: relative;
+    margin: 0px;
+    overflow: hidden;
+    min-width: 100%;
+}
+
+.divhtmlview-wrapper {
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    top: 0px;
+    left: 0px;
+    
+    /* default styling */
+    word-wrap: break-word;
+    background-color: white;
+}

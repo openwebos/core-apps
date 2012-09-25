@@ -8,7 +8,7 @@
             "read": "allow" 
         } 
     },
-        {
+    {
         "type": "db.kind",
         "object": "com.palm.email:1",
         "caller": "com.palm.mail.*",

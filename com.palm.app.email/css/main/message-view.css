@@ -1,0 +1,139 @@
+/* @@@LICENSE
+*
+*      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* LICENSE@@@ */
+
+.quote-expander {
+    font-size: 16px;
+    color: #3D8CC4;
+}
+
+.message-view-remote-content-warning {
+    font-size: 14px;
+    margin: 4px 0px 4px 0px;
+    border: 2px solid #9E9E9E;
+    padding: 6px;
+}
+
+.message-view-remote-content-warning-button {
+    color: blue;
+}
+
+.message-view {
+    margin-top: 8px;
+    padding: 0.5em;
+    background-color: white;
+    
+    /* NOTE: may cause rendering glitches with accel compositing */
+    -webkit-border-radius: 8px;
+}
+
+.message-view .preview {
+    padding-top: 0.5em;
+    font-size: smaller;
+    color: grey;
+}
+
+.message-view-subjectbox {
+    color: black;
+    font-size: 16px;
+}
+
+.message-view-subject {
+    word-wrap: break-word;
+}
+
+.message-view-header {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.message-view-contact-icon {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    margin: 4px 8px 4px 4px;
+}
+
+.message-view-contact-photo-small {
+    width: 50px;
+    height: 50px;
+}
+
+.message-view-contact-photo-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 50px;
+    width: 50px;
+    z-index: 1;
+    opacity: 0.5;
+}
+
+.message-view-from {
+    font-size: 24px;
+    color: #333333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message-view-from.unread {
+    font-weight: bold;
+}
+
+.unread .message-view-from {
+    font-weight: bold;
+}
+
+.unread .message-view-subject {
+    font-weight: bold;
+}
+
+.message-view-when {
+    font-size: 16px;
+    color: #404040;
+    pointer-events: none;
+}
+
+.message-view-recipients {
+    font-size: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/*
+.message-view-header.expanded .message-view-recipients {
+    white-space: normal;
+}
+*/
+
+.message-view-label {
+    font-size: 16px;
+    color: #2d6c94;
+    padding-right: 1em;
+}
+
+.message-view-text {
+    font-size: 16px;
+}
+
+.message-view-header-item {
+    margin-top: 0.5em;
+    border-top: 1px solid rgba(0, 0, 0, 0.199219);
+}
+
