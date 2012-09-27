@@ -37,8 +37,8 @@ enyo.kind({
 				{kind: "Toolbar", components: [
 					{kind: "Spacer"},
 					{name: "radSelectView", kind: "RadioGroup", onChange: "onChange_radSelectView", components: [
-						 {icon: "images/menu-icon-clock.png"},
-						 {icon: "images/menu-icon-alarm.png"}
+						 {icon: "images/menu-icon-clock.png", style:"width:100%;"},
+						 {icon: "images/menu-icon-alarm.png", style:"width:100%;"}
 					]},
 					{kind: "Spacer"}
 			  ]}
