@@ -60,7 +60,7 @@ enyo.kind({
         // TODO: In a future release, set onresize showing:true
         {name: "menuReminders", caption: $L("Missed reminders..."), onclick: "doShowMissedReminders", showing: false},
         // TODO: Enable when missed reminders view is completed.
-       // {name: "menuPrefs", caption: $L("Preferences & Accounts"), onclick: "doShowPreferences", showing: false},
+        {name: "menuPrefs", caption: $L("Preferences & Accounts"), onclick: "doShowPreferences", showing: false},
         {name: "menuHelp", caption: $L("Help"), onclick: "doShowHelp"}
     ],
     MENU_STATES: {

@@ -50,7 +50,7 @@ enyo.kind({
             {name: "AccountsView", kind: "AccountsUI", capability: "CONTACTS", onAccountsUI_Done: "preferencesClick", lazy: true}
         ]},
         {name: "appMenu", kind: "AppMenu", components: [
-         //   {caption: $L("Preferences & Accounts"), onclick: "preferencesClick"},
+            {caption: $L("Preferences & Accounts"), onclick: "preferencesClick"},
             {kind: enyo.HelpMenu, target: 'http://help.palm.com/contacts/index.json'}
         ]},
         {kind: "ApplicationEvents", onUnload: "unloadHandler"},

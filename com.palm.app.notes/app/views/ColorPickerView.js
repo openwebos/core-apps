@@ -24,6 +24,7 @@ enyo.kind({
   name: ColorPickerView,
   kind: "RadioGroup",
   className: 'color-picker',
+  flex:1,
   events: {
     onColorChosen: ""
   },
