@@ -163,8 +163,7 @@ enyo.kind({
     //  - thread merging?
     //  - prevent merging emails in trash
     useCrossFolderThreading: function () {
-        //return this.processorState.crossFolderThreading;
-        return false;
+        return this.processorState.crossFolderThreading;
     },
 
     // [public]
@@ -233,7 +232,8 @@ enyo.kind({
             name: this.PROCESSOR_NAME,
             lastProcessedRev: 0,
             addDeleteCount: 0,
-            threadingEnabled: EmailApp.Util.isThreadingEnabled()
+            threadingEnabled: EmailApp.Util.isThreadingEnabled(),
+            crossFolderThreading: enyo.application.prefs.get("crossFolderThreading") || false
         };
 
         // And I've tried to make it come alive
@@ -275,6 +275,7 @@ enyo.kind({
             delete this.pendingRequests.wipe;
 
             this.processorState.threadingEnabled = EmailApp.Util.isThreadingEnabled();
+            this.processorState.crossFolderThreading = enyo.application.prefs.get("crossFolderThreading") || false;
             this.setLastProcessedRev(-1);
             this.runCommand("DisableThreadingCommand", {});
             return;
@@ -352,6 +353,7 @@ enyo.kind({
             lastProcessedRev: this.getLastProcessedRev(),
             addDeleteCount: this.processorState.addDeleteCount || 0,
             threadingEnabled: this.processorState.threadingEnabled,
+            crossFolderThreading: this.processorState.crossFolderThreading,
             accounts: this.processorState.accounts || {}
         };
 

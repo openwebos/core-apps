@@ -69,27 +69,32 @@ enyo.kind({
             this.changedProps.priority = true;
         }
     },
+    
+    addToResultsSet: function (items, hash) {
+        if (!items) {
+            return;
+        }
+    
+        for (var i = 0; i < items.length; i += 1) {
+            var item = items[i];
+            
+            if (hash[item]) {
+                hash[item].push(this);
+            } else {
+                hash[item] = [this];
+            }
+        }
+    },
 
     addToResults: function (convResultsHash, key) {
         var i;
 
         var convResults = convResultsHash[key] ||
         { messageIdHash: {}, threadTopicHash: {}, serverConversationIds: {} };
-
-        var messageIds = this.data.messageIds || [];
-        for (i = 0; i < messageIds.length; i += 1) {
-            convResults.messageIdHash[ messageIds[i] ] = this;
-        }
-
-        var threadTopics = this.data.threadTopics || [];
-        for (i = 0; i < threadTopics.length; i += 1) {
-            convResults.threadTopicHash[ threadTopics[i] ] = this;
-        }
-
-        var serverConversationIds = this.data.serverConversationIds || [];
-        for (i = 0; i < serverConversationIds.length; i += 1) {
-            convResults.serverConversationIdHash [ serverConversationIds[i] ] = this;
-        }
+        
+        this.addToResultsSet(this.data.messageIds, convResults.messageIdHash);
+        this.addToResultsSet(this.data.threadTopics, convResults.threadTopicHash);
+        this.addToResultsSet(this.data.serverConversationIds, convResults.serverConversationIdHash);
 
         convResultsHash[key] = convResults;
     },

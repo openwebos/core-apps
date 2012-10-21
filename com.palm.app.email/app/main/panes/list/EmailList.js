@@ -302,6 +302,16 @@ enyo.kind({
         var tomorrowStart = todayStart + 86400000; // (1000 * 60 * 60 *24)
         return timestamp >= todayStart && timestamp < tomorrowStart;
     },
+    
+    formatSender: function (obj) {
+        var account = this.getCurrentAccount();
+    
+        if (account && obj.addr && obj.addr === account.getEmailAddress()) {
+            return $L("me");
+        } else {
+            return obj.name || obj.addr || "";
+        }
+    },
 
     // Renders a row in the email list
     // NOTE: as an optimization, most of the item components have captureState: false set.
@@ -345,8 +355,7 @@ enyo.kind({
             var senderNames = [];
 
             for (var si = 0; si < senders.length; si += 1) {
-                sender = senders[si];
-                senderNames.push(sender.name || sender.addr || "");
+                senderNames.push(this.formatSender(senders[si]));
             }
             sendersText = senderNames.join(", ");
 
@@ -355,8 +364,7 @@ enyo.kind({
             }
         } else {
             // get most recent sender
-            sender = senders[0];
-            sendersText = sender.name || sender.addr || "";
+            sendersText = this.formatSender(senders[0]);
         }
         senderLine.setContent(sendersText);
 

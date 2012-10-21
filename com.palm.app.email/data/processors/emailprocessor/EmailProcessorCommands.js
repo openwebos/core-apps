@@ -136,7 +136,8 @@ enyo.kind({
         }
 
         // Set withinInbox for inbox emails -- used for non-threaded all inboxes support
-        var account = enyo.application.accounts.getAccount(email.accountId);
+        var accountId = enyo.application.folderProcessor.getFolderAccount(email.folderId);
+        var account = enyo.application.accounts.getAccount(accountId);
 
         var withinInbox = account && account.getInboxFolderId() === email.folderId;
         if (email.withinInbox !== withinInbox) {
@@ -372,17 +373,27 @@ enyo.kind({
 
         this.matchConversations();
     },
-
-    // decide if an email should be threaded
-    shouldThreadEmail: function (email) {
-        var accountId = enyo.application.folderProcessor.getFolderAccount(email.folderId);
-        var account = enyo.application.accounts.getAccount(accountId);
-
-        if (account.getDraftsFolderId() === email.folderId ||
-            account.getTrashFolderId() === email.folderId) {
+    
+    // Determine if an email can be added to a given conversation given the folder
+    canJoinThread: function (account, emailFolderId, convFolderId) {
+        var draftsFolderId = account.getDraftsFolderId();
+        var outboxFolderId = account.getOutboxFolderId();
+        
+        // Never thread anything in the drafts or outbox folders
+        if (emailFolderId === draftsFolderId || emailFolderId === outboxFolderId ||
+            convFolderId === draftsFolderId || convFolderId === outboxFolderId) {
             return false;
         }
-
+        
+        var trashFolderId = account.getTrashFolderId();
+        var archiveFolderId = account.getArchiveFolderId(); 
+        
+        // Trash and archive folders can only join threads in the same folder
+        if (emailFolderId !== convFolderId &&
+            (emailFolderId === trashFolderId || emailFolderId === archiveFolderId)) {
+            return false;
+        }
+        
         return true;
     },
 
@@ -396,6 +407,7 @@ enyo.kind({
             var conversation = null;
             
             var accountId = enyo.application.folderProcessor.getFolderAccount(email.folderId);
+            var account = enyo.application.accounts.getAccount(accountId);
 
             var convResults;
             
@@ -405,30 +417,67 @@ enyo.kind({
                 convResults = this.convResultsByFolderId[email.folderId];
             }
 
-            if (convResults && this.shouldThreadEmail(email)) {
+            var matches = [];
+            
+            if (convResults) {
                 if (email.serverConversationId) {
                     if (!conversation && convResults.serverConversationIdHash[email.serverConversationId]) {
-                        conversation = convResults.serverConversationIdHash[email.serverConversationId];
+                        matches = convResults.serverConversationIdHash[email.serverConversationId];
                     }
                 } else {
                     // Find by messageId
                     if (!conversation && email.inReplyTo && convResults.messageIdHash[email.inReplyTo]) {
-                        conversation = convResults.messageIdHash[email.inReplyTo];
+                        matches = convResults.messageIdHash[email.inReplyTo];
                     }
 
                     // Find by threadTopic (stripped subject)
-                    if (!conversation) {
+                    if (matches.length === 0) {
                         var threadTopic = email.threadTopic || EmailProcessorUtils.stripSubject(email.subject);
 
                         if (threadTopic && convResults.threadTopicHash[threadTopic]) {
-                            conversation = convResults.threadTopicHash[threadTopic];
+                            matches = convResults.threadTopicHash[threadTopic];
                         }
+                    }
+                }
+            }
+
+            if (matches.length > 0) {
+                if (account && this.processor.useCrossFolderThreading()) {
+                    // Filter out conversations in trash/drafts/outbox/archive
+                    /*jshint loopfunc:true */
+                    matches = matches.filter(function (c) {
+                        return this.canJoinThread(account, email.folderId, c.getFolderId());
+                    }, this);
+                }
+            
+                // If there's multiple matches, find the one with the closest timestamp
+                //
+                // NOTE: at the moment, this won't prevent threads from getting combined
+                // since it always picks at least one (which will get combined on the
+                // next pass). This is useful only if we add some additional heuristics
+                // like a date cutoff.
+                var bestDelta = Number.MAX_VALUE;
+                
+                for (var m = 0; m < matches.length; m += 1) {
+                    var match = matches[m];
+                    var delta = Math.abs(email.timestamp - match.timestamp);
+                    
+                    if (!conversation || delta <= bestDelta) {
+                        conversation = matches[m];
+                        bestDelta = delta;
                     }
                 }
             }
 
             if (conversation) {
                 this.dirty[conversation.getId()] = conversation;
+                
+                if (this.processor.useCrossFolderThreading()) {
+                    // HACK: switch primary folderId to inbox if adding an inbox email
+                    if (account && email.folderId === account.getInboxFolderId()) {
+                        conversation.setFolderId(folderId);
+                    }
+                }
             } else {
                 // Create a new conversation
                 conversation = new ConversationState();

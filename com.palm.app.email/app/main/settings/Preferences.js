@@ -116,6 +116,20 @@ enyo.kind({
                     },
                     {
                         kind: "LabeledContainer",
+                        name: "crossFolderThreadingBlock",
+                        caption: $L("Thread Emails Across Folders (EXPERIMENTAL)"),
+                        components: [
+                            {
+                                kind: "ToggleButton",
+                                name: "crossFolderThreading",
+                                state: false,
+                                onChange: "toggleCrossFolderThreading",
+                                style: "display: inline-block"
+                            }
+                        ]
+                    },
+                    {
+                        kind: "LabeledContainer",
                         caption: $L("Delete Confirmation"),
                         components: [
                             {
@@ -163,7 +177,6 @@ enyo.kind({
                     {
                         kind: "LabeledContainer",
                         name: "threadViewOldestFirstBlock",
-                        showing: false,
                         caption: $L("Show Older Emails In Thread First"),
                         components: [
                             {
@@ -268,6 +281,21 @@ enyo.kind({
     toggleConfirmDelete: function () {
         this.setPref('confirmDeleteOnSwipe', this.$.confirmDeletes.getState());
     },
+    
+    setRowVisible: function (control, showing) {
+        var group = control.getContainer();
+        var index = group.indexOfControl(control);
+        
+        if (!control) {
+            return;
+        }
+        
+        if (showing) {
+            group.showRow(index);
+        } else {
+            group.hideRow(index);
+        }
+    },
 
     /**
      * Turn on/off email threading functionality
@@ -278,7 +306,8 @@ enyo.kind({
     
         this.setPref('emailThreading', this.$.emailThreading.getState());
         
-        this.$.threadViewOldestFirstBlock.setShowing(enabled);
+        this.setRowVisible(this.$.crossFolderThreadingBlock, enabled);
+        this.setRowVisible(this.$.threadViewOldestFirstBlock, enabled);
         
         if (enabled && !wasEnabled) {
             // need to build thread index
@@ -287,6 +316,12 @@ enyo.kind({
             // need to wipe thread index
             enyo.application.threader.disableThreading();
         }
+    },
+    
+    toggleCrossFolderThreading: function () {
+        this.setPref('crossFolderThreading', this.$.crossFolderThreading.getState());
+        
+        enyo.application.threader.rebuildIndex();
     },
     
     /**
@@ -399,8 +434,11 @@ enyo.kind({
         
         this.$.emailThreading.setState(threadingEnabled);
         
+        this.setRowVisible(this.$.crossFolderThreadingBlock, threadingEnabled);
+        this.$.threadViewOldestFirst.setState(prefs.get('crossFolderThreading') || false);
+        
         // Message view options
-        this.$.threadViewOldestFirstBlock.setShowing(threadingEnabled);
+        this.setRowVisible(this.$.threadViewOldestFirstBlock, threadingEnabled);
         this.$.threadViewOldestFirst.setState(prefs.get('threadViewOldestFirst') || false);
         
         this.$.hideAccountsOnViewEmail.setState(prefs.get('hideAccountsOnViewEmail') || false);

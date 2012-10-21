@@ -61,6 +61,28 @@ VirtualConversation.prototype = {
             return this._data.accountId;
         }
     },
+    
+    getFolderKeys: function () {
+        if (this.emailData) {
+            return [this.emailData.folderId];
+        } else {
+            return this.convData.folderKeys;
+        }
+    },
+    
+    getFolderIds: function () {
+        return enyo.filter(this.getFolderKeys(), function (key) {
+            return key[0] !== '#' && key[1] !== '#';
+        });
+    },
+    
+    hasFolderKey: function (key) {
+        if (this.emailData) {
+            return key === this.emailData.folderId;
+        } else {
+            return enyo.indexOf(this.convData.folderKeys) !== -1;
+        }
+    },
 
     getFolderId: function () {
         return this._data.folderId;
