@@ -1,6 +1,6 @@
 // @@@LICENSE
 //
-//      Copyright (c) 2010-2012 Hewlett-Packard Development Company, L.P.
+//      Copyright (c) 2010-2013 LG Electronics, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@
  * This file has functions related to documenting the Mojo Services.
  * Note this supports both the older deprecated interface (palmService()) and the
  * new interface (PalmServiceBridge object).
- *
- * Copyright 2009 Palm, Inc.  All rights reserved.
  */
 
 
